@@ -35,7 +35,7 @@ THE SOFTWARE.
     <j:if test="${td}"><j:set var="useTdElement" value="x"/></j:if>
     <x:element name="${useTdElement!=null?'td':'div'}">
         <x:attribute name="data">${buildHealth.score}</x:attribute>
-        <x:attribute name="class">healthReport</x:attribute>
+        <x:attribute name="class">healthReport hidden-xs hidden-sm</x:attribute>
         <x:attribute name="onmouseover">this.className='healthReport hover';return true;
         </x:attribute>
         <x:attribute name="onmouseout">this.className='healthReport';return true;</x:attribute>

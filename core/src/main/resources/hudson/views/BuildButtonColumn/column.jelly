@@ -39,10 +39,11 @@ THE SOFTWARE.
                       </j:otherwise>
                   </j:choose>
                   <j:set var="icon" value="${app.queue.contains(job) ? 'clock_anime.gif' : 'clock.png'}"/>
-                  <img src="${imagesURL}/${subIconSize}/${icon}"
+                  <img class="hidden-xs hidden-sm" src="${imagesURL}/${subIconSize}/${icon}"
                          title="${title}" alt="${title}"
                          onclick="${onclick}"
                          border="0"/>
+                  <span class="yui-button yui-push-button expand-button visible-xs visible-sm" onclick="${onclick}"><span class="first-child"><button type="button" title="${title}">${title}</button></span></span>
               </a>
               <script>
                 function build_${id}(img) {
