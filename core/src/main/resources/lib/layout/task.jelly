@@ -83,7 +83,6 @@ THE SOFTWARE.
     <j:set var="taskMatching" value="${context.parent}"/>
     <d:invokeBody />
   </j:scope>
-
   <j:if test="${attrs.permission==null or h.hasPermission(it,attrs.permission)}">
     <j:choose>
       <j:when test="${taskMatching!=null}">
@@ -92,7 +91,7 @@ THE SOFTWARE.
         </j:if>
       </j:when>
       <j:when test="${enabled==false}">
-        <div class="task disabled">
+        <a class="task disabled">
           <span>
             <img width="24" height="24" style="margin: 2px;" alt="" src="${rootURL}${icon.startsWith('images/') || icon.startsWith('plugin/') ? h.resourcePath : ''}/${icon}"/>
           </span>
@@ -108,71 +107,59 @@ THE SOFTWARE.
               </j:otherwise>
             </j:choose>
           </span>
-        </div>
+        </a>
       </j:when>
       <j:otherwise>
-        <div class="task">
-          <j:set var="icon" value="${rootURL}${icon.startsWith('images/') || icon.startsWith('plugin/') ? h.resourcePath : ''}/${icon}"/>
-          ${taskTags!=null and attrs.contextMenu!='false' ? taskTags.add(href, icon, title, post == 'true', requiresConfirmation == 'true') : null}
-
-          <j:set var="id" value="${h.generateId()}"/>
-          <j:if test="${attrs.onclick == null and post and not requiresConfirmation}">
-              <script>
-                  function postRequest_${id}(a) {
-                      new Ajax.Request(a.href);
-                      hoverNotification('${%Done.}', a.parentNode);
-                      return false;
-                  }
-              </script>
-          </j:if>
-
-          <j:choose>
-            <j:when test="${requiresConfirmation and not attrs.onClick}">
-              <l:confirmationLink href="${href}" post="${post}" message="${confirmationMessage ?: title}">
-                <img class="task-icon" width="24" height="24" style="margin: 2px;" alt="" src="${icon}"/>
-              </l:confirmationLink>
-            </j:when>
-            <j:otherwise>
-              <a href="${href}" class="task-icon-link" onclick="${attrs.onclick ?: (post ? 'postRequest_' + id + '(this)' : null)}">
-                <img class="task-icon" width="24" height="24" style="margin: 2px;" alt="" src="${icon}"/>
-              </a>
-            </j:otherwise>
-          </j:choose>
-          <st:nbsp />
-
-          <j:choose>
-            <j:when test="${requiresConfirmation and not attrs.onClick}">
-              <l:confirmationLink class="task-link" href="${href}" post="${post}" message="${confirmationMessage ?: title}">
-                <j:choose>
-                  <j:when test="${match}">
-                    <b>${title}</b>
-                  </j:when>
-                  <j:otherwise>
-                    ${title}
-                  </j:otherwise>
-                </j:choose>
-              </l:confirmationLink>
-            </j:when>
-            <j:otherwise>
-              <a href="${href}" class="task-link" onclick="${attrs.onclick ?: (post ? 'postRequest_' + id + '(this)' : null)}">
-                <j:choose>
-                  <j:when test="${match}">
-                    <b>${title}</b>
-                  </j:when>
-                  <j:otherwise>
-                    ${title}
-                  </j:otherwise>
-                </j:choose>
-              </a>
-            </j:otherwise>
-          </j:choose>
-
-          <j:if test="${match}">
-            <div class="subtasks">
-              <d:invokeBody />
-            </div>
-          </j:if>
-        </div>
+        <li class="task">
+            <j:set var="icon" value="${rootURL}${icon.startsWith('images/') || icon.startsWith('plugin/') ? h.resourcePath : ''}/${icon}"/>
+            ${taskTags!=null and attrs.contextMenu!='false' ? taskTags.add(href, icon, title, post == 'true', requiresConfirmation == 'true') : null}
+  
+            <j:set var="id" value="${h.generateId()}"/>
+            <j:if test="${attrs.onclick == null and post and not requiresConfirmation}">
+                <script>
+                    function postRequest_${id}(a) {
+                        new Ajax.Request(a.href);
+                        hoverNotification('${%Done.}', a.parentNode);
+                        return false;
+                    }
+                </script>
+            </j:if>
+  
+            <j:choose>
+              <j:when test="${requiresConfirmation and not attrs.onClick}">
+                <l:confirmationLink href="${href}" post="${post}" message="${confirmationMessage ?: title}">
+                  <img class="task-icon" width="24" height="24" style="margin: 2px;" alt="" src="${icon}"/>
+                  <j:choose>
+                    <j:when test="${match}">
+                      <b>${title}</b>
+                    </j:when>
+                    <j:otherwise>
+                      ${title}
+                    </j:otherwise>
+                  </j:choose>
+                </l:confirmationLink>
+              </j:when>
+              <j:otherwise>
+                <a href="${href}" class="task-icon-link" onclick="${attrs.onclick ?: (post ? 'postRequest_' + id + '(this)' : null)}">
+                  <img class="task-icon" width="24" height="24" style="margin: 2px;" alt="" src="${icon}"/>
+                  <j:choose>
+                    <j:when test="${match}">
+                      <b>${title}</b>
+                    </j:when>
+                    <j:otherwise>
+                      ${title}
+                    </j:otherwise>
+                  </j:choose>
+                </a>
+              </j:otherwise>
+            </j:choose>
+  
+            <j:if test="${match}">
+              <div class="subtasks">
+                <d:invokeBody />
+              </div>
+            </j:if>
+        </li>
       </j:otherwise>
     </j:choose>
   </j:if>

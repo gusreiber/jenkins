@@ -60,33 +60,38 @@ THE SOFTWARE.
     <j:if test="${columnExtensions==null}">
         <j:invokeStatic var="columnExtensions" className="hudson.model.ListView" method="getDefaultColumns"/>
     </j:if>
+    
 
     <j:if test="${!empty(jobs) or !empty(attrs.views)}">
       <!-- the caller can inject a tab bar here -->
       <d:invokeBody/>
       <!-- project list -->
-      <table id="projectstatus" class="sortable pane bigtable"
-             style="${showViewTabs?'margin-top:0px; border-top: none;':null}">
-        <tr style="border-top: 0px;">
-          <j:forEach var="col" items="${columnExtensions}">
-             <st:include page="columnHeader.jelly" it="${col}" />
+      <div class="tab-content"> 
+        <table id="projectstatus" class="table table-striped table-bordered table-hover ${subIconSize}"
+               style="${showViewTabs?'margin-top:0px; border-top: none;':null}">
+          <thead>
+          <tr style="border-top: 0px;">
+            <j:forEach var="col" items="${columnExtensions}">
+               <st:include page="columnHeader.jelly" it="${col}" />
+            </j:forEach>
+            <th>
+              <st:nbsp/>
+            </th>
+          </tr>
+          </thead>
+          <j:forEach var="v" items="${attrs.views}">
+            <t:projectViewNested />
           </j:forEach>
-          <th>
-            <st:nbsp/>
-          </th>
-        </tr>
-
-        <j:forEach var="v" items="${attrs.views}">
-          <t:projectViewNested />
-        </j:forEach>
-        <j:forEach var="job" items="${jobs}">
-          <j:set var="relativeLinkToJob" value="${h.getRelativeLinkTo(job)}"/>
-          <t:projectViewRow jobBaseUrl="${relativeLinkToJob.substring(0, relativeLinkToJob.length() - job.shortUrl.length())}"/>
-        </j:forEach>
-      </table>
+          <j:forEach var="job" items="${jobs}">
+            <j:set var="relativeLinkToJob" value="${h.getRelativeLinkTo(job)}"/>
+            <t:projectViewRow jobBaseUrl="${relativeLinkToJob.substring(0, relativeLinkToJob.length() - job.shortUrl.length())}"/>
+          </j:forEach>
+        </table>
+      </div>
       <div class="hidden-xs hidden-sm">
         <t:iconSize><t:rssBar/></t:iconSize>
       </div>
     </j:if>
+
   </div>
 </j:jelly>

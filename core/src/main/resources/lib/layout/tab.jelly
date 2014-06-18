@@ -31,6 +31,9 @@ THE SOFTWARE.
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core">
   <j:choose>
+    <j:when test="${tabPass=='pass0'}">
+      <li class="${active ? 'active' : ''}"><a href="${href}" title="${attrs.title}">${name}</a></li>
+    </j:when>
     <j:when test="${tabPass=='pass1'}">
       <!-- in the 1st pass we draw the dummy top row to get the 'dent' right -->
       <j:choose>
