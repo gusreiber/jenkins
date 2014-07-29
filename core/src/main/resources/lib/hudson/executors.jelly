@@ -40,21 +40,20 @@ THE SOFTWARE.
     <d:tag name="executor">
       <j:choose>
         <j:when test="${!c.offline or (c.offline and !e.idle)}">
-          <tr>
-            <td class="pane" align="right" style="vertical-align: top">
+          <li class="list-group-item">
+            <div  class="pane number" align="right" style="vertical-align: top">
               ${name}
-            </td>
+            </div>
             <j:choose>
               <j:when test="${!e.active}">
-                <td class="pane">
+                <div class="pane main death">
                   <a href="${rootURL}/${c.url}${url}/causeOfDeath">
                     <div class="error">${%Dead} (!)</div>
                   </a>
-                </td>
-                <td class="pane"/>
+                </div>
               </j:when>
               <j:when test="${e.idle}">
-                <td class="pane">
+                <div class="pane main idle">
                   <j:choose>
                     <j:when test="${c.offline}">
                       <a href="${rootURL}/${c.url}" class="model-link inside">${%Offline}</a>
@@ -63,15 +62,14 @@ THE SOFTWARE.
                       ${%Idle}
                     </j:otherwise>
                   </j:choose>
-                </td>
-                <td class="pane"/>
+                </div>
               </j:when>
               <j:otherwise>
                 <!-- not actually optional, but it helps with backward compatibility -->
                 <j:set var="executor" value="${e}" />
                 <st:include it="${e.currentExecutable}" page="executorCell.jelly" optional="true">
-                  <td class="pane">
-                    <div style="white-space: normal">${%Building}
+                  <div class="pane main">
+                    <div class="exec-status">
                       <j:set var="exe" value="${e.currentExecutable}" />
                       <j:invokeStatic var="exeparent"
                          className="hudson.model.queue.Executables" method="getParentOf">
@@ -79,7 +77,10 @@ THE SOFTWARE.
                       </j:invokeStatic>
                       <j:choose>
                         <j:when test="${h.hasPermission(exeparent,exeparent.READ)}">
-                          <a href="${rootURL}/${exeparent.url}"><l:breakable value="${exeparent.fullDisplayName}"/></a>&#160;<a href="${rootURL}/${exe.url}" class="model-link inside"><l:breakable value="${exe.displayName}"/></a>
+                          <div class="build-and-number">
+                            <a href="${rootURL}/${exeparent.url}"><l:breakable value="${exeparent.fullDisplayName}"/> </a> 
+                            <a href="${rootURL}/${exe.url}" class="model-link inside"><l:breakable value="${exe.displayName}"/></a>
+                          </div>
                           <t:buildProgressBar build="${exe}" executor="${executor}"/>
                         </j:when>
                         <j:otherwise>
@@ -87,35 +88,50 @@ THE SOFTWARE.
                         </j:otherwise>
                       </j:choose>
                     </div>
-                  </td>
+                  </div>
                 </st:include>
-                <td class="pane" align="center" valign="middle">
+                <div class="pane cancel" align="center" valign="middle">
                   <j:if test="${e.hasStopPermission()}">
                     <l:stopButton href="${rootURL}/${c.url}${url}/stop" alt="${%terminate this build}"/>
                   </j:if>
-                </td>
+                </div>
               </j:otherwise>
             </j:choose>
-          </tr>
+          </li>
         </j:when>
       </j:choose>
     </d:tag>
   </d:taglib>
   <j:set var="computers" value="${attrs.computers?:app.computers}" />
-    <l:pane width="3" id="executors"
+    <div id="executors" class="panel panel-default">
+      <div class="panel-heading">
+        <a href="${rootURL}/computer/">${%Build Executor Status} <span>(Details)</span></a>
+      </div>
+      
+      <j:forEach var="c" items="${computers}">
+        <j:if test="${computers.size() gt 1 and (c.executors.size()!=0 or c.oneOffExecutors.size()!=0)}">
+          <div class="panel-body">
+            <local:computerCaption title="${c.displayName}" />
+          </div>
+        </j:if>
+        <ul class="list-group">
+          <j:forEach var="e" items="${c.executors}" varStatus="eloop">
+            <local:executor name="${eloop.index+1}" url="executors/${eloop.index}" />
+          </j:forEach>
+          <j:forEach var="e" items="${c.oneOffExecutors}" varStatus="eloop">
+            <local:executor name="" url="oneOffExecutors/${eloop.index}" />
+          </j:forEach>
+        </ul>
+      </j:forEach>
+     
+    </div>
+    
+    
+    <!--l:pane width="3" id="executors"
         title="&lt;a href='${rootURL}/computer/'>${%Build Executor Status}&lt;/a>"
         collapsedText="${%Computers(computers.size() - 1, app.unlabeledLoad.computeTotalExecutors() - app.unlabeledLoad.computeIdleExecutors(), app.unlabeledLoad.computeTotalExecutors())}">
-      <colgroup><col width="1*"/><col width="200*"/><col width="24"/></colgroup>
-
-      <tr>
-        <th class="pane">#</th>
-        <th class="pane" colspan="2">
-          <div style="margin-right:19px">
-            ${%Status}
-          </div>
-        </th>
-      </tr>
-
+      
+      <tr><td>${%Computers(computers.size() - 1, app.unlabeledLoad.computeTotalExecutors() - app.unlabeledLoad.computeIdleExecutors(), app.unlabeledLoad.computeTotalExecutors())}</td></tr>
       <j:forEach var="c" items="${computers}">
         <tr>
           <j:if test="${computers.size() gt 1 and (c.executors.size()!=0 or c.oneOffExecutors.size()!=0)}">
@@ -131,7 +147,7 @@ THE SOFTWARE.
           <local:executor name="" url="oneOffExecutors/${eloop.index}" />
         </j:forEach>
       </j:forEach>
-    </l:pane>
+    </l:pane -->
     <!-- schedule updates only for the full page reload -->
     <j:if test="${ajax==null and !h.isAutoRefresh(request) and h.hasPermission(app.READ)}">
       <script defer="defer">

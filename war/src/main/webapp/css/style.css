@@ -40,6 +40,7 @@ body {
 #header {
   background-color: #000000;
   height: 50px;
+  display:none;
 }
 
 #header div {
@@ -1353,7 +1354,9 @@ table#legend-table td {
 
 body a {color:#079; text-decoration:none;}
 body a:visited {color:#69a; text-decoration:none;}
+#side-panel .panel .panel-heading a:active span,
 body a:active {color:#69a; text-decoration:none;}
+#side-panel .panel .panel-heading a:hover span,
 body a:focus,
 body a:hover {color:#69a; text-decoration:underline}
 
@@ -1361,6 +1364,9 @@ body a:hover {color:#69a; text-decoration:underline}
 .table-striped>tbody>tr>td.sorting_1:nth-child(odd){box-shadow:inset 0 999em rgba(0,0,0,.03),inset 0 999em rgba(41, 188, 184,.1)}
 .table-striped>tbody>tr>td.sorting_1{box-shadow:inset 0 999em rgba(41, 188, 184,.1)}
 #side-panel li.task {list-style:none; margin:0;}
+#side-panel .panel .panel-heading {padding:0;}
+#side-panel .panel .panel-heading a {display:block; padding: 10px 5px; color:#000; font-weight:bold; text-decoration:none; }
+#side-panel .panel .panel-heading a span {float:right; font-weight:normal; color:#079}
 
 #cbj-top-nav {border-radius:0; margin:0}
 #cbj-top-nav a {font-weight: bold; text-decoration:none; vertical-align:bottom}
@@ -1373,9 +1379,25 @@ body a:hover {color:#69a; text-decoration:underline}
 
 .nav-tabs>li>a {border-bottom:none; text-decoration:none; font-weight:bold; line-height:20px;}
 .nav-tabs>li:last-child>a {font-size:0; line-height:0}
-.nav-tabs>li:last-child>a:after{content:"\e04d"; font-family:"cloudbees"; font-size:11px; line-height:20px;}
+foo.nav-tabs>li:last-child>a:after{content:"\e04d"; font-family:"cloudbees"; font-size:11px; line-height:20px;}
+.nav-tabs>li:last-child>a:after{content:"+"; font-size:18px; font-weight:bold; line-height:20px;}
 
-#header {display: none}
+
+.panel li {position:relative;}
+.panel li .pane {margin:0;}
+.panel li .pane.cancel {position:absolute; right:5px; top:10px;}
+.panel li .pane.cancel a {line-height:2.2em; vertical-align:middle}
+.panel li .number {position:absolute; left:0; top:0; bottom:0; width:1.5em; padding:15px 3px; vertical-align:middle; background:rgba(0,0,0,.025); margin:0; color:#ccc; text-shadow:0 -1px 2px #fff; border-right:1px solid #ddd}
+.panel li .main {padding:0 20px 0 1em; height:2.2em;}
+.panel li .main.idle {line-height:2.2em;}
+.panel li .main #header {display: none}
+.panel table.row-group {width:100%; border:none;}
+.panel table.row-group td {border:none; padding:10px 15px; border-bottom:1px solid #ddd; width:100%}
+.panel table.row-group td.cancel {padding:10px 5px;width:auto}
+.panel table.row-group tr:last-child td{border:none;}
+.panel table.row-group td a {font-weight:bold; text-decoration:none}
+.exec-status .build-and-number a{ display:inline-block; padding-right:5px; font-weight:bold; text-decoration:none;}
+.exec-status .progress-bar {clear:both; float:none;}
 
 #projectstatus_wrapper .well {margin:-1px 0 -5px; border-radius:0; box-shadow:inset 0 20px 40px #fff}
 #projectstatus_wrapper .well label {margin:0}

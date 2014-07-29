@@ -131,7 +131,7 @@ ${h.initPageVariables(context)}
         crumb.init("${h.getCrumbRequestField()}", "${h.getCrumb(request)}");
     </script>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" href="http://i.icomoon.io/public/temp/a3200a6131/cloudbees/style.css" />
+    <link rel="stylesheet" href="http://i.icomoon.io/public/temp/9e03209d43/cloudbees/style.css" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <link href="//cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.css" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="${resURL}/scripts/yui/container/assets/container.css" type="text/css"/>
@@ -157,9 +157,10 @@ ${h.initPageVariables(context)}
         var $grid = $('#projectstatus').dataTable({
           stateSave: true,
           paging: false
-        })
+        });
+        //debugger;
         var $input = $grid.parent().find('#projectstatus_filter input').attr('placeholder','Filter results');
-        $input.appendTo($input.parent().empty());
+        //$input.appendTo($input.parent().empty());
         $input.closest('.row ').addClass('well well-sm').find('.col-xs-6:first').append($('#projectstatus_info'));
       });
     </script>
@@ -286,14 +287,6 @@ ${h.initPageVariables(context)}
         </div>
       </div>
     </nav>
-    
-    <l:side-panel>
-      <l:tasks>
-        <t:actions />
-
-      </l:tasks>
-    </l:side-panel>
-    
     
     <div id="breadcrumbBar" class="hidden-xs hidden-sm">
       <l:breadcrumbBar>
