@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2011, CloudBees, Inc.
+ * Copyright (c) 2015 Red Hat, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.tasks.Shell;
-f=namespace(lib.FormTagLib)
+package jenkins.model;
 
-f.entry(title:_("Command"),description:_("description",rootURL)) {
-    f.textarea(name: "command", value: instance?.command, class: "fixed-width", 'codemirror-mode': 'shell', 'codemirror-config': "mode: 'text/x-sh'")
+import hudson.Launcher;
+import hudson.model.BuildListener;
+import hudson.model.AbstractBuild;
+
+import java.io.IOException;
+
+import org.jvnet.hudson.test.TestBuilder;
+
+/**
+ * Write text into file in workspace.
+ *
+ * @author ogondza
+ */
+public class WorkspaceWriter extends TestBuilder {
+
+    private final String path;
+    private final String content;
+
+    public WorkspaceWriter(String path, String content) {
+        this.path = path;
+        this.content = content;
+    }
+
+    @Override
+    public boolean perform(
+            AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener
+    ) throws InterruptedException, IOException {
+        build.getWorkspace().child(path).write(content, "UTF-8");
+        return true;
+    }
 }

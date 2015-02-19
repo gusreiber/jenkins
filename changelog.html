@@ -55,6 +55,56 @@ Upcoming changes</a>
 <!-- Record your changes in the trunk here. -->
 <div id="trunk" style="display:none"><!--=TRUNK-BEGIN=-->
 <ul class=image>
+  <li class=>
+</ul>
+</div><!--=TRUNK-END=-->
+
+<!-- these changes are controlled by the release process. DO NOT MODIFY -->
+<div id="rc" style="display:none;"><!--=BEGIN=-->
+<h3><a name=v1.600>What's new in 1.600</a> <!--=DATE=--></h3>
+<ul class=image>
+  <li class="rfe">
+    JDK auto-installer for Mac OSX
+  <li class=bug>
+    An error thrown in the wrong place in a publisher could result in a failure to release a workspace lock.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26698">issue 26698</a>)
+  <li class=bug>
+    Cache node environment to prevent unnecessary channel usage
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26755">issue 26755</a>)
+  <li class=bug>
+    Build history text field wrap fails when containing markup
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26406">issue 26406</a>)
+  <li class=bug>
+    Maven build step fail to launch mvn process when special chars are present in build variables.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26684">issue 26684</a>)
+</ul>
+</div><!--=END=-->
+<h3><a name=v1.599>What's new in 1.599</a> (2015/02/16)</h3>
+<ul class=image>
+  <li class=bug>
+    Errors in some Maven builds since 1.598.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26601">issue 26601</a>)
+  <li class='major bug'>
+    Build format change migrator in 1.597 did not work on some Windows systems.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26519">issue 26519</a>)
+  <li class=bug>
+    Remote <code>FilePath.chmod</code> fails with <code>ClassNotFoundException: javax.servlet.ServletException</code>.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26476">issue 26476</a>)
+  <li class=rfe>
+    Added <code>SimpleBuildWrapper</code> API.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-24673">issue 24673</a>)
+  <li class=bug>
+    Animated ball in job's build history widget won't open Console Output.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26365">issue 26365</a>)
+  <li class=rfe>
+    Show job name in <em>Schedule Build</em> column tool tip.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-25234">issue 25234</a>)
+  <li class=bug>
+    Allow OldDataMonitor to discard promoted-build-plugin Promotions
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26718">issue 26718</a>)
+</ul>
+<h3><a name=v1.598>What's new in 1.598</a> (2015/01/25)</h3>
+<ul class=image>
   <li class=bug>
     FutureImpl does not cancel its start future.
     (<a href="https://issues.jenkins-ci.org/browse/JENKINS-25514">issue 25514</a>)
@@ -65,6 +115,12 @@ Upcoming changes</a>
   <li class=bug>
     Folder loading broken when child item loading throws exception.
     (<a href="https://issues.jenkins-ci.org/browse/JENKINS-22811">issue 22811</a>)
+  <li class=bug>
+    Plugin icon images were broken when running Jenkins from a UNC path.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26203">issue 26203</a>)
+  <li class=bug>
+    Allow admin signup from <code>/manage</code> as well.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26382">issue 26382</a>)
   <li class=bug>
     Amend <code>JAVA_HOME</code> check to work with JDK 9.
     (<a href="https://issues.jenkins-ci.org/browse/JENKINS-25601">issue 25601</a>)
@@ -85,12 +141,15 @@ Upcoming changes</a>
     (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26312">issue 26312</a>,
      <a href="https://issues.jenkins-ci.org/browse/JENKINS-26298">issue 26298</a>,
      <a href="https://issues.jenkins-ci.org/browse/JENKINS-26306">issue 26306</a>)
+  <li class=rfe>
+    Improve error reporting when channel closed during build.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-26411">issue 26411</a>)
+  <li class=bug>
+    Fixed CodeMirror issue with height and re-enabled syntax highlighting in shell build step.
+    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-25455">issue 25455</a>,
+     <a href="https://issues.jenkins-ci.org/browse/JENKINS-23151">issue 23151</a>)
 </ul>
-</div><!--=TRUNK-END=-->
-
-<!-- these changes are controlled by the release process. DO NOT MODIFY -->
-<div id="rc" style="display:none;"><!--=BEGIN=-->
-<h3><a name=v1.597>What's new in 1.597</a> <!--=DATE=--></h3>
+<h3><a name=v1.597>What's new in 1.597</a> (2015/01/19)</h3>
 <ul class=image>
   <li class='major rfe'>
     <b><tt>JENKINS_HOME</tt> layout change</b>: builds are now keyed by build numbers and not timestamps.
@@ -119,7 +178,6 @@ Upcoming changes</a>
     Add range check for H(X-Y) syntax.
     (<a href="https://issues.jenkins-ci.org/browse/JENKINS-25897">issue 25897</a>)
 </ul>
-</div><!--=END=-->
 <h3><a name=v1.596>What's new in 1.596</a> (2015/01/04)</h3>
 <ul class=image>
   <li class=bug>
