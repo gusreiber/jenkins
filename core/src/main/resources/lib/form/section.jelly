@@ -37,14 +37,21 @@ THE SOFTWARE.
   </st:documentation>
 
   <st:adjunct includes="lib.form.section_" />
-  <f:rowSet name="${attrs.name}">
-    <j:if test="${attrs.title!=null}">
-      <f:block>
-        <div class="section-header">
-          ${title}
-        </div>
-      </f:block>
-    </j:if>
-    <d:invokeBody />
-  </f:rowSet>
+  <div class="TBODY" style="border:4px double #f0f">
+    <f:rowSet name="${attrs.name}">
+      <j:if test="${attrs.title!=null}">
+        <f:block>
+          <div class="section-header" style="background:#9fc">
+           --start-- ${title}
+          </div>
+        </f:block>
+      </j:if>
+      <d:invokeBody />
+        <f:block>
+          <div class="zsection-header" style="background:#fc9">
+            --end-- ${title}
+          </div>
+        </f:block>    
+    </f:rowSet>
+  </div>
 </j:jelly>

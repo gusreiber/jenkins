@@ -291,16 +291,21 @@ function findAncestorClass(e, cssClass) {
 
 function findFollowingTR(input, className) {
     // identify the parent TR
+  //TODO: This is wrong. Should not be parent TR, but rather the parent group...
     var tr = input;
-    while (tr.tagName != "TR")
-        tr = tr.parentNode;
-
+    
+    var firstTr = input;
+    while (tr.tagName != "TR" && !Element.hasClassName(tr,'TR')){
+      if(!tr.parentNode) debugger;
+        tr = firstTr = tr.parentNode;
+    }
     // then next TR that matches the CSS
+    // Then we fined the CSS that matches within the group...
     do {
         tr = $(tr).next();
-    } while (tr != null && (tr.tagName != "TR" || !Element.hasClassName(tr,className)));
+    } while (tr != null && (!Element.hasClassName(tr,className)));
 
-    return tr;
+    return (tr);
 }
 
 function find(src,filter,traversalF) {
@@ -1005,11 +1010,16 @@ var jenkinsRules = {
         // figure out the corresponding start block
         e = $(e);
         var end = e;
-
+        if(!e.previous()|| !e) debugger;
+        if(e && e.previous())
         for( var depth=0; ; e=e.previous()) {
+          if(!e) depth--;
+          else{
             if(e.hasClassName("row-set-end"))        depth++;
             if(e.hasClassName("row-set-start"))      depth--;
             if(depth==0)    break;
+          }
+          if(!e.previous()) break;
         }
         var start = e;
 
@@ -1019,8 +1029,9 @@ var jenkinsRules = {
         var ref = start.getAttribute("ref");
         if(ref==null)
             start.id = ref = "rowSetStart"+(iota++);
-
-        applyNameRef(start,end,ref);
+        // Make sure the start and end are not the same
+        if(start !== end) 
+          applyNameRef(start,end,ref);
     },
 
     "TR.optional-block-start ": function(e) { // see optionalBlock.jelly

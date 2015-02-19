@@ -50,8 +50,9 @@ THE SOFTWARE.
     </st:attribute>
   </st:documentation>
   <form action="${action}" method="${method}" enctype="${attrs.enctype}" name="${name}" target="${attrs.target}">
-    <table width="100%" class="${attrs.tableClass}">
+  <h1>???????</h1>
+    <div width="100%" border="1" class="TABLE ${attrs.tableClass}">
       <d:invokeBody/>
-    </table>
+    </div>
   </form>
 </j:jelly>

@@ -54,20 +54,20 @@ THE SOFTWARE.
 
   <st:adjunct includes="lib.form.radioBlock.radioBlock"/>
 
-	<tr class="radio-block-start ${attrs.inline?'':'row-set-start'}" hasHelp="${attrs.help!=null}"><!-- this ID marks the beginning -->
-	  <td colspan="3">
+	<div class="TR radio-block-start ${attrs.inline?'':'row-set-start'}" hasHelp="${attrs.help!=null}"><!-- this ID marks the beginning -->
+	  <div class="TD" colspan="3">
       <label>
 	      <input type="radio" name="${name}" value="${value}"
              class="radio-block-control" checked="${checked?'true':null}" />
         ${title}
       </label>
-    </td>
+    </div>
     <f:helpLink url="${help}" featureName="${title}" />
-	</tr>
+	</div>
   <j:if test="${attrs.help!=null}">
     <f:helpArea />
   </j:if>
 	<d:invokeBody />
 	<!-- end marker -->
-	<tr class="${attrs.inline?'':'row-set-end'} radio-block-end" style="display:none" />
+	<div class="TR ${attrs.inline?'':'row-set-end'} radio-block-end" style="display:none" />
 </j:jelly>

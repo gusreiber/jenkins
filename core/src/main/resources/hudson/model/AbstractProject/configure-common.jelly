@@ -28,26 +28,27 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:p="/lib/hudson/project" xmlns:this="this">
-  <p:config-disableBuild/>
-  <p:config-concurrentBuild />
-
-  <j:set var="jdks" value="${app.JDKs}" />
-  <j:if test="${jdks.size() gt 1}">
-    <!-- if there's only one JDK configured, always use that. -->
-    <f:entry title="JDK"
-             description="${%JDK to be used for this project}">
-      <select class="setting-input validated" name="jdk" checkUrl="'${rootURL}/defaultJDKCheck?value='+this.value">
-        <j:getStatic var="DEFAULT_NAME" className="hudson.model.JDK" field="DEFAULT_NAME"/>
-        <option>${DEFAULT_NAME}</option>
-        <j:forEach var="inst" items="${jdks}">
-          <f:option selected="${inst.name==it.JDK.name}" value="${inst.name}">${inst.name}</f:option>
-        </j:forEach>
-      </select>
-    </f:entry>
-  </j:if>
-
-  <p:config-assignedLabel />
-
+  <f:section title="configure-common">
+    <p:config-disableBuild/>
+    <p:config-concurrentBuild />
+  
+    <j:set var="jdks" value="${app.JDKs}" />
+    <j:if test="${jdks.size() gt 1}">
+      <!-- if there's only one JDK configured, always use that. -->
+      <f:entry title="JDK"
+               description="${%JDK to be used for this project}">
+        <select class="setting-input validated" name="jdk" checkUrl="'${rootURL}/defaultJDKCheck?value='+this.value">
+          <j:getStatic var="DEFAULT_NAME" className="hudson.model.JDK" field="DEFAULT_NAME"/>
+          <option>${DEFAULT_NAME}</option>
+          <j:forEach var="inst" items="${jdks}">
+            <f:option selected="${inst.name==it.JDK.name}" value="${inst.name}">${inst.name}</f:option>
+          </j:forEach>
+        </select>
+      </f:entry>
+    </j:if>
+  
+    <p:config-assignedLabel />
+  </f:section>
   <f:section title="${%Advanced Project Options}">
     <f:advanced>
       <p:config-quietPeriod />
