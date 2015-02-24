@@ -64,24 +64,26 @@ THE SOFTWARE.
   </j:if>
   <!-- expose this so that we can look up the @field value later from prepareDatabinding.jelly -->
   <j:set var="entry" value="${attrs}" />
-  <div class="TR entity">
-    <div class="TD setting-leftspace"><st:nbsp/></div>
-    <div class="TD setting-name">
-      <j:out value="${attrs.title}" />
+  <div class="entity basic">
+    <div class="TR ">
+      <div class="TD setting-leftspace"><st:nbsp/></div>
+      <div class="TD setting-name">
+        <j:out value="${attrs.title}" />
+      </div>
+      <div class="TD setting-main">
+        <d:invokeBody />
+      </div>
+      <f:helpLink url="${attrs.help}" featureName="${title}"/>
     </div>
-    <div class="TD setting-main">
-      <d:invokeBody />
-    </div>
-    <f:helpLink url="${attrs.help}" featureName="${title}"/>
+    <!-- used to display the form validation error -->
+    <div class="TR validation-error-area"><div class="TD" colspan="2" /><div class="TD" /><div class="TD" /></div>
+    <j:if test="${!empty(attrs.description)}">
+      <f:description>
+        <j:out value="${description}"/>
+      </f:description>
+    </j:if>
+    <j:if test="${attrs.help!=null}">
+      <f:helpArea />
+    </j:if>
   </div>
-  <!-- used to display the form validation error -->
-  <div class="TR validation-error-area"><div class="TD" colspan="2" /><div class="TD" /><div class="TD" /></div>
-  <j:if test="${!empty(attrs.description)}">
-    <f:description>
-      <j:out value="${description}"/>
-    </f:description>
-  </j:if>
-  <j:if test="${attrs.help!=null}">
-    <f:helpArea />
-  </j:if>
 </j:jelly>

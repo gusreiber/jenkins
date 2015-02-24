@@ -31,7 +31,8 @@ THE SOFTWARE.
     Deprecated as of 1.463. Use &lt;config-publishers2> and update your code to do
     publishers.rebuildHetero(req, json, Publisher.all(), "publisher");
   </st:documentation>
-  <f:descriptorList title="${%Post-build Actions}"
-                    descriptors="${h.getPublisherDescriptors(it)}"
-                    instances="${it.publishers}" />
+  <f:descriptorList  name="post-build-actions" 
+      title="${%Post-build Actions}"
+      descriptors="${h.getPublisherDescriptors(it)}"
+      instances="${it.publishers}" />
 </j:jelly>

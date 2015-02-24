@@ -293,6 +293,12 @@ function findFollowingTR(input, className) {
     // identify the parent TR
   //TODO: This is wrong. Should not be parent TR, but rather the parent group...
     var tr = input;
+    if(!input.up('.entity')) debugger;
+    var getIt = $(input.up('.entity')).select('.'+className)[0] || $(input.up('.entity')).select('.TR')[0];
+    if(getIt) return getIt;
+    else debugger;
+    
+    
     
     var firstTr = input;
     while (tr.tagName != "TR" && !Element.hasClassName(tr,'TR')){
@@ -1350,7 +1356,7 @@ function updateOptionalBlock(c,scroll) {
 
     // find the beginning of the rowvg
     var vg =s;
-    while (!vg.hasClassName("rowvg-start"))
+    while (vg && !vg.hasClassName("rowvg-start"))
         vg = vg.next();
 
     var checked = xor(c.checked,Element.hasClassName(c,"negative"));
@@ -2327,6 +2333,7 @@ function shortenName(name) {
 // structured form submission handling
 //   see http://wiki.jenkins-ci.org/display/JENKINS/Structured+Form+Submission
 function buildFormTree(form) {
+  debugger;
     try {
         // I initially tried to use an associative array with DOM elements as keys
         // but that doesn't seem to work neither on IE nor Firefox.

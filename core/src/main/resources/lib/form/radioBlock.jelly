@@ -53,21 +53,22 @@ THE SOFTWARE.
   </st:documentation>
 
   <st:adjunct includes="lib.form.radioBlock.radioBlock"/>
-
-	<div class="TR radio-block-start ${attrs.inline?'':'row-set-start'}" hasHelp="${attrs.help!=null}"><!-- this ID marks the beginning -->
-	  <div class="TD" colspan="3">
-      <label>
-	      <input type="radio" name="${name}" value="${value}"
-             class="radio-block-control" checked="${checked?'true':null}" />
-        ${title}
-      </label>
-    </div>
-    <f:helpLink url="${help}" featureName="${title}" />
-	</div>
-  <j:if test="${attrs.help!=null}">
-    <f:helpArea />
-  </j:if>
-	<d:invokeBody />
-	<!-- end marker -->
-	<div class="TR ${attrs.inline?'':'row-set-end'} radio-block-end" style="display:none" />
+  <div class="entity radioBlock">
+  	<div class="TR radio-block-start ${attrs.inline?'':'row-set-start'}" hasHelp="${attrs.help!=null}"><!-- this ID marks the beginning -->
+  	  <div class="TD" colspan="3">
+        <label>
+  	      <input type="radio" name="${name}" value="${value}"
+               class="radio-block-control" checked="${checked?'true':null}" />
+          ${title}
+        </label>
+      </div>
+      <f:helpLink url="${help}" featureName="${title}" />
+  	</div>
+    <j:if test="${attrs.help!=null}">
+      <f:helpArea />
+    </j:if>
+  	<d:invokeBody />
+  	<!-- end marker -->
+  	<div class="TR ${attrs.inline?'':'row-set-end'} radio-block-end" style="display:none" />
+  </div>
 </j:jelly>

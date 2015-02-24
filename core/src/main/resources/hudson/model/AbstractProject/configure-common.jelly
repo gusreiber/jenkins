@@ -28,7 +28,7 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:p="/lib/hudson/project" xmlns:this="this">
-  <f:section title="configure-common">
+  <f:section name="configure-common">
     <p:config-disableBuild/>
     <p:config-concurrentBuild />
   
@@ -49,7 +49,7 @@ THE SOFTWARE.
   
     <p:config-assignedLabel />
   </f:section>
-  <f:section title="${%Advanced Project Options}">
+  <f:section name="advanced" title="${%Advanced Project Options}">
     <f:advanced>
       <p:config-quietPeriod />
       <p:config-retryCount />

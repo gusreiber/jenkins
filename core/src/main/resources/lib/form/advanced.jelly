@@ -53,7 +53,7 @@ THE SOFTWARE.
 	      <input type="button" value="${attrs.title?:'%Advanced'}..." class="advanced-button advancedButton" /><!-- advancedButton is legacy -->
 	    </div>
             <j:new var="customizedFields" className="java.util.TreeSet"/>
-	    <div class="TABLE advancedBody"><div class="tbody">
+	    <div class="TABLE advancedBody"><div class="TBODY">
 	    <!-- this is the hidden portion that hosts the "advanced" part. Contents will be moved to the master table when "advanced..." is clicked -->
 	      <d:invokeBody/>
 	    </div></div>

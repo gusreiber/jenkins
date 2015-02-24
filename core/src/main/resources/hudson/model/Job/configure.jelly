@@ -33,8 +33,8 @@ THE SOFTWARE.
     <l:main-panel>
       <div class="behavior-loading">${%LOADING}</div>
       <f:form method="post" action="configSubmit" name="config">
-        <f:section title="all">
-          <f:section title="config.jelly">
+        <f:section title="all" name="all">
+          <f:section title="Basic Jenkins Item Configuration" name="title">
             <j:set var="descriptor" value="${it.descriptor}" />
             <j:set var="instance" value="${it}" />
     
@@ -46,7 +46,6 @@ THE SOFTWARE.
             <f:entry title="${%Description}" help="${app.markupFormatter.helpUrl}">
               <f:textarea name="description" value="${it.description}" codemirror-mode="${app.markupFormatter.codeMirrorMode}" codemirror-config="${app.markupFormatter.codeMirrorConfig}" previewEndpoint="/markupFormatter/previewDescription"/>
             </f:entry>
-    
             <j:if test="${it.supportsLogRotator()}">
               <!-- log rotator -->
               <f:optionalBlock name="logrotate"
@@ -55,19 +54,21 @@ THE SOFTWARE.
                 <f:dropdownDescriptorSelector field="buildDiscarder" title="${%Strategy}"/>
               </f:optionalBlock>
             </j:if>
-          
             <!-- job property configurations. This should have been <f:descriptorList> -->
             <f:descriptorList field="properties" descriptors="${h.getJobPropertyDescriptors(it.getClass())}" forceRowSet="true" />
           </f:section>
+
           <!-- additional entries from derived classes -->
           <st:include page="configure-entries.jelly" />
-  
+
           <j:if test="${h.hasPermission(it,it.CONFIGURE)}">
-            <f:bottomButtonBar>
-              <!--<input type="button" name="StructureTest" value="Test" onclick="buildFormTree(this.form)" />-->
-              <f:submit value="${%Save}"/>
-              <f:apply />
-            </f:bottomButtonBar>
+            <f:section name="buttons">
+              <f:bottomButtonBar>
+                <!--<input type="button" name="StructureTest" value="Test" onclick="buildFormTree(this.form)" />-->
+                <f:submit value="${%Save}"/>
+                <f:apply />
+              </f:bottomButtonBar>
+            </f:section>
           </j:if>
         </f:section>
       </f:form>
