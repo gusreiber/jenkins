@@ -292,13 +292,24 @@ function findAncestorClass(e, cssClass) {
 function findFollowingTR(input, className) {
     // identify the parent TR
     var tr = input;
-    while (tr.tagName != "TR")
+    if(!tr) 
+      debugger;
+    if (!tr.hasClassName)
+      debugger;
+    if(! jq2_1_3.isFunction(tr.hasClassName))
+      debugger;
+    var orgTr = input;
+    while (tr.tagName !== "TR" && !tr.hasClassName('tr')){
+      var oldTr = tr; 
         tr = tr.parentNode;
+        if(! jq2_1_3.isFunction(tr.hasClassName))
+          debugger;
+    }
 
     // then next TR that matches the CSS
     do {
         tr = $(tr).next();
-    } while (tr != null && (tr.tagName != "TR" || !Element.hasClassName(tr,className)));
+    } while (tr != null && ((tr.tagName != "TR" && !tr.hasClassName('tr')) || !Element.hasClassName(tr,className)));
 
     return tr;
 }
@@ -919,16 +930,18 @@ var jenkinsRules = {
         makeButton(e);
     },
 
-    "TR.optional-block-start": function(e) { // see optionalBlock.jelly
+    "DIV.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
         var checkbox = e.down().down();
         e.setAttribute("ref", checkbox.id = "cb"+(iota++));
     },
 
     // see RowVisibilityGroupTest
-    "TR.rowvg-start" : function(e) {
+    "DIV.rowvg-start" : function(e) {
         // figure out the corresponding end marker
         function findEnd(e) {
+            if(!$(e)) 
+              return;
             for( var depth=0; ; e=$(e).next()) {
                 if(Element.hasClassName(e,"rowvg-start"))    depth++;
                 if(Element.hasClassName(e,"rowvg-end"))      depth--;
@@ -1000,8 +1013,28 @@ var jenkinsRules = {
             }
         };
     },
+    "DIV.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
+      // figure out the corresponding start block
+      e = $(e);
+      var end = e;
 
-    "TR.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
+      for( var depth=0; ; e=e.previous()) {
+          if(e.hasClassName("row-set-end"))        depth++;
+          if(e.hasClassName("row-set-start"))      depth--;
+          if(depth==0)    break;
+      }
+      var start = e;
+
+      // @ref on start refers to the ID of the element that controls the JSON object created from these rows
+      // if we don't find it, turn the start node into the governing node (thus the end result is that you
+      // created an intermediate JSON object that's always on.)
+      var ref = start.getAttribute("ref");
+      if(ref==null)
+          start.id = ref = "rowSetStart"+(iota++);
+
+      applyNameRef(start,end,ref);
+  },
+    "DIV.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
         // figure out the corresponding start block
         e = $(e);
         var end = e;
@@ -1023,10 +1056,10 @@ var jenkinsRules = {
         applyNameRef(start,end,ref);
     },
 
-    "TR.optional-block-start ": function(e) { // see optionalBlock.jelly
+    "DIV.optional-block-start ": function(e) { // see optionalBlock.jelly
         // this is suffixed by a pointless string so that two processing for optional-block-start
         // can sandwitch row-set-end
-        // this requires "TR.row-set-end" to mark rows
+        // this requires "DIV.row-set-end" to mark rows
         var checkbox = e.down().down();
         updateOptionalBlock(checkbox,false);
     },
@@ -2334,6 +2367,7 @@ function buildFormTree(form) {
             } else {
                 parent[name] = value;
             }
+            if(e.name=='scm') debugger;
         }
 
         // find the grouping parent node, which will have @name.
@@ -2360,6 +2394,7 @@ function buildFormTree(form) {
                 jsonElement = e;
                 continue;
             }
+            if(e.name=='scm') debugger;
             if(e.tagName=="FIELDSET")
                 continue;
             if(e.tagName=="SELECT" && e.multiple) {

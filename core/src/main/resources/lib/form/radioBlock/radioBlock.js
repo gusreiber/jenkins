@@ -50,6 +50,7 @@ Behaviour.specify("INPUT.radio-block-control", 'radioBlock', -100, function(r) {
             var e = s;
             var cnt=1;
             while(cnt>0) {
+                if (!$(e).next()) break;
                 e = $(e).next();
                 if (Element.hasClassName(e,"radio-block-start"))
                     cnt++;
