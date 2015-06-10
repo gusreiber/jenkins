@@ -43,7 +43,7 @@ THE SOFTWARE.
       If field is specified, instances are assumed to be instance[field].
 
       When this attribute is specified, JSON structure is properly set up so that the databinding
-      can set the field (or pass this collection as a constructor parameter of the same name.
+      can set the field (or pass this collection as a constructor parameter of the same name. 
 
       This is more modern way of doing databinding, and thus preferred approach.
     </st:attribute>

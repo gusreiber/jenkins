@@ -74,35 +74,35 @@ body {
   background-color: #f6faf2;
 }
 
-#side-panel {
+oldold#side-panel {
   z-index: 1;
 }
-#main-panel {
+old#main-panel {
   z-index: 0;
 }
 
-#side-panel, #main-panel {
+old#side-panel, old#main-panel {
   margin: 0px;
   padding: 0px;
 }
 
-.fixedGridLayout #side-panel, .fixedGridLayout #main-panel {
+old.fixedGridLayout #side-panel, .fixedGridLayout old#main-panel {
   position: absolute;
 }
 
-.fixedGridLayout #side-panel {
+old.fixedGridLayout old#side-panel {
   float:left;
   width: 360px;
   margin-left: 15px;
 }
 
-.fixedGridLayout #main-panel {
+old.fixedGridLayout old#main-panel {
   padding-left: 370px;
   margin-right: 15px;
   width: 100%
 }
 
-#side-panel-content, #main-panel-content {
+old#side-panel-content, old #main-panel-content {
   margin: 15px
 }
 
@@ -110,7 +110,7 @@ body {
   margin-bottom: 20px;
 }
 
-#side-panel-content .pane-frame {
+old#side-panel-content .pane-frame {
   margin-bottom: 15px;
 }
 
@@ -504,7 +504,7 @@ div.dashboard {
   border-radius: 4px;
 }
 
-#side-panel .pane-frame:hover, #side-panel .pane-frame.mouseover {
+old#side-panel .pane-frame:hover, old#side-panel .pane-frame.mouseover {
   border: solid 1px #cecece;
 }
 

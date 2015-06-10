@@ -50,8 +50,9 @@ Behaviour.specify("DIV.hetero-list-container", 'hetero-list', -100, function(e) 
             $(nc).setOpacity(0);
 
             var scroll = document.body.scrollTop;
-
-            renderOnDemand(findElementsBySelector(nc,"TR.config-page")[0],function() {
+            var targetElem = findElementsBySelector(nc,"TR.config-page")[0];
+            if(!targetElem) targetElem = findElementsBySelector(nc,"DIV.config-page")[0];
+            renderOnDemand(targetElem,function() {
                 function findInsertionPoint() {
                     // given the element to be inserted 'prospect',
                     // and the array of existing items 'current',

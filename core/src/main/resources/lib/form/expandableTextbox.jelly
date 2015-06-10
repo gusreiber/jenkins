@@ -64,7 +64,7 @@ THE SOFTWARE.
     </j:when>
     <j:otherwise>
       <!-- single line textbox with expand button -->
-      <div class="table" border="0" style="width:100%" cellspacing="0" cellpadding="0">
+      <div class="tbl" border="0" style="width:100%" cellspacing="0" cellpadding="0">
         <div class="tr">
           <div class="td widthStar" width="*">
             <j:set var="name" value="${attrs.name ?: '_.'+attrs.field}" />

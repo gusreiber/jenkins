@@ -49,8 +49,8 @@ THE SOFTWARE.
       Optional class attribute for &lt;table> that is created in the form.
     </st:attribute>
   </st:documentation>
-  <form action="${action}" method="${method}" enctype="${attrs.enctype}" name="${name}" target="${attrs.target}">
-    <div class="table form-inner ${attrs.tableClass}"><div class="tbody">
+  <form action="${action}" class="bootstrap3" method="${method}" enctype="${attrs.enctype}" name="${name}" target="${attrs.target}">
+    <div class="tbl panel-group form-inner ${attrs.tableClass}"><div class="tbody">
       <d:invokeBody/>
     </div></div>
   </form>

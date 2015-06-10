@@ -58,7 +58,7 @@ THE SOFTWARE.
     <div class="tr dropdownList-container">
       <div class="td colspan2" colspan="2"/>
       <div class="td colspan2" colspan="2">
-        <div class="table" width="100%" name="${name}">
+        <div class="tbl" width="100%" name="${name}">
             <j:set var="dropdownListMode" value="generateEntries"/>
             <d:invokeBody/>
         </div>

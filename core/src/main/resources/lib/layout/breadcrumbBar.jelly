@@ -38,6 +38,21 @@ THE SOFTWARE.
     <td id="left-top-nav" colspan="2">
       <st:adjunct includes="lib.layout.breadcrumbs" />
       <div class="top-sticker noedge">
+      <div id="Jenkins-resources" class="bootstrap3">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+              <ul  class="nav navbar-nav">
+                <li><a href="">Management</a></li>
+                <li><a href="">Jobs</a></li>
+                <li><a href="">Projects</a></li>
+                <li><a href="">Deployments</a></li>
+                <li><a href="">Compute Resources</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>      
         <div class="top-sticker-inner">
           <div id="right-top-nav">
             <j:if test="${norefresh==null or norefresh==false}">

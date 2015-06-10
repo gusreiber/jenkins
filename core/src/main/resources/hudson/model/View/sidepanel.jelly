@@ -35,6 +35,7 @@ THE SOFTWARE.
     <link rel="alternate" title="Jenkins:${it.viewName} (failed builds) (RSS 2.0)" href="${rootURL}/${it.url}rssFailed?flavor=rss20" type="application/rss+xml" />
   </l:header>
   <l:side-panel>
+    <h1>View</h1>
     <l:tasks>
       <st:include page="tasks-top.jelly" it="${it.owner}" optional="true" />
 
@@ -63,13 +64,14 @@ THE SOFTWARE.
         <l:task href="${rootURL}/projectRelationship" icon="icon-search icon-md" title="${%Project Relationship}"/>
         <l:task href="${rootURL}/fingerprintCheck" icon="icon-fingerprint icon-md" title="${%Check File Fingerprint}"/>
       </j:if>
-
+<h2>side2</h2>
       <!-- subtypes can put more stuff here -->
       <st:include page="sidepanel2.jelly" optional="true"/>
 
       <st:include page="tasks-bottom.jelly" it="${it.owner}" optional="true" />
       <t:actions />
     </l:tasks>
+    <h2>widgets</h2>
     <j:forEach var="w" items="${it.widgets}">
       <j:set var="view" value="${it}" /><!-- expose the view that's rendering this sidepanel to the widget -->
       <st:include it="${w}" page="index.jelly" />

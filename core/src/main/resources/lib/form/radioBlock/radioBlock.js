@@ -31,6 +31,8 @@ Behaviour.specify("INPUT.radio-block-control", 'radioBlock', -100, function(r) {
         // when one radio button is clicked, we need to update foldable block for
         // other radio buttons with the same name. To do this, group all the
         // radio buttons with the same name together and hang it under the form object
+        
+        
         var f = r.form;
         var radios = f.radios;
         if (radios == null)

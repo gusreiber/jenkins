@@ -290,20 +290,24 @@ function findAncestorClass(e, cssClass) {
 }
 
 function findFollowingTR(input, className) {
+    var jqFind = null;
+    (function($){
+        var $input = $(input);
+        var $tr = $input.closest('.tr');
+        var $section = $tr.closest('[data-type="section"]');
+        var $jqFind = $section.find('.'+className);
+        if($jqFind.length > 1) 
+          jqFind = $jqFind[0];
+        else{
+          $tr.nextAll('.'+className).first()[0];
+        }
+    })(jq2_1_3);
+    if(jqFind) return jqFind;
+      
     // identify the parent TR
     var tr = input;
-    if(!tr) 
-      debugger;
-    if (!tr.hasClassName)
-      debugger;
-    if(! jq2_1_3.isFunction(tr.hasClassName))
-      debugger;
-    var orgTr = input;
     while (tr.tagName !== "TR" && !tr.hasClassName('tr')){
-      var oldTr = tr; 
         tr = tr.parentNode;
-        if(! jq2_1_3.isFunction(tr.hasClassName))
-          debugger;
     }
 
     // then next TR that matches the CSS
@@ -929,7 +933,12 @@ var jenkinsRules = {
     "INPUT.yui-button" : function(e) {
         makeButton(e);
     },
-
+    "DIV.panel-group":function(e){
+      (function($,e){
+        debugger;
+      })(jq2_1_3,e);
+      
+    },
     "DIV.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
         var checkbox = e.down().down();
@@ -940,12 +949,11 @@ var jenkinsRules = {
     "DIV.rowvg-start" : function(e) {
         // figure out the corresponding end marker
         function findEnd(e) {
-            if(!$(e)) 
-              return;
+          
             for( var depth=0; ; e=$(e).next()) {
                 if(Element.hasClassName(e,"rowvg-start"))    depth++;
                 if(Element.hasClassName(e,"rowvg-end"))      depth--;
-                if(depth==0)    return e;
+                if(depth==0 || !$(e).next() )    return e;
             }
         }
 
@@ -1021,7 +1029,7 @@ var jenkinsRules = {
       for( var depth=0; ; e=e.previous()) {
           if(e.hasClassName("row-set-end"))        depth++;
           if(e.hasClassName("row-set-start"))      depth--;
-          if(depth==0)    break;
+          if(depth==0 || !e.previous())    break;
       }
       var start = e;
 
@@ -1042,7 +1050,7 @@ var jenkinsRules = {
         for( var depth=0; ; e=e.previous()) {
             if(e.hasClassName("row-set-end"))        depth++;
             if(e.hasClassName("row-set-start"))      depth--;
-            if(depth==0)    break;
+            if(depth==0 || !e.previous())    break;
         }
         var start = e;
 
@@ -1365,6 +1373,31 @@ function applyNameRef(s,e,id) {
 // used by optionalBlock.jelly to update the form status
 //   @param c     checkbox element
 function updateOptionalBlock(c,scroll) {
+    var checked = xor(c.checked,Element.hasClassName(c,"negative"));
+    var jqComplete = false;
+    
+    (function($){
+      var $input = $(c);
+      var $groupBox = $input.closest('.option-group-box');
+      var $group = $groupBox.children('.option-group').first(); 
+      
+      if($group.length < 1) return;
+      
+      if(checked){ 
+        $group.show();
+        $groupBox.addClass('shown');
+      }
+      else{
+        $group.hide();
+        $groupBox.removeClass('shown');
+      }
+      
+      jqComplete = true;
+      
+    })(jq2_1_3)
+  
+    if(jqComplete) return;
+    
     // find the start TR
     var s = $(c);
     while(!s.hasClassName("optional-block-start"))
@@ -1375,7 +1408,7 @@ function updateOptionalBlock(c,scroll) {
     while (!vg.hasClassName("rowvg-start"))
         vg = vg.next();
 
-    var checked = xor(c.checked,Element.hasClassName(c,"negative"));
+    
 
     vg.rowVisibilityGroup.makeInnerVisisble(checked);
 
@@ -2367,7 +2400,6 @@ function buildFormTree(form) {
             } else {
                 parent[name] = value;
             }
-            if(e.name=='scm') debugger;
         }
 
         // find the grouping parent node, which will have @name.
@@ -2394,7 +2426,6 @@ function buildFormTree(form) {
                 jsonElement = e;
                 continue;
             }
-            if(e.name=='scm') debugger;
             if(e.tagName=="FIELDSET")
                 continue;
             if(e.tagName=="SELECT" && e.multiple) {

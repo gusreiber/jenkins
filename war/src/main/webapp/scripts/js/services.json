@@ -1,0 +1,228 @@
+[
+    {
+      "id" : "cloudbees",
+      "service" : "blazemeter",
+      "plan" : "free-tier",
+      "settings" : {
+        "email" : "vpandey@cloudbees.com"
+      },
+      "config" : {
+        "API_KEY" : "cca65eb80c30ad745fcf"
+      },
+      "context" : {},
+      "plan_start_date" : "2013-06-10 15:25:12.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "cb-app",
+      "plan" : "cb-enterprise",
+      "settings" : {
+        "dc.eu" : "enabled",
+        "dc.eu.api.url" : "https://api-eu.cloudbees.com/api",
+        "dc.us" : "enabled"
+      },
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2014-06-13 17:44:36.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "cb-db",
+      "plan" : "cb-enterprise",
+      "settings" : {
+        "dc.eu" : "enabled",
+        "dc.us" : "enabled"
+      },
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2014-06-13 17:44:36.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "cb-sp",
+      "plan" : "enterprise",
+      "settings" : {
+        "dev-at-cloud" : {
+          "hibernate" : true
+        }
+      },
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2014-06-13 17:44:33.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "cloudamqp",
+      "plan" : "base",
+      "settings" : {},
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2013-06-07 20:49:11.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "cloudant",
+      "plan" : "oxygen",
+      "settings" : {},
+      "config" : {
+        "username" : "cloudbees.cloudbees",
+        "server_address" : "https://cloudbees.cloudbees.cloudant.com",
+        "password" : "QPuF8BstYjrprgPvkgfunWuW"
+      },
+      "context" : {},
+      "plan_start_date" : "2013-12-19 14:03:52.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "collabnet",
+      "plan" : "base-channel-free-1110",
+      "settings" : {
+        "domain" : "cloudbees1",
+        "organizationName" : "cloudbees 1",
+        "login" : "spiderping12398"
+      },
+      "config" : {
+        "RESOURCE_URL" : "https://app.codesion.com/ajax#dashboard"
+      },
+      "context" : {},
+      "plan_start_date" : "2012-02-07 21:32:34.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "dev-at-cloud",
+      "plan" : "enterprise-monthly-2014-01",
+      "settings" : {
+        "ec2" : 1,
+        "ope" : 400,
+        "hibernated" : false
+      },
+      "config" : {
+        "JENKINS_URL" : "https://cloudbees.ci.cloudbees.com",
+        "users" : 50,
+        "deployment_time" : 1404430443664
+      },
+      "context" : {},
+      "plan_start_date" : "2014-06-13 17:34:38.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "foxweave",
+      "plan" : "free",
+      "settings" : {},
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2013-10-16 11:05:32.0"
+    },
+    {
+      "id" : "cloudbees",
+      "service" : "jfrog",
+      "plan" : "enterprise",
+      "settings" : {
+        "username" : "deployer",
+        "password" : "Jih705u19n",
+        "server-url" : "http://cloudbees_jfrog.artifactoryonline.com/cloudbees_jfrog"
+      },
+      "config" : {
+        "username" : "deployer",
+        "password" : "Jih705u19n",
+        "server-url" : "http://cloudbees_jfrog.artifactoryonline.com/cloudbees_jfrog"
+      },
+      "context" : {},
+      "plan_start_date" : "2011-11-23 20:21:52.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "mongohq",
+      "plan" : "base",
+      "settings" : {},
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2011-10-02 14:30:06.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "newrelic",
+      "plan" : "standard",
+      "settings" : {
+        "email" : "rcampbell@cloudbees.com",
+        "name" : "CloudBees_1"
+      },
+      "config" : {
+        "accountId" : "40798",
+        "name" : "CloudBees_1",
+        "license" : "4f38e975450ec39df0e54a8fdeba42fce35bfa03"
+      },
+      "context" : {},
+      "plan_start_date" : "2011-06-17 17:43:10.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "papertrail",
+      "plan" : "4-gb",
+      "settings" : {},
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2014-02-25 00:10:08.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "resource",
+      "settings" : {},
+      "config" : {},
+      "context" : {}
+    }, {
+      "id" : "cloudbees",
+      "service" : "saucelabs",
+      "plan" : "individual",
+      "settings" : {
+        "access_key" : "d4b73ec5-064c-40e2-8b86-afdcf6d804ec",
+        "minutes" : 200,
+        "id" : "cloudbees"
+      },
+      "config" : {
+        "access_key" : "d4b73ec5-064c-40e2-8b86-afdcf6d804ec",
+        "minutes" : 200,
+        "id" : "cloudbees"
+      },
+      "context" : {}
+    }, {
+      "id" : "cloudbees",
+      "service" : "sendgrid",
+      "plan" : "free",
+      "settings" : {
+        "email" : "dsharma@cloudbees.com"
+      },
+      "config" : {
+        "SENDGRID_USERNAME" : "cloudbees_cloudbees",
+        "SENDGRID_PASSWORD" : "hpyvsfqr",
+        "SENDGRID_SMTP_HOST" : "smtp.sendgrid.net"
+      },
+      "context" : {},
+      "plan_start_date" : "2014-06-19 22:25:50.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "sonar",
+      "plan" : "professional",
+      "settings" : {
+        "sonar_url" : "https://cloudbees.sonar.cloudbees.com"
+      },
+      "config" : {
+        "sonar_url" : "https://cloudbees.sonar.cloudbees.com"
+      },
+      "context" : {},
+      "plan_start_date" : "2011-09-12 22:55:45.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "websolr",
+      "plan" : "base",
+      "settings" : {},
+      "config" : {},
+      "context" : {},
+      "plan_start_date" : "2011-11-16 22:23:31.0"
+    }, {
+      "id" : "cloudbees",
+      "service" : "xwiki",
+      "plan" : "free",
+      "settings" : {},
+      "config" : {
+        "xwiki_url" : "http://cloudbees1.cloud.xwiki.com"
+      },
+      "context" : {},
+      "plan_start_date" : "2012-09-06 18:36:11.0"
+    } ]

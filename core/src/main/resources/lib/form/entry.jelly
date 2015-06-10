@@ -64,11 +64,11 @@ THE SOFTWARE.
   </j:if>
   <!-- expose this so that we can look up the @field value later from prepareDatabinding.jelly -->
   <j:set var="entry" value="${attrs}" />
-  <div class="tr">
+  <div class="tr form-group">
     <div class="td setting-leftspace"><st:nbsp/></div>
-    <div class="td setting-name">
+    <label class="td setting-name">
       <j:out value="${attrs.title}" />
-    </div>
+    </label>
     <div class="td setting-main">
       <d:invokeBody />
     </div>
