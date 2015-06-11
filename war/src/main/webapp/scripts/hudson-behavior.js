@@ -935,9 +935,9 @@ var jenkinsRules = {
     },
     "DIV.panel-group":function(e){
       (function($,e){
-        debugger;
+
       })(jq2_1_3,e);
-      
+      ;
     },
     "DIV.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
@@ -2964,3 +2964,4 @@ var notificationBar = {
             this.token = window.setTimeout(function(){self.hide();},this.DELAY);
     }
 };
+

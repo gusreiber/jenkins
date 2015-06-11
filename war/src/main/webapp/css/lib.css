@@ -28,11 +28,14 @@
   background-image: none;
   border: 1px solid rgba(50,75,100,.33);
   border-radius: 3px}
-  body #page-body .row {max-width:1280px; margin:0 auto; position:relative;}
+  body #page-body .row {max-width:1280px; position:relative;}
   body #page-body.fixedGridLayout #side-panel, 
   body #page-body.fixedGridLayout #main-panel {}
   body #page-body.fixedGridLayout old#side-panel {width:250px;}
   body #page-body.fixedGridLayout old#main-panel {padding-right:250px}
+  body #main-panel-content{padding: 30px 20px 30px 45px;
+  background-color: rgba(255,255,255,.5);
+  box-shadow: 1px 1px rgba(0,0,0,.2);}
   body #breadcrumbBar, body #footer-container, body .top-sticker-inner {  box-shadow: 0 3px 10px rgba(0,0,0,.2)}
   body #page-body {background:rgba(200,235,250,.2); background:#eee;}foo{ box-shadow:inset #fff 0 -300px 300px -300px,inset rgba(75,125,200,.5) 0 500px 500px -500px}
   body #breadcrumbBar .top-sticker {box-shadow:rgba(75,125,200,.33) 0 0 200px}
@@ -493,3 +496,93 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', end
   
   body .modal-backdrop,
   body .modal-dialog {z-index:9999;}
+  
+  
+  /*---------sidebar--------------*/
+  #wrapper {
+  padding-left: 350px;
+  transition: all 0.4s ease 0s;
+}
+z.bootstrap3 #sidebar-wrapper .panel {overflow:hidden; border-top-left-radius:5px; border-bottom-left-radius:5px; border-top-right-radius:0; border-bottom-right-radius:0; box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#sidebar-wrapper {
+  margin-left: -350px;
+  left: 350px;
+  width: 350px;
+  position: fixed;
+  height: 100%;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+    background:#999;
+  box-shadow:-10px 0 10px -10px inset;
+
+}
+#sidebar-scroll-wrapper {opacity:.9; position:absolute; top:0; left:0; bottom:0; right:0; overflow-y:auto;}
+#sidebar-scroll-wrapper:hover {opacity:1; }
+.bootstrap3 #sidebar-wrapper .panel {border-color:rgba(0,0,0,.5); box-shadow:0 1px 5px rgba(0,0,0,.2); margin:0; border-radius:0; border:none;}
+.bootstrap3 #sidebar-wrapper .panel .panel-title {font-size:13px;}
+.bootstrap3 #sidebar-wrapper .panel table a {font-weight:normal}
+.bootstrap3 #sidebar-wrapper .panel .panel-body {padding:0; border-color:rgba(0,0,0,.5);}
+.bootstrap3 #sidebar-wrapper .panel .panel-heading {padding:7px; border-color:rgba(0,0,0,.5); border-radius:0; background:#47a; color:#ddd; box-shadow:inset 0 30px 30px -30px #225}
+.bootstrap3 #sidebar-wrapper .panel table {width:100%}
+.bootstrap3 #sidebar-wrapper .panel .panel-body .ex td,
+.bootstrap3 #sidebar-wrapper .panel .panel-body th {background:#f5f5f5;}
+.bootstrap3 #sidebar-wrapper .panel .panel-body th,
+.bootstrap3 #sidebar-wrapper .panel .panel-body td {vertical-align:middle; padding:5px 7px; border:1px solid rgba(0,0,0,.05)}
+.bootstrap3 #sidebar-wrapper .panel .panel-body td {background:#ddd}
+.bootstrap3 #sidebar-wrapper .panel .panel-body td i {font-size:100%;}
+.bootstrap3 #sidebar-wrapper .panel .name {width:100%}
+.bootstrap3 #sidebar-wrapper .panel .num {text-align:right;}
+.bootstrap3 #sidebar-wrapper .panel  tr.ex a{padding-left:1.33em; position:relative; min-height:1.3em; line-height:1.3em;  display:block;}
+.bootstrap3 #sidebar-wrapper .panel .ex td a:before {content:'\e60b '; font-family:'icomoon'; display:inline-block; position:absolute; left:0;}
+.bootstrap3 #sidebar-wrapper .panel .progress {height:5px; margin:5px 0; background-color:rgba(0,0,0,.1)}
+.bootstrap3 #sidebar-wrapper .hold-right {position:absolute; right:5px; top:8em;}
+
+#toggle-widgets {  position: absolute;   z-index: 3;   font-size: 200%;}
+#toggle-widgets a {padding:5px 10px 5px; line-height:1em; border-bottom:2px solid #545; border-top:2px solid #969; background:#727; color:#fff; text-decoration:none; display:block; border-radius:5px; box-shadow:0 2px 3px -1px rgba(0,0,0,.3)}
+.toggled #toggle-widgets:hover a .corner,
+#toggle-widgets a .corner {position:absolute; right:auto; bottom:6px; left:7px; border:3px solid transparent; border-bottom-color:#fff; border-left-color:#fff;}
+#toggle-widgets:hover a .corner,
+.toggled #toggle-widgets a .corner {left:auto; opacity:.5; right:6px;border-right-color:#fff; border-left-color:transparent }
+
+#page-content-wrapper {  width: 100%;}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 350px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+}
+  #wrapper.toggled #sidebar-wrapper {
+  width: 0;
+}
+  #wrapper.toggled #page-content-wrapper 
+    {position: relative; margin-right: 0;}
+     #wrapper.toggled{padding-left:0}
+
+#breadcrumbBar .top-sticker {transition: all 0.4s ease 0s;}
+#wrapper.toggled .top-sticker {left:0 !important;}
+@media (max-width:767px) {
+
+    #wrapper {
+      padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+      left: 0;
+    }
+
+    #wrapper.active {
+      position: relative;
+      left: 350px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+      left: 350px;
+      width: 350px;
+      transition: all 0.4s ease 0s;
+    }
+
+}

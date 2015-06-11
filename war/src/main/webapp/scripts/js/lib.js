@@ -722,7 +722,12 @@ var jq2_1_3 = $.noConflict(true);
         }        
     }
     
-    
+    $('#toggle-widgets').click(function(e){
+      e.preventDefault();
+      $('#wrapper').toggleClass('toggled');
+      setTimeout(function(){layoutUpdateCallback.call();},410);
+      
+    });
     
     function getAllContainers(){
       return $.get(resURL + '/plugin/cloudbees-docker-traceability/images/api.json');
@@ -738,7 +743,7 @@ var jq2_1_3 = $.noConflict(true);
 
     }
     
-    getAllContainers().done(containerSuccess);
+    //getAllContainers().done(containerSuccess);
     
   });
 })(jq2_1_3);

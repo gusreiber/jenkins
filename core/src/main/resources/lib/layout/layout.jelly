@@ -164,6 +164,202 @@ ${h.initPageVariables(context)}
     <link />
   </head>
   <body id="jenkins" class="yui-skin-sam jenkins-${h.version}" data-version="jenkins-${h.version}">
+  <div id="wrapper" class="bootstrap3 toggle">
+    <div id="sidebar-wrapper">
+      <div class="hold-right">
+        <div id="toggle-widgets"><a href="#"><span class="corner"></span><i class="icon-brick-o"></i></a></div>
+      </div>          
+      <div id="sidebar-scroll-wrapper">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">System Queue</h3>
+        </div>
+        <div class="panel-body">
+          <table class="grid">
+          <colgroup>
+            <col class="name" />
+            <col class="num" />
+            <col class="slct" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Job</th><th class="num">Sec</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr> 
+            <td><a href="#">.../cloudbees-security/cloudbees-security-groups-production-run</a></td>
+            <td class="num">10</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          <tr> 
+            <td><a href="#">.../forge-ci-monitor/commit-to-git-https</a></td>
+            <td class="num">3</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+
+          </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Executor Status</h3>
+        </div>
+        <div class="panel-body">
+          <table class="grid">
+          <colgroup>
+            <col class="name" />
+            <col class="num" />
+            <col class="slct" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Job</th><th class="num">#</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr class="ex"><td colspan="3"><a href="#">DevOpsToolBox</a></td></tr>
+          <tr>
+            <td>
+              <a href="#">
+                
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+                JEbC/acceptance-test-jebc
+              </a>
+            </td>
+            <td class="num">102</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          <tr>
+            <td><a href="#">
+            <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 67%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+            .../forge-ci-monitor/commit-to-git-https
+            </a></td>
+            <td class="num">27</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          <tr class="ex"><td colspan="3"><a href="#">docker-builder-1</a></td></tr>
+          <tr>
+            <td>
+             <div class="wait">
+             <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+             </div>
+            </td>
+            <td class="num"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><a href="#">
+            <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 83%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+            .../forge-ci-monitor/commit-to-git-https
+            </a></td>
+            <td class="num">27</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+<tr>
+            <td>
+             <div class="wait">
+             <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+             </div>
+            </td>
+            <td class="num"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+             <div class="wait">
+             <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+             </div>
+            </td>
+            <td class="num"></td>
+            <td></td>
+          </tr>
+          <tr class="ex"><td colspan="3"><a href="#">jce-builder-1</a></td></tr>
+          <tr>
+            <td><a href="#">
+            <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 13%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+            .../Jenkins-enterprise/production
+            </a></td>
+            <td class="num">253</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+<tr>
+            <td>
+             <div class="wait">
+             <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+             </div>
+            </td>
+            <td class="num"></td>
+            <td></td>
+          </tr>
+<tr>
+            <td>
+             <div class="wait">
+             <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+             </div>
+            </td>
+            <td class="num"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+             <div class="wait">
+             <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+             </div>
+            </td>
+            <td class="num"></td>
+            <td></td>
+          </tr>          
+          
+          </tbody>
+          </table>
+        </div>
+        
+      </div>
+      </div>
+    </div>
+    <div id="page-content-wrapper">
     <!-- for accessibility, skip the entire navigation bar and etc and go straight to the head of the content -->
     <a href="#skip2content" class="skiplink">Skip to content</a>
 
@@ -232,7 +428,19 @@ ${h.initPageVariables(context)}
 
     <div id="page-body" class="bootstrap3">
       <div class="row">
-        <div id="side-panel" class="col col-md-3">
+      
+
+
+        <div id="main-panel" class="col col-md-9">
+          <div id="main-panel-content">
+            <j:set var="mode" value="main-panel" />
+            <d:invokeBody/>
+          </div>
+        </div>
+        
+        
+        
+                <div id="side-panel" class="col col-md-3">
           <div id="side-panel-content">
             <j:set var="mode" value="side-panel" />
             <d:invokeBody />
@@ -249,13 +457,9 @@ ${h.initPageVariables(context)}
             </j:if>
           </div>
         </div>
-
-        <div id="main-panel" class="col col-md-9">
-          <div id="main-panel-content">
-            <j:set var="mode" value="main-panel" />
-            <d:invokeBody/>
-          </div>
-        </div>
+        
+        
+        
       </div>
     </div>
     <div id="footer-container" class="hidden-xs">
@@ -276,6 +480,8 @@ ${h.initPageVariables(context)}
         </j:forEach>
         </j:if>
       </div>
+    </div>
+    </div>
     </div>
   </body>
 </html>
