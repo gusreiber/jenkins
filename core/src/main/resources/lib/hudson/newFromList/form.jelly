@@ -51,31 +51,30 @@ THE SOFTWARE.
 
 
   <j:set var="descriptors" value="${h.filterDescriptors(it,attrs.descriptors)}" />
-
-  <s:form method="post" action="${attrs.action?:'createItem'}" name="createItem">
-    
-    <s:entry title="${attrs.nameTitle}">
+  <h1>Create Item</h1>
+  <s:form method="post" classname="old-create-form" action="${attrs.action?:'createItem'}" name="createItem">
+    <s:entry title="${attrs.nameTitle}" classname="item-name">
       <s:textbox id="name" name="name" checkUrl="'${h.jsStringEscape(attrs.checkUrl)}?value='+encodeURIComponent(this.value)"
                  onchange="updateOk(this.form)" onkeyup="updateOk(this.form)" />
       <script>$('name').focus();</script>
     </s:entry>
 
     <j:forEach var="descriptor" items="${descriptors}">
-      <s:block>
+      <s:block classname="input">
         <input type="radio" name="mode" value="${descriptor.id}" onchange="updateOk(this.form)" onclick="updateOk(this.form)" />
         <label class="attach-previous"><b>${descriptor.displayName}</b></label>
       </s:block>
-      <s:entry>
+      <s:entry  classname="input">
         <st:set var="instance" value="${descriptor}" />
         <st:include page="newInstanceDetail.jelly" it="${descriptor}" />
       </s:entry>
     </j:forEach>
     <j:if test="${!empty(attrs.copyNames) or attrs.showCopyOption}">
-      <s:block>
+      <s:block classname="input">
         <input type="radio" id="copy" name="mode" value="copy" onchange="updateOk(this.form)" onclick="updateOk(this.form)" />
         <label class="attach-previous"><b>${attrs.copyTitle}</b></label>
       </s:block>
-      <s:entry>
+      <s:entry  classname="input">
         ${%Copy from}
         <j:choose>
           <j:when test="${attrs.copyNames}">
@@ -117,5 +116,155 @@ THE SOFTWARE.
       okButton.set('disabled',state(),false);
     }
     updateOk(okButton.getForm());
+    
+    (function($,form){
+      var mapItems = {};
+      var $form = $(form);
+      
+      var groupModel = [
+        {
+          id:'builds',
+          display:'Build Jobs and Workflows',
+          icn:'icon-service-o',
+          icnSml:'icon-brick',
+          items:[
+            'hudson.model.FreeStyleProject',
+            'hudson.maven.MavenModuleSet',
+            'org.jenkinsci.plugins.workflow.job.WorkflowJob',
+            'hudson.matrix.MatrixProject',
+            'com.cloudbees.jenkins.plugins.longrunning.LongRunningProject',
+            'com.cloudbees.hudson.plugins.modeling.impl.jobTemplate.JobTemplate'
+          ]
+        },
+        {
+          id:'organization',
+          display:'Organization and Visualization',
+          icn:'icon-folder-open-o',
+          icnSml:'icon-stats',
+          items:[
+            'com.cloudbees.hudson.plugins.folder.Folder',
+            'com.cloudbees.hudson.plugins.modeling.impl.folder.FolderTemplate',
+          ]
+        },
+        {
+          id:'monitoring',
+          display:'Monitoring',
+          icnSml:'icon-health',
+          icn:'icon-envelope-o',
+          items:[
+            'hudson.model.ExternalJob',
+            'captmorgan.ExternalProject'
+          ]
+        },
+        {
+          id:'templates',
+          display:'Templates',
+          icn:'icon-insert-template',
+          icnSml:'icon-loop',
+          items:[
+            'com.cloudbees.hudson.plugins.modeling.impl.jobTemplate.JobTemplate',
+            'com.cloudbees.hudson.plugins.modeling.impl.folder.FolderTemplate',
+            'com.cloudbees.hudson.plugins.modeling.impl.publisher.PublisherTemplate',
+            'com.cloudbees.hudson.plugins.modeling.impl.auxiliary.AuxModel'
+          ]
+        },
+        {
+          id:'system',
+          display:'System and Operations',
+          icn:'icon-screen',
+          icnSml:'icon-console',
+          items:[
+            'com.infradna.hudson.plugins.backup.BackupProject'
+          ]
+        },
+        {
+          id:'other',
+          display:'Plugin Added Items',
+          icn:'icon-puzzle',
+          icnSml:'icon-plug'
+        }
+      ];
+      
+      function drawGroups(model,reference){
+        var $layout = $('<div class="group-layout create-item-list" />');
+        var $hoverSpace = $('#hover-space.bootstrap3');
+        var $createType = $('#create-type-hovers');
+        var tabIndex = 1;
+        
+        var $wrapper = $('#wrapper').addClass('add-form');
+        var $mainPanel = $('#main-panel').removeClass('col-md-9').addClass('col-md-12 add-form');
+        setTimeout(function(){$('#side-panel').remove();},10);
+        
+        if($hoverSpace.length === 0 )
+          $hoverSpace = $('<div id="hover-space" class="bootstrap3" />').appendTo('body');
+        if($createType)
+          $createType = $('<div id="create-type-hovers" />').appendTo( $hoverSpace);
+          
+        $.each(groupModel,function(i,group){
+          var $group = $([
+            '<div class="col col-md-4"><fieldset class="panel panel-default ',group.id,'">',
+              '<div class="panel-body">',
+                '<div class="icn-box major"><i class="',group.icn,'"></i></div>',
+                '<div class="icn-box minor"><i class="',group.icnSml,'"></i></div>',              
+                '<strong class="title">',group.display,'</strong>',
+              '</div>',
+            '</fieldset></div>'
+          ].join(''));
+          
+          var $groupItems = $group.find('.panel-body');
+          if(group.items)
+            $.each(group.items,function(i,item){
+              var refItem = reference[item];
+              if(refItem)
+                var $radio = $([
+                  '<div class="radio">',
+                    '<label>',
+                      '<input type="radio" tabindex="',tabIndex += i,'" name="new-radio-group" value="',item,'" />',
+                      refItem.display,
+                    '</label>',
+                    '<div class="description">',
+                      refItem.description,
+                    '</div>',
+                  '</div>'
+                ].join(''))
+                  .appendTo($groupItems)
+                  .click(function(e){
+                    var name = $(this).find('input').val();
+                    $oldInput = $form.find('.tr input[value="'+name+'"]').click();
+                  });
+              $radio.popover({
+                container: $createType,
+                title:$radio.find('label').text(),
+                content:$radio.find('.description'),
+                html:true,
+                placement:'auto',
+                trigger:'hover focus'
+              });
+            });  
+          
+          $group.appendTo($layout);
+        });
+        $form.find('.tr.item-name').first().after($layout);
+        $layout.after($('<div class="clearfix" />'));
+        layoutUpdateCallback.call();
+        ensureVisible($layout[0]);
+        
+      }     
+      
+      $form.find('.tr input').each(function(){
+        var $this = $(this);
+        var $tr = $this.closest('.tr');
+        if($this.is(':visible') && $this.attr('type') === 'radio'){
+          mapItems[$this.val()] = {
+            display:$tr.find('label').first().text(),
+            description:$tr.next().find('.setting-main').html()
+          }
+        }
+          
+      });
+      drawGroups(groupModel,mapItems);
+      console.log(mapItems);
+    
+    })(jq2_1_3,okButton.getForm());
   ]]></script>
 </j:jelly>

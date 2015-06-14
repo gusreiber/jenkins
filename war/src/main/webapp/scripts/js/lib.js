@@ -722,9 +722,18 @@ var jq2_1_3 = $.noConflict(true);
         }        
     }
     
-    $('#toggle-widgets').click(function(e){
-      e.preventDefault();
-      $('#wrapper').toggleClass('toggled');
+    $('#sidebar-wrapper .widget > a').click(function(e){
+      var $this = $(this);
+      var $wrapper = $('#wrapper');
+      var selecting = $this.attr('href').replace('#side-widget=','');
+      var selected = $wrapper.attr('data-sideWidget');
+      if($wrapper.hasClass('toggled')) $wrapper.removeClass('toggled');
+      else if(selecting === selected || selected === '') $wrapper.addClass('toggled');
+      $wrapper
+        .removeClass(selected)
+        .attr('data-sideWidget',selecting)
+        .addClass(selecting);
+      
       setTimeout(function(){layoutUpdateCallback.call();},410);
       
     });

@@ -38,8 +38,10 @@ THE SOFTWARE.
       Path to the inline help. See &lt;f:entry help="..." />
     </st:attribute>
   </st:documentation>
-
-    <div class="tr">
+  <j:if test="${!empty(attrs.field)}">
+    <j:set var="single" value="single" />
+  </j:if>
+    <div class="tr form-group single select">
         <div class="td setting-leftspace"><st:nbsp/></div>
         <div class="td setting-name">
             ${attrs.title}

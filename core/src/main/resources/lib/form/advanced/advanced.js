@@ -6,7 +6,6 @@ Behaviour.specify("INPUT.advanced-button", 'advanced', 0, function(e) {
             var container = link.next().down(); // TABLE -> TBODY
 
             var tr = link.up("TR") || link.up(".tr");
-            debugger;
 
             // move the contents of the advanced portion into the main table
             var nameRef = tr.getAttribute("nameref");

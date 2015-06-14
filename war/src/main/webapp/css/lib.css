@@ -28,14 +28,20 @@
   background-image: none;
   border: 1px solid rgba(50,75,100,.33);
   border-radius: 3px}
+  body .bootstrap3 h1 {font-size:26px;}
+  body .bootstrap3 #main-panel-content > h1 {margin-top:0; padding:0 0 10px 10px}
+  body #menuSelector {bottom:0}
+  body #page-body {overflow:hidden; overflow-y:auto}
   body #page-body .row {max-width:1280px; position:relative;}
   body #page-body.fixedGridLayout #side-panel, 
   body #page-body.fixedGridLayout #main-panel {}
   body #page-body.fixedGridLayout old#side-panel {width:250px;}
   body #page-body.fixedGridLayout old#main-panel {padding-right:250px}
-  body #main-panel-content{padding: 30px 20px 30px 45px;
+  body #main-panel-content{padding: 22px 20px 30px 50px;
   background-color: rgba(255,255,255,.5);
-  box-shadow: 1px 1px rgba(0,0,0,.2);}
+  box-shadow: 1px 1px rgba(0,0,0,.2); min-height:750px}
+  body .repeated-chunk.only .show-if-not-only,
+  body .repeated-chunk .repeated-chunk.only .show-if-not-only {display:none;}
   body #breadcrumbBar, body #footer-container, body .top-sticker-inner {  box-shadow: 0 3px 10px rgba(0,0,0,.2)}
   body #page-body {background:rgba(200,235,250,.2); background:#eee;}foo{ box-shadow:inset #fff 0 -300px 300px -300px,inset rgba(75,125,200,.5) 0 500px 500px -500px}
   body #breadcrumbBar .top-sticker {box-shadow:rgba(75,125,200,.33) 0 0 200px}
@@ -48,6 +54,8 @@
   .bootstrap3 .form-group input:focus,.bootstrap3 .form-group textarea:focus ,.bootstrap3 .form-group select:focus {background:rgba(180,220,255,.1) !important}
   body .bootstrap3, .bootstrap3 table, .bootstrap3 form, .bootstrap3 input, .bootstrap3 td, .bootstrap3 th, .bootstrap3 p, .bootstrap3 textarea, .bootstrap3 select {font-family:"zSegoe UI","Raleway","Arimo","Helvetica Neue",Helvetica,Arial,sans-serif; font-size:13px;}
   body p {line-height:1.4em}
+  body div.behavior-loading {left:0; right:0; top:0; bottom:0; width:100%; z-index:3; opacity:.8; background:#f5f5f5; text-indent:-99999em; border:1px solid rgba(0,0,0,.2)}
+  body div.behavior-loading .progress-box {width:200px; text-align:center; margin:200px auto; font-size:12px; text-transform: lowercase;}
   .bootstrap3 .table-group {border:1px solid rgba(50,75,100,.33);}
   .bootstrap3 .table-group>table {margin:0 0 1px; border-bottom:1px solid rgba(0,0,0,.1)}
   .bootstrap3 table td.icn { text-align:center;}
@@ -188,6 +196,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   .plugin-update .create-item-list > .tile > .panel-body {height:200px; width:200px; text-align:left; white-space:normal}
   .plugin-update .create-item-list > .panel .icn-box {font-size:80px}
   .plugin-update .create-item-list > .tile > .panel-body p {margin:10px 0; width:75%;}
+  
   /*--------table controls-----------*/
   .navbar-nav > .dropdown {display:block !important;}
   
@@ -229,10 +238,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   
   /*---------create types------------*/
   .create-item-list {clear:both; float:left; width:100%; margin-bottom:20px;}
-  .create-item-list > .tile { float:left; margin:1px;}
-  .create-item-list > .tile > .panel-body { height:250px; width:250px; display:inline-block;  font-size:125%; text-shadow:0 0 5px #fff,0 0 3px #fff}
-  .create-item-list > .panel .title {line-height:1.25em; min-height:2.5em; margin-bottom:5px; display:block}
-  .create-item-list > .panel .icn-box {font-size:112px; opacity:.1; position:absolute; bottom:10px; right:10px;}
+  .create-item-list .col {padding:0 5px 0 10px}
+  .create-item-list .panel-body {height:275px; overflow:auto;}
+  .create-item-list .panel-body .radio >label > input {margin-top:1px}
+  .create-item-list .panel-body .description {display:none;}
+  .create-item-list .panel-body .radio {display:block !important; text-shadow:#fff 0 0 5px, #fff 0 0 10px, #fff 0 0 2px}
+  .create-item-list .radio:focus,
+  .create-item-list .radio:hover{background:rgba(180,220,255,.2); box-shadow:inset 0 -1px rgba(180,220,255,.5), inset 0 -10px 10px -10px rgba(180,220,255,1)}
+  
+  #hover-space.bootstrap3 #create-type-hovers .popover {margin-left:0px; max-width:300px}
+  .add-form #main-panel {max-width: 992px;}
+  .add-form #side-panel {display:none}
+  .create-item-list .panel-default {}
+  .create-item-list .tile { float:left; margin:1px;}
+  .create-item-list .tile > .panel-body { height:250px; width:250px; display:inline-block;  font-size:125%; text-shadow:0 0 5px #fff,0 0 3px #fff}
+  .create-item-list .panel .title {line-height:1.25em; margin-bottom:10px; display:block; font-size:125%}
+  .create-item-list .panel .icn-box {font-size:132px; color:rgba(0,50,100,.05); position:absolute; bottom:10px; right:25px;}
+  .create-item-list .panel .icn-box.minor i{  position: absolute;
+  bottom: 0px;
+  font-size: 48px;
+  padding: 4px;
+  border: 5px solid;
+  background: #fff;
+  border-radius: 5px;
+  right: -15px;}
+  .create-item-list .panel.builds .icn-box.major i {font-size:120%; position:relative; top:10px; left:10px  }
+  
+  .bootstrap3 .old-create-form .validation-error-area,
+  .bootstrap3 .old-create-form .input {position:fixed; left:-9999em; top:-999999em; height:0; width:0; overflow:hidden;}
+  .bootstrap3 .old-create-form .item-name {padding:0 5px 0 10px}
   
   /*---------create form-------------*/
   .bootstrap3 a.btn-ctrl {background:#fff; box-shadow:inset 0 0 0 1px rgba(0,0,0,.2), inset 0 -1px 2px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.1); display:inline-block; padding:5px; border-radius:5px; text-decoration:none;}
@@ -248,6 +282,8 @@ background: linear-gradient(to right,  rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.01) 92%,
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', endColorstr='#40000000',GradientType=1 ); /* IE6-9 */
   
   }
+
+
   th.i, td.i {text-align:center;}
   td.num, th.num {text-align:right;}
   .btn-group.scm {margin-bottom:20px;}
@@ -370,36 +406,72 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', e
   .bootstrap3 .form-group.has-error textarea {border-color:#900; background:rgba(250,0,0,.1)}
   .bootstrap3 .form-group .td.setting-leftspace,
   .bootstrap3 .form-group .textarea-handle {display:none}
-  .bootstrap3 .form-group label {font-weight:normal}
+  .bootstrap3 .form-group label {font-weight:normal;}
+  .bootstrap3 .form-group label.td.setting-name{ display:inline-block; padding-right:10px}
+  .bootstrap3 .form-group.single .td.setting-name {width:30%; white-space:normal; display:inline-block; vertical-align:middle}
+  .bootstrap3 .form-group.single.select .td.setting-name {padding-top:5px;}
+  .bootstrap3 .form-group.single .td.setting-main.fill {width:100%; display:block; clear:both;}
+  .bootstrap3 .form-group.single .td.setting-main {min-width:70%; width:70%; vertical-align:middle; padding:5px 25px 0 0; display:inline-block;}
+  .bootstrap3 .form-group.single .td.setting-main > label {display:inline;vertical-align:middle; }
+  .bootstrap3 .credentials-select-content-select {white-space:nowrap; position:relative}
+  .bootstrap3 .credentials-select-content-select select {width:80%}
+  .bootstrap3 .credentials-select-content-select .yui-button {position:absolute; bottom:0; right:0; max-width:20%;}
+  #jenkins .bootstrap3 .yui-button button,
+  .bootstrap3 .credentials-select-content-select .yui-button button {padding:3px 10px}
+  #jenkins .bootstrap3 .yui-button button.hetero-list-add {padding-right:20px}
   .bootstrap3 .repeated-chunk,
   .bootstrap3 .tr {position:relative;}
-  .bootstrap3 .repeated-chunk .tr {position:static;}
+  .bootstrap3 .repeated-chunk {width:100%;}
+  .bootstrap3 .hetero-list-container .repeated-chunk .tr {position:static;}
   .bootstrap3 .tr .td.setting-help {position:absolute; right:0; top:0;}
+  .bootstrap3 .radio-group-box .radio-group:empty,
+  .bootstrap3 .option-group-box .option-group:empty {display:none;}
+  .bootstrap3 .radio-group-box .radio-group,
   .bootstrap3 .option-group-box .option-group {border:1px solid rgba(50,75,100,.33);  position:relative; padding:5px 10px; border-radius:10px; border-top-left-radius:0; margin-bottom:10px}
+  .bootstrap3 .radio-group-box.shown:hover > .radio-block-start > .chk-name,
   .bootstrap3 .option-group-box.shown:hover > .optional-block-start > .chk-name,
   .bootstrap3 .section.panel:hover > .panel-heading {background:rgba(0,60,120,.7); color:#fff; text-shadow:0 -1px 2px rgba(50,75,100,.5); box-shadow:inset rgba(100,150,255,.5) 0 -25px 20px -20px}
+  .bootstrap3 .radio-group-box.shown > .radio-block-start > .chk-name,
   .bootstrap3 .option-group-box.shown > .optional-block-start > .chk-name,
-  .bootstrap3 .section.panel > .panel-heading{background:rgba(150,200,250,.25); border-bottom:1px solid rgba(50,75,100,.33)}
+  .bootstrap3 .section.panel > .panel-heading{cursor:pointer;background:rgba(150,200,250,.25); border-bottom:1px solid rgba(50,75,100,.33)}
+  .bootstrap3 .section.panel > .panel-heading > .panel-title:before {content:'\25BC'; display:inline-block; width:1.25em; text-align:center; padding-right:5px; opacity:.5; font-size:90%;}
+  .bootstrap3 .section.panel.not-shown > .panel-heading > .panel-title:before {content:'\25B6';}
+  .bootstrap3 .section.panel > .panel-heading:hover > .panel-title:before {content:'\25BC'; opacity:1}
+  .bootstrap3 .section.panel.not-shown > .panel-heading:hover > .panel-title:before {content:'\25B6'; opacity:1}
   .bootstrap3 .section.panel:hover,
   .bootstrap3 .section.panel:hover .panel-body,
+  .bootstrap3 .radio-group-box.shown:hover .radio-group,
   .bootstrap3 .option-group-box.shown:hover .option-group,
+  .bootstrap3 .radio-group-box .radio-group:hover
   .bootstrap3 .option-group-box .option-group:hover { background:rgba(255,255,255,.67); box-shadow:rgba(0,0,0,.1) 0 2px 10px} foo{box-shadow:0 2px 100px rgba(180,220,255,.33),0 2px 10px rgba(180,220,255,.5);}
   .bootstrap3 .section.panel .panel-body {border-radius:4px;}
-  .bootstrap3 .tr label {padding-top:5px;}
+  .bootstrap3 .tr label {padding-top:5px; cursor:pointer}
+  .bootstrap3 .repeated-container,
   .bootstrap3 .hetero-list-container {border:1px solid rgba(50,75,100,.33); margin:1px; position:relative;}  
   .bootstrap3 .hetero-list-container > .btn-box {border-top:1px solid rgba(50,75,100,.33);}
+  .bootstrap3 .repeated-container .repeated-chunk,
   .bootstrap3 .hetero-list-container .repeated-chunk {padding:10px; margin:0;   box-shadow: 0 -1px rgba(0,0,0,.1);  box-sizing: border-box;}
+  .bootstrap3 .repeated-container .repeated-chunk .form-group
   .bootstrap3 .hetero-list-container .repeated-chunk .form-group {margin:10px -10px 0; padding:10px; border-top:1px solid rgba(0,50,100,.1)}
-  .bootstrap3 .hetero-list-container > .repeated-chunk:nth-of-type(odd) {background:rgba(75,150,200,.05)}
-  .bootstrap3 .hetero-list-container > .repeated-chunk:nth-of-type(even){background:rgba(255,255,255,.05)}
+  .bootstrap3 .repeated-chunk:nth-of-type(odd) {background:rgba(75,150,200,.05)}
+  .bootstrap3 .repeated-chunk:nth-of-type(even){background:rgba(255,255,255,.05)}
   .bootstrap3 .hetero-list-container .dd-handle {}
   .bootstrap3 .hetero-list-container .none {padding:10px; box-shadow:inset 0 1px 3px rgba(0,0,0,.2); background:rgba(0,0,0,.01)}  
   .bootstrap3 .option-group-box > .optional-block-start {padding:0; margin:0;}
-  .bootstrap3 .option-group-box > .optional-block-start > .chk-name {padding:2px 5px; border:1px solid transparent}
+  .bootstrap3 .radio-group-box > .radio-block-start > .chk-name,
+  .bootstrap3 .option-group-box > .optional-block-start > .chk-name {padding:2px 5px; hover:pointer; border:1px solid transparent}
+  .bootstrap3 .radio-group-box.shown > .radio-block-start > .chk-name,
   .bootstrap3 .option-group-box.shown > .optional-block-start > .chk-name{display:inline-block; min-width:33.3%; border-top-right-radius:10px; border:1px solid rgba(50,75,100,.33); border-bottom:none}
+  .bootstrap3 .radio-group-box.shown.none > .radio-block-start > .chk-name,
+  .bootstrap3 .option-group-box.shown.none > .optional-block-start > .chk-name {border-color:transparent !important; background:none !important; box-shadow:none !important; color:#333 !important; text-shadow:none !important}
   .bootstrap3 .panel-group.form-inner .panel {margin:0 ; border-radius:0;}
   .bootstrap3 .tr .dlt-btn {position:absolute; right:1px; top:1px;}
-
+  .bootstrap3 .section.panel .panel-collapse{transition: all 0.4s ease 0s; display:block !important; visibility:visible !important;}
+  .bootstrap3 .section.panel.not-shown .panel-collapse.collapse {overflow:hidden;}
+  .bootstrap3 .section .tr:empty,
+  .bootstrap3 .section .option-group:empty,
+  .bootstrap3 .section .radio-group:empty {display:none !important;}
+  /**/
   
   #jenkins .bootstrap3 .yui-button {margin:0;}
   
@@ -516,13 +588,13 @@ z.bootstrap3 #sidebar-wrapper .panel {overflow:hidden; border-top-left-radius:5p
   box-shadow:-10px 0 10px -10px inset;
 
 }
-#sidebar-scroll-wrapper {opacity:.9; position:absolute; top:0; left:0; bottom:0; right:0; overflow-y:auto;}
+#sidebar-scroll-wrapper {opacity:.75; position:absolute; top:0; left:0; bottom:0; right:0; overflow-y:auto;}
 #sidebar-scroll-wrapper:hover {opacity:1; }
 .bootstrap3 #sidebar-wrapper .panel {border-color:rgba(0,0,0,.5); box-shadow:0 1px 5px rgba(0,0,0,.2); margin:0; border-radius:0; border:none;}
 .bootstrap3 #sidebar-wrapper .panel .panel-title {font-size:13px;}
-.bootstrap3 #sidebar-wrapper .panel table a {font-weight:normal}
+.bootstrap3 #sidebar-wrapper .panel table a {font-weight:normal; }
 .bootstrap3 #sidebar-wrapper .panel .panel-body {padding:0; border-color:rgba(0,0,0,.5);}
-.bootstrap3 #sidebar-wrapper .panel .panel-heading {padding:7px; border-color:rgba(0,0,0,.5); border-radius:0; background:#47a; color:#ddd; box-shadow:inset 0 30px 30px -30px #225}
+.bootstrap3 #sidebar-wrapper .panel .panel-heading {padding:7px; white-space:nowrap; border-color:rgba(0,0,0,.5); border-radius:0; background:#47a; color:#ddd; box-shadow:inset 0 30px 30px -30px #225}
 .bootstrap3 #sidebar-wrapper .panel table {width:100%}
 .bootstrap3 #sidebar-wrapper .panel .panel-body .ex td,
 .bootstrap3 #sidebar-wrapper .panel .panel-body th {background:#f5f5f5;}
@@ -532,17 +604,46 @@ z.bootstrap3 #sidebar-wrapper .panel {overflow:hidden; border-top-left-radius:5p
 .bootstrap3 #sidebar-wrapper .panel .panel-body td i {font-size:100%;}
 .bootstrap3 #sidebar-wrapper .panel .name {width:100%}
 .bootstrap3 #sidebar-wrapper .panel .num {text-align:right;}
-.bootstrap3 #sidebar-wrapper .panel  tr.ex a{padding-left:1.33em; position:relative; min-height:1.3em; line-height:1.3em;  display:block;}
+.bootstrap3 #sidebar-wrapper .panel  tr.ex a{padding:1px 80px 1px 1.33em; position:relative; min-height:1.3em; line-height:1.3em;  display:block;}
 .bootstrap3 #sidebar-wrapper .panel .ex td a:before {content:'\e60b '; font-family:'icomoon'; display:inline-block; position:absolute; left:0;}
+.bootstrap3 #sidebar-wrapper .panel .ex em {display:block; position:absolute; top:0px; right:0px; width:80px; }
+.bootstrap3 #sidebar-wrapper .panel .ex em b {display:block; float:left; height:8px; width:8px; border:1px solid; margin:0 2px 2px 0 }
+.bootstrap3 #sidebar-wrapper .panel .ex em b.f {background:#9be}
 .bootstrap3 #sidebar-wrapper .panel .progress {height:5px; margin:5px 0; background-color:rgba(0,0,0,.1)}
 .bootstrap3 #sidebar-wrapper .hold-right {position:absolute; right:5px; top:8em;}
+.bootstrap3 #sidebar-wrapper .hold-right.top {top:0}
+.bootstrap3 #sidebar-wrapper .panel.top .panel-heading {color:#fff; background:#727; box-shadow:none;}
+.bootstrap3 #sidebar-wrapper .panel.top .panel-heading.sub {padding:0; background:#525; }
+.bootstrap3 #sidebar-wrapper .panel.top .panel-heading.sub a {display:inline-block; font-size:90%; padding:2px 7px; border-rigt:1px solid #000; color:#b9b; box-shadow:inset 0 -20px 20px -20px #000}
+.bootstrap3 #sidebar-wrapper .panel.top .panel-heading.sub a.slct {background:#000; color:#ddd;}
+.bootstrap3 #sidebar-wrapper .manage-box .panel.top .panel-heading {background:#d50}
+.bootstrap3 #sidebar-wrapper .manage-box td {padding:5px; border:1px solid rgba(0,0,0,.05); border-colapse:colapse}
+.bootstrap3 #sidebar-wrapper .manage-box tr:nth-child(odd){background:rgba(0,0,0,.05)}
+.bootstrap3 #sidebar-wrapper .add-item-box a{font-size:200%; font-weight:normal; margin-bottom:20px; vertical-align:middle; height:48px; width:48px; border-radius:50%; padding:0; text-align:center}
 
-#toggle-widgets {  position: absolute;   z-index: 3;   font-size: 200%;}
-#toggle-widgets a {padding:5px 10px 5px; line-height:1em; border-bottom:2px solid #545; border-top:2px solid #969; background:#727; color:#fff; text-decoration:none; display:block; border-radius:5px; box-shadow:0 2px 3px -1px rgba(0,0,0,.3)}
-.toggled #toggle-widgets:hover a .corner,
-#toggle-widgets a .corner {position:absolute; right:auto; bottom:6px; left:7px; border:3px solid transparent; border-bottom-color:#fff; border-left-color:#fff;}
-#toggle-widgets:hover a .corner,
-.toggled #toggle-widgets a .corner {left:auto; opacity:.5; right:6px;border-right-color:#fff; border-left-color:transparent }
+
+#sidebar-wrapper .toggle-widgets-box {  position: absolute;   z-index: 3;   font-size: 175%;}
+#sidebar-wrapper .toggle-widgets-box .widget {position:relative; margin-bottom:5px}
+#sidebar-wrapper .toggle-widgets-box a {padding:7px 11px; line-height:1em; border-bottom:2px solid #545; border-top:2px solid #969; position:relative; background:#727; color:#fff; text-decoration:none; display:inline-block; border-radius:5px; box-shadow:0 2px 3px -1px rgba(0,0,0,.3)}
+#sidebar-wrapper .toggle-widgets-box .add-item-box a {border-bottom:2px solid #966; border-top:2px solid #c99; background:#c34; position:relative}
+#sidebar-wrapper .toggle-widgets-box .widget.manage a {border-bottom:2px solid #842; border-top:2px solid #c96; background:#d50; position:relative}
+#sidebar-wrapper .toggle-widgets-box .widget.fingerprints a {border-bottom:2px solid #456; border-top:2px solid #9ae; background:#28c;}
+#sidebar-wrapper .toggle-widgets-box .widget.support a {border-bottom:2px solid #253; border-top:2px solid #5c7; background:#293;}
+
+
+#wrapper.toggled #sidebar-wrapper .toggle-widgets-box .widget a .corner,
+#wrapper .toggle-widgets-box .corner  {position:absolute; right:6px; bottom:6px; left:auto; border:3px solid transparent; border-bottom-color:#fff; border-right-color:#fff; opacity:.5;}
+#wrapper #sidebar-wrapper .hold-right .toggle-widgets-box .widget a:hover .corner,
+#wrapper.queue #sidebar-wrapper .queue a .corner,
+#wrapper.fingerprints #sidebar-wrapper .fingerprints a .corner,
+#wrapper.support #sidebar-wrapper .support a .corner,
+#wrapper.manage #sidebar-wrapper .manage a .corner {position:absolute; right:auto; bottom:6px; left:7px; border:3px solid transparent; border-bottom-color:#fff; border-left-color:#fff; opacity:1}
+
+#wrapper #sidebar-wrapper .tab{display:none}
+#wrapper.queue #sidebar-wrapper .tab.queue-box {display:block;}
+#wrapper.support #sidebar-wrapper .tab.support-box {display:block;}
+#wrapper.support #sidebar-wrapper .tab.support-box {display:block;}
+#wrapper.manage #sidebar-wrapper .tab.manage-box {display:block; background:#fff}
 
 #page-content-wrapper {  width: 100%;}
 
@@ -556,7 +657,7 @@ z.bootstrap3 #sidebar-wrapper .panel {overflow:hidden; border-top-left-radius:5p
 
 }
   #wrapper.toggled #sidebar-wrapper {
-  width: 0;
+  width: 0; white-space:nowrap;
 }
   #wrapper.toggled #page-content-wrapper 
     {position: relative; margin-right: 0;}

@@ -38,6 +38,9 @@ THE SOFTWARE.
       is specified, @help is inferred, and nested input controls don't need
       the @field nor @name.
     </st:attribute>
+    <st:attribute name="classname">
+      Allows you to add a css class name
+    </st:attribute>
     <st:attribute name="description">
       If it's not obvious to the user as to what the control expects,
       specify some description text (which currently gets rendered as
@@ -62,14 +65,17 @@ THE SOFTWARE.
     <j:set target="${attrs}" property="help"
            value="${descriptor.getHelpFile(attrs.field)}" />
   </j:if>
+  <j:if test="${!empty(attrs.field)}">
+    <j:set var="single" value="single" />
+  </j:if>
   <!-- expose this so that we can look up the @field value later from prepareDatabinding.jelly -->
   <j:set var="entry" value="${attrs}" />
-  <div class="tr form-group">
+  <div class="tr form-group ${single} ${attrs.classname}">
     <div class="td setting-leftspace"><st:nbsp/></div>
     <label class="td setting-name">
       <j:out value="${attrs.title}" />
     </label>
-    <div class="td setting-main">
+    <div class="td setting-main ${single}">
       <d:invokeBody />
     </div>
     <f:helpLink url="${attrs.help}" featureName="${title}"/>

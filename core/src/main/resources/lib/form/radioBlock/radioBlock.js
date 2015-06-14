@@ -9,6 +9,15 @@ var radioBlockSupport = {
 
     // update one block based on the status of the given radio button
     updateSingleButton : function(radio, blockStart, blockEnd) {
+      var groupBox =  radio.match('.radio-group-box') ? radio : radio.up('.radio-group-box');
+      var panelBox =  radio.match('.panel-collapse') ? radio : radio.up('.panel-collapse');
+      panelBox.removeAttribute('style');
+       
+      if(radio.checked) 
+        groupBox.addClassName('shown');
+      else  
+        groupBox.removeClassName('shown');
+      
         var show = radio.checked;
         blockStart = $(blockStart);
 

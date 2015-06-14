@@ -902,6 +902,15 @@ var jenkinsRules = {
 
     // structured form submission
     "FORM" : function(form) {
+      /*
+      (function($){
+        var $form = $(form);
+        if($form.attr('action') === 'configSubmit')
+          $('#wrapper').addClass('add-form');
+        debugger;
+          $('#main-panel').removeClass('col-md-9').addClass('col-md-12');
+      })(jq2_1_3);
+      */
         crumb.appendToForm(form);
         if(Element.hasClassName(form, "no-json"))
             return;
@@ -933,12 +942,7 @@ var jenkinsRules = {
     "INPUT.yui-button" : function(e) {
         makeButton(e);
     },
-    "DIV.panel-group":function(e){
-      (function($,e){
 
-      })(jq2_1_3,e);
-      ;
-    },
     "DIV.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
         var checkbox = e.down().down();
@@ -1020,6 +1024,45 @@ var jenkinsRules = {
                 }
             }
         };
+    },
+    "DIV.setting-main":function(e){
+      (function($){
+        var $this = $(e);
+        if($this.children('.repeated-container').length > 0)
+          $this.addClass('fill');
+      })(jq2_1_3);
+    },
+    "DIV.section":function(e){
+      (function($){
+        var $section = $(e);
+        var $header = $section.children('.panel-heading');
+        var $body  = $section.children('.panel-collapse').addClass('collapse in');
+        var orgHeight = $body.height();
+        
+        $header.click(function(e){
+          if(!$section.hasClass('not-shown')){
+            $body.removeAttr('style');
+            orgHeight = $body.height();
+            $body.height(orgHeight);
+            $section.removeClass('shown').addClass('not-shown');
+            $body.height(0);
+            //$body.addClass('out').removeClass('in');
+          }
+          else{
+            $section.addClass('shown').removeClass('not-shown');
+           // $body.removeClass('out').addClass('in');
+            $body.height(orgHeight);
+          }
+        });
+        
+        $body.find('.shown .chk-name > label').each(
+            function(){
+              var $this = $(this);
+              if($.trim($this.text()) === 'None')
+                $this.closest('.radio-group-box').removeClass('shown').addClass('none');
+            }
+        );
+      })(jq2_1_3);
     },
     "DIV.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
       // figure out the corresponding start block
@@ -1206,6 +1249,11 @@ var jenkinsRules = {
         sticker.insertBefore(edge,sticker.firstChild);
 
         function adjustSticker() {
+          (function($){
+            var $sticker = $(sticker);
+            $sticker.width($sticker.width());
+          })(jq2_1_3);
+          
             shadow.style.height = sticker.offsetHeight + "px";
 
             var viewport = DOM.getClientRegion();
@@ -1380,7 +1428,7 @@ function updateOptionalBlock(c,scroll) {
       var $input = $(c);
       var $groupBox = $input.closest('.option-group-box');
       var $group = $groupBox.children('.option-group').first(); 
-      
+      var $panel = $groupBox.closest('.panel-collapse').removeAttr('style');
       if($group.length < 1) return;
       
       if(checked){ 
@@ -2246,8 +2294,17 @@ function ensureVisible(e) {
 
     function handleStickers(name,f) {
         var e = $(name);
-        if (e) f(e);
+        if (e){ 
+          (function($){
+            var $this = $(e);
+            $this.width($this.width());
+            
+          })(jq2_1_3,e);
+          
+          f(e);
+        }
         document.getElementsBySelector("."+name).each(f);
+
     }
 
     // if there are any stickers around, subtract them from the viewport
