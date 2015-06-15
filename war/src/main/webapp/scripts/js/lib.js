@@ -738,6 +738,26 @@ var jq2_1_3 = $.noConflict(true);
       
     });
     
+    $('#side-panel-toggle-anchor a').click(function(e){
+      var $this = $(this);
+      var $wrapper = $('#wrapper');
+      var $main = $('#main-panel');
+      var $side = $('#side-panel');
+      $wrapper
+        .toggleClass('right-toggled');
+      
+      if($wrapper.hasClass('right-toggled')) {
+        $main.addClass('col-md-11').removeClass('col-md-10');
+        $side.addClass('col-md-1').removeClass('col-md-2');
+      }
+      else{
+        $main.addClass('col-md-10').removeClass('col-md-11');
+        $side.addClass('col-md-2').removeClass('col-md-1');
+      }
+      
+    });
+    
+    
     function getAllContainers(){
       return $.get(resURL + '/plugin/cloudbees-docker-traceability/images/api.json');
       //return $.get(rootURL + '/docker-traceability/api/json?depth=2');

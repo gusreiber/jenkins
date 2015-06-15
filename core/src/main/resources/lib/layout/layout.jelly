@@ -173,7 +173,7 @@ ${h.initPageVariables(context)}
 
         <div class="toggle-widgets-box">
           <div  class="add-item-box">
-            <a href="${rootURL}/view/All/newJob">+</a>
+            <a href="${rootURL}/newJob">+</a>
           </div> 
                 
           <div class="widget queue" id="toggle-widgets"><a href="#side-widget=queue"><span class="corner"></span><i class="icon-brick-o"></i></a></div>
@@ -417,7 +417,7 @@ Useful when you modified config files directly on disk.</div></td></tr>
         <div class="logo">
           <a id="jenkins-home-link" href="${rootURL}/">
             <img id="jenkins-head-icon" src="${imagesURL}/headshot.png" alt="title" />
-            <img id="jenkins-name-icon" src="${imagesURL}/title.png" alt="title" width="139" height="34" />
+            <span id="jenkins-name-icon"><strong>CloudBees </strong><span>Jenkins Enterprise</span></span>
           </a>
         </div>
         <div class="login">
@@ -480,16 +480,42 @@ Useful when you modified config files directly on disk.</div></td></tr>
       
 
 
-        <div id="main-panel" class="col col-md-9">
+        <div id="main-panel" class="col col-md-10">
           <div id="main-panel-content">
-            <j:set var="mode" value="main-panel" />
-            <d:invokeBody/>
+            <div id="main-panel-content-inner">
+              <j:set var="mode" value="main-panel" />
+              <d:invokeBody/>
+            </div>
+            <div id="hack-history">
+              <table class="table table-striped grid">
+                <colgroup>
+                  
+                  <col></col>
+                  <col style="width:100%"></col>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="num">#</th>
+                    <th class="date">Build Time</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         
         
         
-                <div id="side-panel" class="col col-md-3">
+        <div id="side-panel" class="col col-md-2">
+        
+          <div class="fixed">
+            <div id="side-panel-toggle-anchor">
+              <a href="#right-widget"><span class="corner"></span><i class="icon-menu2"></i></a>
+            </div>
+          </div>
           <div id="side-panel-content">
             <j:set var="mode" value="side-panel" />
             <d:invokeBody />
@@ -512,6 +538,16 @@ Useful when you modified config files directly on disk.</div></td></tr>
       </div>
     </div>
     <div id="footer-container" class="hidden-xs">
+      <span class="platform">CloudBees Jenkins Platform</span>
+      <div id="cloudbees-footer-resource-toolbar-box">
+        <div id="cloudbees-footer-resource-toolbar">
+          <ul class="nav">
+            <li><a target="_blank" href="http://www.cloudbees.com/documentation">Documentation</a></li>
+            <li><a target="_blank" href="http://support.cloudbees.com">Support</a></li>
+            <li class="pull-right"><a target="_blank" href="http://www.cloudbees.com">www.cloudbees.com</a></li>
+          </ul>
+        </div>
+      </div>
       <div id="footer">
         <span class="page_generated">
           ${%Page generated}:

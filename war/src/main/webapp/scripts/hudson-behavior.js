@@ -902,15 +902,14 @@ var jenkinsRules = {
 
     // structured form submission
     "FORM" : function(form) {
-      /*
-      (function($){
-        var $form = $(form);
-        if($form.attr('action') === 'configSubmit')
-          $('#wrapper').addClass('add-form');
-        debugger;
-          $('#main-panel').removeClass('col-md-9').addClass('col-md-12');
-      })(jq2_1_3);
-      */
+        (function($){
+          var $wrapper = $('#wrapper').addClass('right-toggled');
+          var $main = $wrapper.find('#main-panel');
+          var $side = $wrapper.find('#side-panel');
+          $main.addClass('col-md-11').removeClass('col-md-10');
+          $side.addClass('col-md-1').removeClass('col-md-2');
+        })(jq2_1_3);
+
         crumb.appendToForm(form);
         if(Element.hasClassName(form, "no-json"))
             return;
@@ -942,7 +941,35 @@ var jenkinsRules = {
     "INPUT.yui-button" : function(e) {
         makeButton(e);
     },
-
+    "#buildHistory":function(e){
+      (function($){
+        var $source = $(e);
+        var $org = $source.find('.build-row');
+        if($org.length === 0 )return;
+        var $wrapper = $('#wrapper').addClass('showHistory');
+        var $new = $('#hack-history tbody');
+        
+        var $rss = $source.find('.build-rss-links').insertAfter($new.closest('table'));
+        
+        $org.each(function(i){
+          var $tr = $(this); 
+          var $newTr = $('<tr />');
+          var $dateCell = $('<td class="date" />');
+          var $dateLink = $tr.find('.build-details a').appendTo($dateCell);
+          var $img = $tr.find('img').prependTo($dateLink);
+          var $numCell = $('<td class="num" />').append($tr.find('.build-link'));
+          if($img.attr('src').indexOf('blue') > -1) 
+            $newTr.addClass('state-running');
+          if($img.attr('src').indexOf('red') > -1) 
+            $newTr.addClass('state-exited');
+          
+          $newTr.append($numCell).append($dateCell);
+          $new.append($newTr);
+          
+        });
+        
+      })(jq2_1_3)
+    },
     "DIV.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
         var checkbox = e.down().down();
@@ -2168,7 +2195,9 @@ Element.observe(document, 'dom:loaded', function(){
     var pageHead = $('page-head');
     var pageBody = $('page-body');
     var sidePanel = $(pageBody).getElementsBySelector('#side-panel')[0];
-    var sidePanelContent = $(sidePanel).getElementsBySelector('#side-panel-content')[0];
+    var sidePanelContent = (sidePanel)?
+        $(sidePanel).getElementsBySelector('#side-panel-content')[0]:
+          null;
     var mainPanel = $(pageBody).getElementsBySelector('#main-panel')[0];
     var mainPanelContent = $(mainPanel).getElementsBySelector('#main-panel-content')[0];
     var pageFooter = $('footer-container');
@@ -2178,13 +2207,13 @@ Element.observe(document, 'dom:loaded', function(){
         if (pageBodyWidth > 768) {
             pageBody.addClassName("fixedGridLayout");
             pageBody.removeClassName("container-fluid");
-            sidePanel.removeClassName("col-sm-9");
+            if(sidePanel) sidePanel.removeClassName("col-sm-9");
             mainPanel.removeClassName("col-sm-15");
             return true; // It's a fixedGridLayout
         } else {
             pageBody.removeClassName("fixedGridLayout");
             pageBody.addClassName("container-fluid");
-            sidePanel.addClassName("col-sm-9");
+            if(sidePanel) sidePanel.addClassName("col-sm-9");
             mainPanel.addClassName("col-sm-15");
             return false; // It's not a fixedGridLayout
         }
@@ -2194,7 +2223,7 @@ Element.observe(document, 'dom:loaded', function(){
         var windowHeight = document.viewport.getDimensions().height;
         var headHeight = Element.getHeight(pageHead);
         var footerHeight = Element.getHeight(pageFooter);
-        var sidePanelHeight = Element.getHeight(sidePanel);
+        var sidePanelHeight = (sidePanel)? Element.getHeight(sidePanel):0;
         var mainPanelHeight = Element.getHeight(mainPanel);
         var minPageBodyHeight = (windowHeight - headHeight - footerHeight);
 
@@ -2202,14 +2231,14 @@ Element.observe(document, 'dom:loaded', function(){
         minPageBodyHeight = Math.max(minPageBodyHeight, mainPanelHeight);
 
         $(pageBody).setStyle({minHeight: minPageBodyHeight + 'px'});
-        $(sidePanel).setStyle({minHeight: minPageBodyHeight + 'px'});
-        $(mainPanel).setStyle({minHeight: minPageBodyHeight + 'px'});
+        //if(sidePanel) $(sidePanel).setStyle({minHeight: minPageBodyHeight + 'px'});
+        //$(mainPanel).setStyle({minHeight: minPageBodyHeight + 'px'});
     }
 
     var doPanelLayouts = function() {
         // remove all style
         pageBody.removeAttribute('style');
-        sidePanel.removeAttribute('style');
+        if(sidePanel) sidePanel.removeAttribute('style');
         mainPanel.removeAttribute('style');
         if (applyFixedGridLayout()) {
             applyFixedGridHeights();
@@ -2217,7 +2246,7 @@ Element.observe(document, 'dom:loaded', function(){
     }
 
     Event.observe(window, 'resize', doPanelLayouts);
-    elementResizeTracker.onResize(sidePanelContent, doPanelLayouts);
+    if(sidePanel) elementResizeTracker.onResize(sidePanelContent, doPanelLayouts);
     elementResizeTracker.onResize(mainPanelContent, doPanelLayouts);
 
     doPanelLayouts();

@@ -28,23 +28,38 @@
   background-image: none;
   border: 1px solid rgba(50,75,100,.33);
   border-radius: 3px}
-  body .bootstrap3 h1 {font-size:26px;}
-  body .bootstrap3 #main-panel-content > h1 {margin-top:0; padding:0 0 10px 10px}
+  body .bootstrap3 h1 {font-size:28px;}
+  body .bootstrap3 h2 {font-size:22px;}
+  body .bootstrap3 h4 {font-size:18px;}
+  body .bootstrap3 #main-panel-content-inner > *,
+  body .bootstrap3 #main-panel-content > h2,
+  body .bootstrap3 #main-panel-content > h1 {padding:0 0 10px 10px}
+  body .bootstrap3 #main-panel-content-inner > h1 {margin-top:0;}
+  body .bootstrap3 #main-panel-content-inner > .disable {position:absolute; top:22px; right:45px}
+  body .bootstrap3 #main-panel-content .description-box {margin:-15px 0 10px}
+  body .bootstrap3 #main-panel-content-inner > table {margin-bottom:30px}
   body #menuSelector {bottom:0}
   body #page-body {overflow:hidden; overflow-y:auto}
   body #page-body .row {max-width:1280px; position:relative;}
-  body #page-body.fixedGridLayout #side-panel, 
-  body #page-body.fixedGridLayout #main-panel {}
+  
   body #page-body.fixedGridLayout old#side-panel {width:250px;}
   body #page-body.fixedGridLayout old#main-panel {padding-right:250px}
-  body #main-panel-content{padding: 22px 20px 30px 50px;
+  body #main-panel-content{padding: 22px 30px 30px 50px; position:relative;
   background-color: rgba(255,255,255,.5);
-  box-shadow: 1px 1px rgba(0,0,0,.2); min-height:750px}
+  box-shadow: 1px 1px rgba(0,0,0,.2); min-height:650px}
+  .welcome-message {margin:40px}
+  .welcome-message .plus {background:#c34; width:1.5em; display:inline-block; text-align:center; color:#fff; text-decoration:none; border-radius:50%; font-weight:bold;}
+  .welcome-message .btn {margin-top:40px}
+  .watermark {font-size:320px; position:absolute; bottom:80px; right:80px; color:rgba(100,150,200,.2)}
+  body #main-panel-content .read,
+  body #main-panel-content .read p{font-size:110%; line-height:1.5em}
   body .repeated-chunk.only .show-if-not-only,
   body .repeated-chunk .repeated-chunk.only .show-if-not-only {display:none;}
   body #breadcrumbBar, body #footer-container, body .top-sticker-inner {  box-shadow: 0 3px 10px rgba(0,0,0,.2)}
   body #page-body {background:rgba(200,235,250,.2); background:#eee;}foo{ box-shadow:inset #fff 0 -300px 300px -300px,inset rgba(75,125,200,.5) 0 500px 500px -500px}
   body #breadcrumbBar .top-sticker {box-shadow:rgba(75,125,200,.33) 0 0 200px}
+  body #wrapper #breadcrumbBar .top-sticker {left:350px !important;}
+  body #wrapper.toggled #breadcrumbBar .top-sticker {left:0 !important;}
   body #Jenkins-resources nav {margin:0; border:none; background:#f0faf2; border-bottom:1px solid #ccc; min-height:0; border-radius:0; position:relative;}
   body #Jenkins-resources nav ul {position:relative; left:-25px;}
   body #Jenkins-resources nav a {padding:3px 15px;}
@@ -66,7 +81,7 @@
   .bootstrap3 table tr.tr-failure td {box-shadow:inset 0 999em rgba(240,110,50,.15); border-color:rgba(100,0,0,.1); text-shadow:#fdd 0 1px 2px}
   .bootstrap3 table tr.state-running td,  
   .bootstrap3 table tr.state-SUCCESS td,
-  .bootstrap3 table tr.tr-success td {box-shadow:inset 0 999em rgba(50,200,50,.10); border-color:rgba(00,100,0,.1)} 
+  .bootstrap3 table tr.tr-success td {box-shadow:inset 0 999em rgba(125,200,50,.10); border-color:rgba(00,100,0,.1)} 
   .bootstrap3 table tr.state-UNSTABLE td,
   .bootstrap3 table tr.tr-unstable td {box-shadow:inset 0 999em rgba(255,200,50,.10)} 
   .bootstrap3 table tr.state-exited td a,   
@@ -238,7 +253,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   
   /*---------create types------------*/
   .create-item-list {clear:both; float:left; width:100%; margin-bottom:20px;}
-  .create-item-list .col {padding:0 5px 0 10px}
+  .create-item-list .col {padding:0 5px 0 10px; margin-bottom:15px}
   .create-item-list .panel-body {height:275px; overflow:auto;}
   .create-item-list .panel-body .radio >label > input {margin-top:1px}
   .create-item-list .panel-body .description {display:none;}
@@ -291,7 +306,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', e
   .btn-group.scm label.active img{-webkit-filter: grayscale(.33); -webkit-filter: grayscale(33%); filter: grayscale(33%);}
   .btn-group.scm label:hover img{-webkit-filter:none; filter: none;}
   .btn-group.scm label img{-webkit-filter: grayscale(.85); -webkit-filter: grayscale(85%); filter: gray; filter: grayscale(85%);}
-  .max-read-width {width:600px}
+  .max-read-width {max-width:600px}
   pre.editable {padding:2px; font-size:0em;}
   pre.editable textarea {border:none; background:none; padding:5px; width:100%; margin:0; clear:both; font-size:13px; min-height:7em; box-shadow:inset 0 0 1px 1px rgba(0,0,0,.2)}
   tr>td>a {font-weight:600;}
@@ -499,17 +514,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', e
   .bootstrap3 .table>tbody>tr>td.nowrap {white-space:nowrap;}
   /*------------new branding----------*/
   body.license-registration-page {overflow-x:hidden}
-  body #header {
-    box-shadow:inset rgba(0,50,100,.5) 0 -50px 50px -50px;
-    background: rgb(51,102,153); /* Old browsers */
-    background: -moz-linear-gradient(top,  rgba(51,102,153,1) 0%, rgba(100,153,200,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(51,102,153,1)), color-stop(100%,rgba(100,153,200,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#336699', endColorstr='#7799bb',GradientType=0 ); /* IE6-9 */
-  }
+
   body.joc #header{
     box-shadow:inset rgba(100,0,50,.5) 0 50px 50px -50px,inset rgba(150,0,250,.5) 0 -50px 50px -50px ;
     background: rgb(153,0,51); /* Old browsers */
@@ -522,7 +527,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03000000', e
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#990033', endColorstr='#cc0033',GradientType=0 ); /* IE6-9 */  
   }
   
-  #jenkins-name-icon{display:none !important}
   body #header .logo { position:relative; margin:0; vertical-align:top; padding:10px 50px; font-size:125%; color:#fff;
     background: -moz-linear-gradient(-25deg,  rgba(0,0,0,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.2) 90.2%, rgba(0,0,0,0) 91.5%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,0,0,1)), color-stop(90%,rgba(0,0,0,1)), color-stop(90.2%,rgba(0,0,0,0.2)), color-stop(91.5%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
@@ -630,20 +634,66 @@ z.bootstrap3 #sidebar-wrapper .panel {overflow:hidden; border-top-left-radius:5p
 #sidebar-wrapper .toggle-widgets-box .widget.fingerprints a {border-bottom:2px solid #456; border-top:2px solid #9ae; background:#28c;}
 #sidebar-wrapper .toggle-widgets-box .widget.support a {border-bottom:2px solid #253; border-top:2px solid #5c7; background:#293;}
 
-
+a .corner { border:3px solid transparent;   bottom:6px; left:7px; border-bottom-color:#fff; border-left-color:#fff;  display:block; position:absolute;}
 #wrapper.toggled #sidebar-wrapper .toggle-widgets-box .widget a .corner,
 #wrapper .toggle-widgets-box .corner  {position:absolute; right:6px; bottom:6px; left:auto; border:3px solid transparent; border-bottom-color:#fff; border-right-color:#fff; opacity:.5;}
 #wrapper #sidebar-wrapper .hold-right .toggle-widgets-box .widget a:hover .corner,
 #wrapper.queue #sidebar-wrapper .queue a .corner,
 #wrapper.fingerprints #sidebar-wrapper .fingerprints a .corner,
 #wrapper.support #sidebar-wrapper .support a .corner,
-#wrapper.manage #sidebar-wrapper .manage a .corner {position:absolute; right:auto; bottom:6px; left:7px; border:3px solid transparent; border-bottom-color:#fff; border-left-color:#fff; opacity:1}
+#wrapper.manage #sidebar-wrapper .manage a .corner {right:auto; bottom:6px; left:7px; opacity:1; border:3px solid transparent; border-bottom-color:#fff; border-left-color:#fff;}
 
 #wrapper #sidebar-wrapper .tab{display:none}
 #wrapper.queue #sidebar-wrapper .tab.queue-box {display:block;}
 #wrapper.support #sidebar-wrapper .tab.support-box {display:block;}
 #wrapper.support #sidebar-wrapper .tab.support-box {display:block;}
 #wrapper.manage #sidebar-wrapper .tab.manage-box {display:block; background:#fff}
+
+#wrapper #hack-history {display:none; box-shadow:inset 10px 0 10px -12px rgba(0,0,0,.2); background:rgba(0,0,0,.05); overflow:auto}
+#wrapper.showHistory #hack-history {display:block; border-left:1px solid rgba(0,0,0,.2); width:25%; position:absolute; top:0; right:0; bottom:0}
+#wrapper.showHistory #main-panel-content-inner {width:75%; position:relative;}
+#buildHistory {display:none;}
+#hack-history table {background:#fff; margin:0; border-bottom:1px solid rgba(0,0,0,.2); box-shadow:0 1px 5px rgba(0,0,0,.2)}
+#hack-history th.num,
+#hack-history td.num{text-align:right;}
+#hack-history th.date,
+#hack-history td.date {padding-right:30px}
+#hack-history td.num a.model-link.inside {padding:0}
+#hack-history td.num::first-letter {display:none;}
+#hack-history .build-rss-links {padding:5px; font-size:90%; opacity:.75; display:block;}
+.build-rss-all-link
+  body #page-body.fixedGridLayout #side-panel, 
+  body #page-body.fixedGridLayout #main-panel {}
+  body #page-body.fixedGridLayout #side-panel {padding:0; margin-top:37px}
+  body #page-body.fixedGridLayout #side-panel #side-panel-content {position:fixed;padding:20px 15px 5px; margin:0 15px 0 -15px; border:1px solid rgba(0,0,0,.2); border-left:none; border-top-right-radius:10px; border-bottom-right-radius:10px;background:rgba(255,255,255,.33)}
+  body #page-body.fixedGridLayout #side-panel #side-panel-content h1,
+  body #page-body.fixedGridLayout #side-panel #side-panel-content h2 {display:none;}
+  
+  body #side-panel #tasks .task img {position:relative; left:-5px;}
+  body .fixed {position:fixed; z-index:2}
+  body #side-panel-toggle-anchor
+{  position: absolute;
+  z-index: 2;
+  left: -37px;
+  top: -21px;}
+  body #side-panel-toggle-anchor a{height: 38px; width: 38px;
+  background-color: #ccc;
+  box-shadow:inset 0 40px 40px -30px rgba(0,0,0,.1),0 2px 3px -1px rgba(0,0,0,.3);
+  color:#fff;
+  text-shadow:#ccc 0 1px 2px;
+  display: block;  font-size: 24px;
+  line-height: 38px;
+  text-align: center; text-decoration:none; border-radius:5px; border-top:2px solid #eee; border-bottom:2px solid #aaa}
+  #wrapper.right-toggled #side-panel-toggle-anchor a:hover .corner,
+  #wrapper #side-panel-toggle-anchor .corner {display:block; border-color:transparent;border-bottom-color:#fff; border-right-color:#fff; left:auto; right:5px}
+  #wrapper #side-panel-toggle-anchor a:hover .corner,
+  #wrapper.right-toggled #side-panel-toggle-anchor .corner {opacity:.5; border-color:transparent;border-bottom-color:#fff; border-left-color:#fff; right:auto; left:5px;}
+  #wrapper #main-panel,
+  #wrapper #side-panel,
+#wrapper #side-panel-content{transition: all 0.4s ease 0s;}
+#wrapper #side-panel-content:hover {background:rgba(255,255,255,.67) !important;}
+#wrapper.right-toggled #side-panel-content { width:48px; overflow:hidden;}
+
 
 #page-content-wrapper {  width: 100%;}
 
@@ -687,3 +737,72 @@ z.bootstrap3 #sidebar-wrapper .panel {overflow:hidden; border-top-left-radius:5p
     }
 
 }
+/*--------------header-footer----------------*/
+#header #jenkins-name-icon {position:static}
+#header {
+  box-shadow:inset rgba(0,50,100,.5) 0 -50px 50px -50px;
+  background: rgb(51,102,153); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(51,102,153,1) 0%, rgba(100,153,200,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(51,102,153,1)), color-stop(100%,rgba(100,153,200,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(51,102,153,1) 0%,rgba(100,153,200,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#336699', endColorstr='#7799bb',GradientType=0 ); /* IE6-9 */
+  height: 40px;
+}
+
+#header div {
+  display: inline-block;
+  height: inherit;
+}
+#header .logo {
+  position:relative; margin:0; vertical-align:top; padding:10px 50px; font-size:125%; color:#fff;
+  background: -moz-linear-gradient(-25deg,  rgba(0,0,0,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0.2) 90.2%, rgba(0,0,0,0) 91.5%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,0,0,1)), color-stop(90%,rgba(0,0,0,1)), color-stop(90.2%,rgba(0,0,0,0.2)), color-stop(91.5%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-25deg,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,0.2) 90.2%,rgba(0,0,0,0) 91.5%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-25deg,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,0.2) 90.2%,rgba(0,0,0,0) 91.5%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-25deg,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,0.2) 90.2%,rgba(0,0,0,0) 91.5%); /* IE10+ */
+  background: linear-gradient(115deg,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,0.2) 90.2%,rgba(0,0,0,0) 91.5%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#jenkins-home-link {
+  position: absolute;
+  height: 40px;
+}
+
+#jenkins-head-icon {
+  position: absolute;
+  bottom: 0px;
+}
+ #right-top-nav a {padding: 6px 20px; display: inline-block;}
+ #right-top-nav {border-bottom:1px solid #d3d7cf}
+body #header #jenkins-name-icon strong {display:block; float:left; padding:2px 0 2px 10px;  }
+body #header #jenkins-name-icon span {display:block; float:left; padding:2px .5em;}
+body #header #jenkins-home-link {position:static; color:#fff;}
+body #header #jenkins-head-icon{ display:block; position:absolute; bottom:0; left:15px; height:37px; width:37px;}  
+
+ #cloudbees-footer-resource-toolbar-box {margin:-10px 0 10px; height:1px; position:relative; z-index:2;}
+ #cloudbees-footer-resource-toolbar { overflow:hidden; position:absolute; height:1px; bottom:0; left:0; right:0; padding:0 20px; transition-property: height; transition-duration: .25s; transition-delay:.25s; transition-timing-function: ease-out;
+ border-top:1px solid #689;
+ background: #113355; /* Old browsers */
+ background: -moz-linear-gradient(left,  #113355 0%, #131313 100%); /* FF3.6+ */
+ background: -webkit-gradient(linear, left top, right top, color-stop(0%,#113355), color-stop(100%,#131313)); /* Chrome,Safari4+ */
+ background: -webkit-linear-gradient(left,  #113355 0%,#131313 100%); /* Chrome10+,Safari5.1+ */
+ background: -o-linear-gradient(left,  #113355 0%,#131313 100%); /* Opera 11.10+ */
+ background: -ms-linear-gradient(left,  #113355 0%,#131313 100%); /* IE10+ */
+ background: linear-gradient(to right,  #113355 0%,#131313 100%); /* W3C */
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#113355', endColorstr='#131313',GradientType=1 ); /* IE6-9 */
+ }
+ #footer-container {position:relative; z-index:2}
+ #footer-container .platform {margin:0 20px; float:left; display:block;}
+ #footer-container #cloudbees-footer-resource-toolbar:hover {height:3em}
+ #footer-container #cloudbees-footer-resource-toolbar-box:hover #cloudbees-footer-resource-toolbar {height:3em}
+ #footer-container:hover #cloudbees-footer-resource-toolbar {height:3em;}
+ #cloudbees-footer-resource-toolbar > ul, #cloudbees-footer-resource-toolbar>ul>li {list-style:none; float:left; display:block; margin:0; padding:0;}
+ body #cloudbees-footer-resource-toolbar > ul {width:100%;}
+ #cloudbees-footer-resource-toolbar>ul>li.pull-right {float:right;}
+ #cloudbees-footer-resource-toolbar>ul>li>a{display:block; line-height:3em; color:rgba(255,255,255,.67); text-decoration:none; padding:0 10px;}
+ #cloudbees-footer-resource-toolbar>ul>li>a:hover{color:#fff; background:rgba(255,255,255,.1)}
+#footer .jenkins_ver {display:none}

@@ -35,7 +35,6 @@ THE SOFTWARE.
     <link rel="alternate" title="Jenkins:${it.name} (changelog) (RSS 2.0)" href="rssChangelog?flavor=rss20" type="application/rss+xml" />
   </l:header>
   <l:side-panel>
-    <h1>AbProj</h1>
     <l:tasks>
       <j:set var="url" value="${h.getNearestAncestorUrl(request,it)}"/>
       <j:choose>

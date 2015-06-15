@@ -191,9 +191,7 @@ THE SOFTWARE.
         var $createType = $('#create-type-hovers');
         var tabIndex = 1;
         
-        var $wrapper = $('#wrapper').addClass('add-form');
-        var $mainPanel = $('#main-panel').removeClass('col-md-9').addClass('col-md-12 add-form');
-        setTimeout(function(){$('#side-panel').remove();},10);
+        var $wrapper = $('#wrapper').addClass('right-toggled');
         
         if($hoverSpace.length === 0 )
           $hoverSpace = $('<div id="hover-space" class="bootstrap3" />').appendTo('body');
