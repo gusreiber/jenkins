@@ -212,9 +212,11 @@ THE SOFTWARE.
           var $groupItems = $group.find('.panel-body');
           if(group.items)
             $.each(group.items,function(i,item){
+            console.log('hi tom!!!!!!!!!!');
               var refItem = reference[item];
+              var $radio = null;
               if(refItem)
-                var $radio = $([
+                $radio = $([
                   '<div class="radio">',
                     '<label>',
                       '<input type="radio" tabindex="',tabIndex += i,'" name="new-radio-group" value="',item,'" />',
@@ -230,7 +232,7 @@ THE SOFTWARE.
                     var name = $(this).find('input').val();
                     $oldInput = $form.find('.tr input[value="'+name+'"]').click();
                   });
-              $radio.popover({
+              if($radio) $radio.popover({
                 container: $createType,
                 title:$radio.find('label').text(),
                 content:$radio.find('.description'),
