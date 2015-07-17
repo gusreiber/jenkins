@@ -32,6 +32,7 @@ var jq2_1_3 = $.noConflict(true);
     var $table = $('#containerListTable');
     var rootURL = $table.attr('data-jenkins-root');
 
+    //helper functions that draw the particular DOM for a cell in the table...
     
     function drawIdBox(val,row,gridObj){
       return ['<input class="form-control input-sm" type="text" value="',val,'" readonly="readonly" />'].join('');
@@ -159,6 +160,8 @@ var jq2_1_3 = $.noConflict(true);
         return 'None';
     }
     
+    /// 
+    
     function sortName(val,row,gridObj){
       return val.name;
     }
@@ -172,6 +175,11 @@ var jq2_1_3 = $.noConflict(true);
       if(val.running) return val.startedAt;
       else return val.finishedAt;
     }
+
+    
+    /// table model....
+    /// this is the configuration for the table, not the actual data...
+    
     var tableModel = {
         cols:[
           {
@@ -249,6 +257,11 @@ var jq2_1_3 = $.noConflict(true);
           return (row.getValue('state'))?'state-running':'state-exited';
         }
     }
+    
+    
+    // general code....
+    
+    
     var SortableTable = function(config,data,$target){
       this.config = config || {};
       this.data = data || [];
@@ -722,6 +735,11 @@ var jq2_1_3 = $.noConflict(true);
         }        
     }
     
+    
+    
+    
+    // other stuff on the page, not the table at all....
+    
     $('#sidebar-wrapper .widget > a').click(function(e){
       var $this = $(this);
       var $wrapper = $('#wrapper');
@@ -761,6 +779,47 @@ var jq2_1_3 = $.noConflict(true);
     function getAllContainers(){
       return $.get(resURL + '/plugin/cloudbees-docker-traceability/images/api.json');
       //return $.get(rootURL + '/docker-traceability/api/json?depth=2');
+    }
+    
+    function getUpdateCenters(){
+      return $.get(resURL + '/updateCenter/api/json?depth=2');
+    }
+    function getPluginManager(){
+      return $.get(resURL + '/pluginManager/api/json?depth=2');
+    }
+    
+    function getPlugins(){
+      var deferred = $.Deferred();
+      var updateCenters = getUpdateCenters();
+      var pluginManager = getPluginManager();
+      $.when(updateCenters,pluginManager).done(function(res1,res2){
+        var sites = res1[0].sites;
+        var installed = res2[0];
+        var uniquePluginUrls = [];
+        var plugins = [];
+        
+        // fetch all the updateCenters plugins...
+        $.each(sites,function(i,site){
+          $.each(site.availables,function(i,plugin){
+            var url = plugin.url;
+            if(uniquePluginUrls.indexOf(url) < 0 ){
+              uniquePluginUrls.push(url);
+              plugins.push(plugin);
+            }
+          });
+        });
+        
+        
+        
+      }
+          
+      );
+    };
+    
+    getPlugins();
+    
+    function getPlguinManager(){
+      return $.get(resURL + '/pluginManager/api/json?depth=2');
     }
     
     function containerSuccess(data,result,xhr){

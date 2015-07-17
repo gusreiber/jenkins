@@ -208,7 +208,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   .plugin-update #plugins td .compatWarning {margin:5px 0; padding:5px; border:1px solid; color:#c00; background:#fdc}
   .plugin-update #plugins td .excerpt,
   .plugin-update #plugins td .compatWarning {max-width:600px}
-  .plugin-update .create-item-list > .tile > .panel-body {height:200px; width:200px; text-align:left; white-space:normal}
+  .grid ul.tile,
+  .smart-grid ul.tile,
+  .plugin-update .create-item-list > .tile > .panel-body {list-style:none; padding:0; height:200px; width:200px; text-align:left; white-space:normal}
   .plugin-update .create-item-list > .panel .icn-box {font-size:80px}
   .plugin-update .create-item-list > .tile > .panel-body p {margin:10px 0; width:75%;}
   
@@ -265,6 +267,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   .add-form #main-panel {max-width: 992px;}
   .add-form #side-panel {display:none}
   .create-item-list .panel-default {}
+  .grid ul.tile,
+  .smart-grid ul.tile,
   .create-item-list .tile { float:left; margin:1px;}
   .create-item-list .tile > .panel-body { height:250px; width:250px; display:inline-block;  font-size:125%; text-shadow:0 0 5px #fff,0 0 3px #fff}
   .create-item-list .panel .title {line-height:1.25em; margin-bottom:10px; display:block; font-size:125%}
@@ -282,7 +286,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
   .bootstrap3 .old-create-form .validation-error-area,
   .bootstrap3 .old-create-form .input {position:fixed; left:-9999em; top:-999999em; height:0; width:0; overflow:hidden;}
   .bootstrap3 .old-create-form .item-name {padding:0 5px 0 10px}
-  
+  /*---------tiles--------*/
+  .grid ul.tile,
+  .smart-grid ul.tile {border:none; height:275px; min-width:208px; max-width:24%; margin:.5%; color:rgba(0,0,0,.67); box-shadow:0 1px 3px rgba(0,0,0,.5), inset 0 0 0 1px #ccc; background:#fff; padding:10px !important;}
+  .smart-grid ul.tile li {display:block; position:relative; overflow:hidden; margin-bottom:5px;}
+  .smart-grid ul.tile .title{line-height:1.25em; height:2.5em; margin-bottom:10px; font-size:125%; color:#000;}
+  .smart-grid ul.tile .excerpt {line-height:1.33em; height:4em;}
+  .smart-grid ul.tile li:after {content:' '; display:block; position:absolute; height:1.25em; width:6em; box-shadow:inset -80px 0 50px -50px #fff; bottom:0; right:0; }
+  .smart-grid ul.tile li:before { display:block; font-size:75%; color:rgba(0,0,0,.5)}
+  .smart-grid ul.tile .updated:before {content:'Updated';}
+  .smart-grid ul.tile .created:before {content:'Created';}
+  .smart-grid ul.tile .maintainer:before {content:'Maintainer'}
   /*---------create form-------------*/
   .bootstrap3 a.btn-ctrl {background:#fff; box-shadow:inset 0 0 0 1px rgba(0,0,0,.2), inset 0 -1px 2px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.1); display:inline-block; padding:5px; border-radius:5px; text-decoration:none;}
   .btn-ctrl i {display:block; color:#333; }
