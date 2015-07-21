@@ -290,18 +290,17 @@ function findAncestorClass(e, cssClass) {
 }
 
 function findFollowingTR(input, className) {
-  var tr = input;
-  while (tr && tr.tagName !== "TR" && !tr.hasClassName('tr')){
-      tr = tr.parentNode;
-  }
-  if(tr && (tr.tagName === 'TR' ||  tr.hasClassName('tr'))){
+    // identify the parent TR
+    var tr = input;
+    while (tr.tagName != "TR")
+        tr = tr.parentNode;
+
     // then next TR that matches the CSS
     do {
         tr = $(tr).next();
-    } while (tr != null && ((tr.tagName != "TR" && !tr.hasClassName('tr')) || !Element.hasClassName(tr,className)));
-  }
-  return tr;
-      
+    } while (tr != null && (tr.tagName != "TR" || !Element.hasClassName(tr,className)));
+
+    return tr;
 }
 
 function find(src,filter,traversalF) {
@@ -807,7 +806,7 @@ var jenkinsRules = {
             }).getWrapperElement();
             w.setAttribute("style","border:1px solid black; margin-top: 1em; margin-bottom: 1em")
         })();
-  },
+	},
 
 // deferred client-side clickable map.
 // this is useful where the generation of <map> element is time consuming
@@ -886,6 +885,26 @@ var jenkinsRules = {
         }
     },
 
+    // structured form submission
+    "FORM" : function(form) {
+        crumb.appendToForm(form);
+        if(Element.hasClassName(form, "no-json"))
+            return;
+        // add the hidden 'json' input field, which receives the form structure in JSON
+        var div = document.createElement("div");
+        div.innerHTML = "<input type=hidden name=json value=init>";
+        form.appendChild(div);
+
+        var oldOnsubmit = form.onsubmit;
+        if (typeof oldOnsubmit == "function") {
+            form.onsubmit = function() { return buildFormTree(this) && oldOnsubmit.call(this); }
+        } else {
+            form.onsubmit = function() { return buildFormTree(this); };
+        }
+
+        form = null; // memory leak prevention
+    },
+
     // hook up tooltip.
     //   add nodismiss="" if you'd like to display the tooltip forever as long as the mouse is on the element.
     "[tooltip]" : function(e) {
@@ -899,50 +918,21 @@ var jenkinsRules = {
     "INPUT.yui-button" : function(e) {
         makeButton(e);
     },
-    "#buildHistory":function(e){
-      debugger;
-      (function($){
-        var $source = $(e);
-        var $org = $source.find('.build-row');
-        if($org.length === 0 )return;
-        var $wrapper = $('#wrapper').addClass('showHistory');
-        var $new = $('#hack-history tbody');
-        
-        var $rss = $source.find('.build-rss-links').insertAfter($new.closest('table'));
-        
-        $org.each(function(i){
-          var $tr = $(this); 
-          var $newTr = $('<tr />');
-          var $dateCell = $('<td class="date" />');
-          var $dateLink = $tr.find('.build-details a').appendTo($dateCell);
-          var $img = $tr.find('img').prependTo($dateLink);
-          var $numCell = $('<td class="num" />').append($tr.find('.build-link'));
-          if($img.attr('src').indexOf('blue') > -1) 
-            $newTr.addClass('state-running');
-          if($img.attr('src').indexOf('red') > -1) 
-            $newTr.addClass('state-exited');
-          
-          $newTr.append($numCell).append($dateCell);
-          $new.append($newTr);
-          
-        });
-        
-      })(jq2_1_3)
-    },
-    ".optional-block-start": function(e) { // see optionalBlock.jelly
+
+    "TR.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
         var checkbox = e.down().down();
         e.setAttribute("ref", checkbox.id = "cb"+(iota++));
     },
+
     // see RowVisibilityGroupTest
-    ".rowvg-start" : function(e) {
+    "TR.rowvg-start" : function(e) {
         // figure out the corresponding end marker
         function findEnd(e) {
-          
             for( var depth=0; ; e=$(e).next()) {
                 if(Element.hasClassName(e,"rowvg-start"))    depth++;
                 if(Element.hasClassName(e,"rowvg-end"))      depth--;
-                if(depth==0 || !$(e).next() )    return e;
+                if(depth==0)    return e;
             }
         }
 
@@ -1010,69 +1000,8 @@ var jenkinsRules = {
             }
         };
     },
-    "DIV.setting-main":function(e){
-      debugger;
-      (function($){
-        var $this = $(e);
-        if($this.children('.repeated-container').length > 0)
-          $this.addClass('fill');
-      })(jq2_1_3);
-    },
-    "DIV.section":function(e){
-      debugger;
-      (function($){
-        var $section = $(e);
-        var $header = $section.children('.panel-heading');
-        var $body  = $section.children('.panel-collapse').addClass('collapse in');
-        var orgHeight = $body.height();
-        
-        $header.click(function(e){
-          if(!$section.hasClass('not-shown')){
-            $body.removeAttr('style');
-            orgHeight = $body.height();
-            $body.height(orgHeight);
-            $section.removeClass('shown').addClass('not-shown');
-            $body.height(0);
-            //$body.addClass('out').removeClass('in');
-          }
-          else{
-            $section.addClass('shown').removeClass('not-shown');
-           // $body.removeClass('out').addClass('in');
-            $body.height(orgHeight);
-          }
-        });
-        
-        $body.find('.shown .chk-name > label').each(
-            function(){
-              var $this = $(this);
-              if($.trim($this.text()) === 'None')
-                $this.closest('.radio-group-box').removeClass('shown').addClass('none');
-            }
-        );
-      })(jq2_1_3);
-    },
-    ".row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
-      // figure out the corresponding start block
-      e = $(e);
-      var end = e;
 
-      for( var depth=0; ; e=e.previous()) {
-          if(e.hasClassName("row-set-end"))        depth++;
-          if(e.hasClassName("row-set-start"))      depth--;
-          if(depth==0 || !e.previous())    break;
-      }
-      var start = e;
-
-      // @ref on start refers to the ID of the element that controls the JSON object created from these rows
-      // if we don't find it, turn the start node into the governing node (thus the end result is that you
-      // created an intermediate JSON object that's always on.)
-      var ref = start.getAttribute("ref");
-      if(ref==null)
-          start.id = ref = "rowSetStart"+(iota++);
-
-      applyNameRef(start,end,ref);
-  },
-    "DIV.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
+    "TR.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
         // figure out the corresponding start block
         e = $(e);
         var end = e;
@@ -1080,7 +1009,7 @@ var jenkinsRules = {
         for( var depth=0; ; e=e.previous()) {
             if(e.hasClassName("row-set-end"))        depth++;
             if(e.hasClassName("row-set-start"))      depth--;
-            if(depth==0 || !e.previous())    break;
+            if(depth==0)    break;
         }
         var start = e;
 
@@ -1094,10 +1023,10 @@ var jenkinsRules = {
         applyNameRef(start,end,ref);
     },
 
-    "DIV.optional-block-start ": function(e) { // see optionalBlock.jelly
+    "TR.optional-block-start ": function(e) { // see optionalBlock.jelly
         // this is suffixed by a pointless string so that two processing for optional-block-start
         // can sandwitch row-set-end
-        // this requires "DIV.row-set-end" to mark rows
+        // this requires "TR.row-set-end" to mark rows
         var checkbox = e.down().down();
         updateOptionalBlock(checkbox,false);
     },
@@ -1236,12 +1165,6 @@ var jenkinsRules = {
         sticker.insertBefore(edge,sticker.firstChild);
 
         function adjustSticker() {
-          debugger;
-          (function($){
-            var $sticker = $(sticker);
-            $sticker.width($sticker.width());
-          })(jq2_1_3);
-          
             shadow.style.height = sticker.offsetHeight + "px";
 
             var viewport = DOM.getClientRegion();
@@ -1409,31 +1332,6 @@ function applyNameRef(s,e,id) {
 // used by optionalBlock.jelly to update the form status
 //   @param c     checkbox element
 function updateOptionalBlock(c,scroll) {
-    var checked = xor(c.checked,Element.hasClassName(c,"negative"));
-    var jqComplete = false;
-    debugger;
-    (function($){
-      var $input = $(c);
-      var $groupBox = $input.closest('.option-group-box');
-      var $group = $groupBox.children('.option-group').first(); 
-      var $panel = $groupBox.closest('.panel-collapse').removeAttr('style');
-      if($group.length < 1) return;
-      
-      if(checked){ 
-        $group.show();
-        $groupBox.addClass('shown');
-      }
-      else{
-        $group.hide();
-        $groupBox.removeClass('shown');
-      }
-      
-      jqComplete = true;
-      
-    })(jq2_1_3)
-  
-    if(jqComplete) return;
-    
     // find the start TR
     var s = $(c);
     while(!s.hasClassName("optional-block-start"))
@@ -1444,7 +1342,7 @@ function updateOptionalBlock(c,scroll) {
     while (!vg.hasClassName("rowvg-start"))
         vg = vg.next();
 
-    
+    var checked = xor(c.checked,Element.hasClassName(c,"negative"));
 
     vg.rowVisibilityGroup.makeInnerVisisble(checked);
 
@@ -2034,6 +1932,8 @@ function updateBuildHistory(ajaxUrl,nBuild) {
             window.setTimeout(updateBuilds, updateBuildsRefreshInterval);
         }
     }
+
+    checkAllRowCellOverflows();
     window.setTimeout(updateBuilds, updateBuildsRefreshInterval);
 
     onBuildHistoryChange(function() {
@@ -2148,74 +2048,6 @@ function removeZeroWidthSpaces(element) {
     }
 }
 
-Element.observe(document, 'dom:loaded', function(){
-    if(isRunAsTest) {
-        return;
-    }
-
-    var pageHead = $('page-head');
-    var pageBody = $('page-body');
-    var sidePanel = $(pageBody).getElementsBySelector('#side-panel')[0];
-    var sidePanelContent = (sidePanel)?
-        $(sidePanel).getElementsBySelector('#side-panel-content')[0]:
-          null;
-    var mainPanel = $(pageBody).getElementsBySelector('#main-panel')[0];
-    var mainPanelContent = $(mainPanel).getElementsBySelector('#main-panel-content')[0];
-    var pageFooter = $('footer-container');
-
-    function applyFixedGridLayout() {
-        var pageBodyWidth = Element.getWidth(pageBody);
-        if (pageBodyWidth > 768) {
-            pageBody.addClassName("fixedGridLayout");
-            pageBody.removeClassName("container-fluid");
-            if(sidePanel) sidePanel.removeClassName("col-sm-9");
-            mainPanel.removeClassName("col-sm-15");
-            return true; // It's a fixedGridLayout
-        } else {
-            pageBody.removeClassName("fixedGridLayout");
-            pageBody.addClassName("container-fluid");
-            if(sidePanel) sidePanel.addClassName("col-sm-9");
-            mainPanel.addClassName("col-sm-15");
-            return false; // It's not a fixedGridLayout
-        }
-    }
-
-    function applyFixedGridHeights() {
-        var windowHeight = document.viewport.getDimensions().height;
-        var headHeight = Element.getHeight(pageHead);
-        var footerHeight = Element.getHeight(pageFooter);
-        var sidePanelHeight = (sidePanel)? Element.getHeight(sidePanel):0;
-        var mainPanelHeight = Element.getHeight(mainPanel);
-        var minPageBodyHeight = (windowHeight - headHeight - footerHeight);
-
-        minPageBodyHeight = Math.max(minPageBodyHeight, sidePanelHeight);
-        minPageBodyHeight = Math.max(minPageBodyHeight, mainPanelHeight);
-
-        $(pageBody).setStyle({minHeight: minPageBodyHeight + 'px'});
-        //if(sidePanel) $(sidePanel).setStyle({minHeight: minPageBodyHeight + 'px'});
-        //$(mainPanel).setStyle({minHeight: minPageBodyHeight + 'px'});
-    }
-
-    var doPanelLayouts = function() {
-        // remove all style
-        pageBody.removeAttribute('style');
-        if(sidePanel) sidePanel.removeAttribute('style');
-        mainPanel.removeAttribute('style');
-        if (applyFixedGridLayout()) {
-            applyFixedGridHeights();
-        }
-    }
-
-    Event.observe(window, 'resize', doPanelLayouts);
-    if(sidePanel && sidePanelContent) 
-      elementResizeTracker.onResize(sidePanelContent, doPanelLayouts);
-    if(mainPanelContent) 
-      elementResizeTracker.onResize(mainPanelContent, doPanelLayouts);
-
-    if(mainPanelContent && sidePanelContent) doPanelLayouts();
-    fireBuildHistoryChanged();
-});
-
 // get the cascaded computed style value. 'a' is the style name like 'backgroundColor'
 function getStyle(e,a){
   if(document.defaultView && document.defaultView.getComputedStyle)
@@ -2286,18 +2118,8 @@ function ensureVisible(e) {
 
     function handleStickers(name,f) {
         var e = $(name);
-        if (e){ 
-          debugger;
-          (function($){
-            var $this = $(e);
-            $this.width($this.width());
-            
-          })(jq2_1_3,e);
-          
-          f(e);
-        }
+        if (e) f(e);
         document.getElementsBySelector("."+name).each(f);
-
     }
 
     // if there are any stickers around, subtract them from the viewport
@@ -2371,6 +2193,202 @@ function createSearchBox(searchURL) {
 
     updatePos();
     box.onkeyup = updatePos;
+}
+
+
+/**
+ * Finds the DOM node of the given DOM node that acts as a parent in the form submission.
+ *
+ * @param {HTMLElement} e
+ *      The node whose parent we are looking for.
+ * @param {HTMLFormElement} form
+ *      The form element that owns 'e'. Passed in as a performance improvement. Can be null.
+ * @return null
+ *      if the given element shouldn't be a part of the final submission.
+ */
+function findFormParent(e,form,isStatic) {
+    isStatic = isStatic || false;
+
+    if (form==null) // caller can pass in null to have this method compute the owning form
+        form = findAncestor(e,"FORM");
+
+    while(e!=form) {
+        // this is used to create a group where no single containing parent node exists,
+        // like <optionalBlock>
+        var nameRef = e.getAttribute("nameRef");
+        if(nameRef!=null)
+            e = $(nameRef);
+        else
+            e = e.parentNode;
+
+        if(!isStatic && e.getAttribute("field-disabled")!=null)
+            return null;  // this field shouldn't contribute to the final result
+
+        var name = e.getAttribute("name");
+        if(name!=null && name.length>0) {
+            if(e.tagName=="INPUT" && !isStatic && !xor(e.checked,Element.hasClassName(e,"negative")))
+                return null;  // field is not active
+
+            return e;
+        }
+    }
+
+    return form;
+}
+
+// compute the form field name from the control name
+function shortenName(name) {
+    // [abc.def.ghi] -> abc.def.ghi
+    if(name.startsWith('['))
+        return name.substring(1,name.length-1);
+
+    // abc.def.ghi -> ghi
+    var idx = name.lastIndexOf('.');
+    if(idx>=0)  name = name.substring(idx+1);
+    return name;
+}
+
+
+
+//
+// structured form submission handling
+//   see http://wiki.jenkins-ci.org/display/JENKINS/Structured+Form+Submission
+function buildFormTree(form) {
+    try {
+        // I initially tried to use an associative array with DOM elements as keys
+        // but that doesn't seem to work neither on IE nor Firefox.
+        // so I switch back to adding a dynamic property on DOM.
+        form.formDom = {}; // root object
+
+        var doms = []; // DOMs that we added 'formDom' for.
+        doms.push(form);
+
+        function addProperty(parent,name,value) {
+            name = shortenName(name);
+            if(parent[name]!=null) {
+                if(parent[name].push==null) // is this array?
+                    parent[name] = [ parent[name] ];
+                parent[name].push(value);
+            } else {
+                parent[name] = value;
+            }
+        }
+
+        // find the grouping parent node, which will have @name.
+        // then return the corresponding object in the map
+        function findParent(e) {
+            var p = findFormParent(e,form);
+            if (p==null)    return {};
+
+            var m = p.formDom;
+            if(m==null) {
+                // this is a new grouping node
+                doms.push(p);
+                p.formDom = m = {};
+                addProperty(findParent(p), p.getAttribute("name"), m);
+            }
+            return m;
+        }
+
+        var jsonElement = null;
+
+        for( var i=0; i<form.elements.length; i++ ) {
+            var e = form.elements[i];
+            if(e.name=="json") {
+                jsonElement = e;
+                continue;
+            }
+            if(e.tagName=="FIELDSET")
+                continue;
+            if(e.tagName=="SELECT" && e.multiple) {
+                var values = [];
+                for( var o=0; o<e.options.length; o++ ) {
+                    var opt = e.options.item(o);
+                    if(opt.selected)
+                        values.push(opt.value);
+                }
+                addProperty(findParent(e),e.name,values);
+                continue;
+            }
+                
+            var p;
+            var r;
+            var type = e.getAttribute("type");
+            if(type==null)  type="";
+            switch(type.toLowerCase()) {
+            case "button":
+            case "submit":
+                break;
+            case "checkbox":
+                p = findParent(e);
+                var checked = xor(e.checked,Element.hasClassName(e,"negative"));
+                if(!e.groupingNode) {
+                    v = e.getAttribute("json");
+                    if (v) {
+                        // if the special attribute is present, we'll either set the value or not. useful for an array of checkboxes
+                        // we can't use @value because IE6 sets the value to be "on" if it's left unspecified.
+                        if (checked)
+                            addProperty(p, e.name, v);
+                    } else {// otherwise it'll bind to boolean
+                        addProperty(p, e.name, checked);
+                    }
+                } else {
+                    if(checked)
+                        addProperty(p, e.name, e.formDom = {});
+                }
+                break;
+            case "file":
+                // to support structured form submission with file uploads,
+                // rename form field names to unique ones, and leave this name mapping information
+                // in JSON. this behavior is backward incompatible, so only do
+                // this when
+                p = findParent(e);
+                if(e.getAttribute("jsonAware")!=null) {
+                    var on = e.getAttribute("originalName");
+                    if(on!=null) {
+                        addProperty(p,on,e.name);
+                    } else {
+                        var uniqName = "file"+(iota++);
+                        addProperty(p,e.name,uniqName);
+                        e.setAttribute("originalName",e.name);
+                        e.name = uniqName;
+                    }
+                }
+                // switch to multipart/form-data to support file submission
+                // @enctype is the standard, but IE needs @encoding.
+                form.enctype = form.encoding = "multipart/form-data";
+                break;
+            case "radio":
+                if(!e.checked)  break;
+                r=0;
+                while (e.name.substring(r,r+8)=='removeme')
+                    r = e.name.indexOf('_',r+8)+1;
+                p = findParent(e);
+                if(e.groupingNode) {
+                    addProperty(p, e.name.substring(r), e.formDom = { value: e.value });
+                } else {
+                    addProperty(p, e.name.substring(r), e.value);
+                }
+                break;
+
+            default:
+                p = findParent(e);
+                addProperty(p, e.name, e.value);
+                break;
+            }
+        }
+
+        jsonElement.value = Object.toJSON(form.formDom);
+
+        // clean up
+        for( i=0; i<doms.length; i++ )
+            doms[i].formDom = null;
+
+        return true;
+    } catch(e) {
+        alert(e+'\n(form not submitted)');
+        return false;
+    }
 }
 
 /**
