@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:i="jelly:fmt" xmlns:x="jelly:xml">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:i="jelly:fmt" xmlns:x="jelly:xml" xmlns:local="local">
   <st:documentation>
     Outer-most tag for a normal (non-AJAX) HTML rendering.
     This is used with nested &lt;header>, &lt;side-panel>, and &lt;main-panel>
@@ -126,9 +126,9 @@ ${h.initPageVariables(context)}
     <l:yui module="storage" />
     <!--l:yui module="editor" suffix="-beta" /-->
 
-    <script src="${resURL}/bundles/jenkins.js" type="text/javascript"/>
     <script src="${resURL}/scripts/hudson-behavior.js" type="text/javascript"></script>
     <script src="${resURL}/scripts/sortable.js" type="text/javascript"/>
+    
 
     <j:if test="${extensionsAvailable}">
       <script>
@@ -158,9 +158,257 @@ ${h.initPageVariables(context)}
     <j:if test="${isMSIE}">
       <script src="${resURL}/scripts/msie.js" type="text/javascript"/>
     </j:if>
-
+    <script src="${resURL}/scripts/js/lib.js" type="text/javascript"/>
+    <link rel="stylesheet" href="${resURL}/css/lib.css" type="text/css" />
+    <link rel="stylesheet" href="${resURL}/css/font-icons.css" type="text/css" />
+    <link />
   </head>
-  <body id="jenkins" class="yui-skin-sam jenkins-${h.version}" data-version="jenkins-${h.version}" data-model-type="${it.class.name}">
+  <body id="jenkins" class="yui-skin-sam jenkins-${h.version}" data-version="jenkins-${h.version}">
+  <div id="wrapper" class="bootstrap3 queue toggled" data-sidewidget="queue">
+    <div id="sidebar-wrapper">
+      <div class="hold-right top">
+   
+      </div>
+      <div class="hold-right">
+
+        <div class="toggle-widgets-box">
+          <div  class="add-item-box">
+            <a href="${rootURL}/newJob">+</a>
+          </div> 
+                
+          <div class="widget queue" id="toggle-widgets"><a href="#side-widget=queue"><span class="corner"></span><i class="icon-brick-o"></i></a></div>
+          <div class="widget fingerprints"><a href="#side-widget=fingerprints"><span class="corner"></span><i class="icon-fingerprint"></i></a></div>
+          <div class="widget support"><a href="#side-widget=support"><span class="corner"></span><i class="icon-phone2"></i></a></div>
+          <div class="widget manage"><a href="#side-widget=manage"><span class="corner"></span><i class="icon-screwdriver"></i></a></div>
+
+        </div>
+      </div>          
+      <div id="sidebar-scroll-wrapper">
+      <div class="queue-box tab">
+      <div class="panel panel-default top">
+        <div class="panel-heading">
+          <h3 class="panel-title">Build and System Status</h3>
+        </div>
+        <div class="panel-heading sub">
+          <a class="slct" href="#">Show all</a>
+          <a href="#">Use context</a>
+        </div>       
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Job Queue</h3>
+        </div>
+        <div class="panel-body">
+          <table class="grid">
+          <colgroup>
+            <col class="name" />
+            <col class="num" />
+            <col class="slct" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Job</th><th class="num">Sec</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr> 
+            <td><a href="#">.../cloudbees-security/cloudbees-security-groups-production-run</a></td>
+            <td class="num">10</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          <tr> 
+            <td><a href="#">.../forge-ci-monitor/commit-to-git-https</a></td>
+            <td class="num">3</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+
+          </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Executor Status</h3>
+        </div>
+        <div class="panel-body">
+          <table class="grid">
+          <colgroup>
+            <col class="name" />
+            <col class="num" />
+            <col class="slct" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Job</th><th class="num">#</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr class="ex"><td colspan="3"><a href="#">DevOpsToolBox <em><b class="f"></b><b class="f"></b><b></b><b></b><b></b><b></b><b></b><b></b></em></a></td></tr>
+          <tr>
+            <td>
+              <a href="#">
+                
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+                JEbC/acceptance-test-jebc
+              </a>
+            </td>
+            <td class="num">102</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          <tr>
+            <td><a href="#">
+            <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 67%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+            .../forge-ci-monitor/commit-to-git-https
+            </a></td>
+            <td class="num">27</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          <tr class="ex"><td colspan="3"><a href="#">docker-builder-1 <em><b class="f"></b><b></b><b></b><b></b></em></a></td></tr>
+          <tr>
+            <td><a href="#">
+            <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 83%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+            .../forge-ci-monitor/commit-to-git-https
+            </a></td>
+            <td class="num">27</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+
+          <tr class="ex"><td colspan="3"><a href="#">jce-builder-1 <em><b class="f"></b><b></b><b></b><b></b></em></a></td></tr>
+          <tr>
+            <td><a href="#">
+            <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 13%">
+                    <span class="sr-only">45% Complete</span>
+                  </div>
+                </div>
+            .../Jenkins-enterprise/production
+            </a></td>
+            <td class="num">253</td>
+            <td><a href="#"><i class="icon-cancel-circle"></i></a></td>
+          </tr>
+          
+          </tbody>
+          </table>
+       
+        </div>
+        
+      </div>
+       </div>         
+       <div class="tab manage-box">
+      <div class="panel panel-default top">
+        <div class="panel-heading">
+          <h3 class="panel-title">Build and System Status</h3>
+        </div>      
+      </div> 
+          <table style="padding-left: 2em;" id="management-links-2">
+      
+      <tbody>
+      <tr><td class="img"><a href="/jenkins/configure"><img src="/jenkins/images/48x48/setting.png" style="width: 32px; height: 32px; " class="icon-setting icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><script src="/jenkins/adjuncts/6cf84da5/lib/form/link/link.js" type="text/javascript"></script><a href="/jenkins/configure" class=" ">Configure System</a></div><div style="color:gray; text-decoration:none;">Configure global settings and paths.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/configureSecurity"><img src="/jenkins/images/48x48/secure.png" style="width: 32px; height: 32px; " class="icon-secure icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/configureSecurity" class=" ">Configure Global Security</a></div><div style="color:gray; text-decoration:none;">Secure Jenkins; define who is allowed to access/use the system.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/configureAnalytics"><img src="/jenkins/plugin/operations-center-analytics-reporter/images/48x48/analytics.png" alt="" style="width:32px; height:32px; "/></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/configureAnalytics" class=" ">Configure Analytics</a></div><div style="color:gray; text-decoration:none;">Configure the storage and reporting of Analytics</div></td></tr>
+      
+      
+      <tr><td class="img"><img src="/jenkins/images/48x48/refresh.png" style="width: 32px; height: 32px; " class="icon-refresh icon-xlg" /></td><td style="vertical-align:middle"><div class="link"><a onclick="confirmPOST_id220(true, 'reload', 'Reload Configuration from Disk: are you sure?')" href="/jenkins/#">Reload Configuration from Disk</a><script>function confirmPOST_id220(post, href, message) {
+            if (confirm(message)) {
+                var form = document.createElement('form');
+                form.setAttribute('method', post ? 'POST' : 'GET');
+                form.setAttribute('action', href);
+                if (post) {
+                    crumb.appendToForm(form);
+                }
+                document.body.appendChild(form);
+                form.submit();
+            }
+            return false;
+        }</script></div><div style="color:gray; text-decoration:none;">Discard all the loaded data in memory and reload everything from file system.
+Useful when you modified config files directly on disk.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/pluginManager"><img src="/jenkins/images/48x48/plugin.png" style="width: 32px; height: 32px; " class="icon-plugin icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/pluginManager" class=" ">Manage Plugins</a></div><div style="color:gray; text-decoration:none;">Add, remove, disable or enable plugins that can extend the functionality of Jenkins.<span style="color:red; font-weight:bold">(updates available)</span></div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/systemInfo"><img src="/jenkins/images/48x48/computer.png" style="width: 32px; height: 32px; " class="icon-computer icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/systemInfo" class=" ">System Information</a></div><div style="color:gray; text-decoration:none;">Displays various environmental information to assist trouble-shooting.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/log"><img src="/jenkins/images/48x48/clipboard.png" style="width: 32px; height: 32px; " class="icon-clipboard icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/log" class=" ">System Log</a></div><div style="color:gray; text-decoration:none;">System log captures output from <tt>java.util.logging</tt> output related to Jenkins.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/load-statistics"><img src="/jenkins/images/48x48/monitor.png" style="width: 32px; height: 32px; " class="icon-monitor icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/load-statistics" class=" ">Load Statistics</a></div><div style="color:gray; text-decoration:none;">Check your resource utilization and see if you need more computers for your builds.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/cli"><img src="/jenkins/images/48x48/terminal.png" style="width: 32px; height: 32px; " class="icon-terminal icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/cli" class=" ">Jenkins CLI</a></div><div style="color:gray; text-decoration:none;">Access/manage Jenkins from your shell, or from your script.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/script"><img src="/jenkins/images/48x48/notepad.png" style="width: 32px; height: 32px; " class="icon-notepad icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/script" class=" ">Script Console</a></div><div style="color:gray; text-decoration:none;">Executes arbitrary script for administration/trouble-shooting/diagnostics.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/computer"><img src="/jenkins/images/48x48/network.png" style="width: 32px; height: 32px; " class="icon-network icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/computer" class=" ">Manage Nodes</a></div><div style="color:gray; text-decoration:none;">Add, remove, control and monitor the various nodes that Jenkins runs jobs on.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/ha"><img src="/jenkins/plugin/cloudbees-ha/images/48x48/accept.png" alt="" style="width:32px; height:32px; "/></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/ha" class=" ">High Availability Status</a></div><div style="color:gray; text-decoration:none;">Monitor the status of the Jenkins Enterprise HA cluster</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/pluginUsage"><img src="/jenkins/images/48x48/plugin.png" style="width: 32px; height: 32px; " class="icon-plugin icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/pluginUsage" class=" ">Plugin Usage</a></div><div style="color:gray; text-decoration:none;">Summarizes usage of installed plugins insofar as that can be determined. <em>Beta status</em>; report bugs and suggestions to <a href="/jenkins/https://cloudbees.zendesk.com/">CloudBees Support</a>.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/plugin/cloudbees-quiet-start/"><img src="/jenkins/plugin/cloudbees-quiet-start/images/48x48/system-restart.png" alt="" style="width:32px; height:32px; "/></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/plugin/cloudbees-quiet-start/" class=" ">Quiet Restart</a></div><div style="color:gray; text-decoration:none;">Allows you to request that Jenkins be in the “quieting down” state after a restart.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/credentials"><img src="/jenkins/plugin/credentials/images/48x48/credentials.png" alt="" style="width:32px; height:32px; "/></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/credentials" class=" ">Manage Credentials</a></div><div style="color:gray; text-decoration:none;">Create/delete/modify the credentials that can be used by Jenkins and by jobs running in Jenkins to connect to 3rd party services.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/about"><img src="/jenkins/images/48x48/help.png" style="width: 32px; height: 32px; " class="icon-help icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/about" class=" ">About Jenkins</a></div><div style="color:gray; text-decoration:none;">See the version and license information.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/administrativeMonitor/OldData/"><img src="/jenkins/images/48x48/document.png" style="width: 32px; height: 32px; " class="icon-document icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/administrativeMonitor/OldData/" class=" ">Manage Old Data</a></div><div style="color:gray; text-decoration:none;">Scrub configuration files to remove remnants from old plugins and earlier versions.</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/license"><img src="/jenkins/images/48x48/secure.png" style="width: 32px; height: 32px; " class="icon-secure icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/license" class=" ">Manage License</a></div><div style="color:gray; text-decoration:none;">Enter the license key for this Jenkins</div></td></tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/scriptApproval"><img src="/jenkins/images/48x48/notepad.png" style="width: 32px; height: 32px; " class="icon-notepad icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/scriptApproval" class=" ">In-process Script Approval</a></div><div style="color:gray; text-decoration:none;">Allows a Jenkins administrator to review proposed scripts (written e.g. in Groovy) which run inside the Jenkins process and so could bypass security restrictions.</div></td></tr>
+      
+      
+      <tr>
+        <td>
+          <a href="/jenkins//jenkins/monitoring"><img src="/jenkins/images/48x48/monitor.png" style="width: 32px; height: 32px; " class="icon-monitor icon-xlg" /></a>
+        </td>
+        <td style="vertical-align:middle">
+          <div class="link"><a href="/jenkins//jenkins/monitoring" class=" ">Monitoring of Jenkins master</a></div>
+          <div style="color:gray; text-decoration:none;">Monitoring of memory, cpu, http requests and more in Jenkins master.<br />You can also view the monitoring of <a href="/jenkins/./monitoring/nodes">Jenkins nodes</a>.</div>
+        </td>
+        </tr>
+      
+      
+      <tr><td class="img"><a href="/jenkins/quietDown"><img src="/jenkins/images/48x48/system-log-out.png" style="width: 32px; height: 32px; " class="icon-system-log-out icon-xlg" /></a></td><td style="vertical-align:middle"><div class="link"><a href="/jenkins/quietDown" class="post ">Prepare for Shutdown</a></div><div style="color:gray; text-decoration:none;">Stops executing new builds, so that the system can be eventually shut down safely.</div></td></tr>
+      
+      
+      
+      </tbody></table>
+          
+          
+          
+   </div>
+      </div>
+    
+    </div>
+    <div id="page-content-wrapper">
     <!-- for accessibility, skip the entire navigation bar and etc and go straight to the head of the content -->
     <a href="#skip2content" class="skiplink">Skip to content</a>
 
@@ -169,7 +417,7 @@ ${h.initPageVariables(context)}
         <div class="logo">
           <a id="jenkins-home-link" href="${rootURL}/">
             <img id="jenkins-head-icon" src="${imagesURL}/headshot.png" alt="title" />
-            <img id="jenkins-name-icon" src="${imagesURL}/title.png" alt="title" width="139" height="34" />
+            <span id="jenkins-name-icon"><strong>CloudBees </strong><span>Jenkins Enterprise</span></span>
           </a>
         </div>
         <div class="login">
@@ -227,46 +475,99 @@ ${h.initPageVariables(context)}
       </div>
     </div>
 
-    <div id="page-body">
-      <div id="side-panel">
-        <j:set var="mode" value="side-panel" />
-        <d:invokeBody />
-  
-        <!-- add YUI logger if debugging YUI -->
-        <j:if test="${h.yuiSuffix=='debug'}">
-        <div id="yui-logreader" style="margin-top:1em"/>
-          <script>
-            Behaviour.addLoadEvent(function(){
-              var logReader = new YAHOO.widget.LogReader("yui-logreader");
-              logReader.collapse();
-            });
-          </script>
-        </j:if>
-      </div>
-      <div id="main-panel">
-         <j:set var="mode" value="main-panel" />
-         <d:invokeBody/>
-      </div>
-    </div>
+    <div id="page-body" class="bootstrap3">
+      <div class="row">
+      
 
-    <footer>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6" id="footer"></div>
-          <div class="col-md-18">
-            <span class="page_generated">${%Page generated}: <i:formatDate value="${h.getCurrentTime()}" type="both" dateStyle="medium" timeStyle="medium"/></span>
-            <span class="rest_api"><a href="api/">REST API</a></span>
-            <span class="jenkins_ver"><a href="${h.getFooterURL()}">Jenkins ver. ${h.version}</a></span>
-            <j:if test="${extensionsAvailable}">
-            <j:forEach var="pd" items="${h.pageDecorators}">
-              <st:include it="${pd}" page="footer.jelly" optional="true" />
-            </j:forEach>
+
+        <div id="main-panel" class="col col-md-10">
+          <div id="main-panel-content">
+            <div id="main-panel-content-inner">
+              <j:set var="mode" value="main-panel" />
+              <d:invokeBody/>
+            </div>
+            <div id="hack-history">
+              <table class="table table-striped grid">
+                <colgroup>
+                  
+                  <col></col>
+                  <col style="width:100%"></col>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="num">#</th>
+                    <th class="date">Build Time</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        <div id="side-panel" class="col col-md-2">
+        
+          <div class="fixed">
+            <div id="side-panel-toggle-anchor">
+              <a href="#right-widget"><span class="corner"></span><i class="icon-menu2"></i></a>
+            </div>
+          </div>
+          <div id="side-panel-content">
+            <j:set var="mode" value="side-panel" />
+            <d:invokeBody />
+
+            <!-- add YUI logger if debugging YUI -->
+            <j:if test="${h.yuiSuffix=='debug'}">
+              <div id="yui-logreader" style="margin-top:1em"/>
+              <script>
+                Behaviour.addLoadEvent(function(){
+                  var logReader = new YAHOO.widget.LogReader("yui-logreader");
+                  logReader.collapse();
+                });
+              </script>
             </j:if>
           </div>
         </div>
+        
+        
+        
       </div>
-    </footer>
-
+    </div>
+    <div id="footer-container" class="hidden-xs">
+      <span class="platform">CloudBees Jenkins Platform</span>
+      <div id="cloudbees-footer-resource-toolbar-box">
+        <div id="cloudbees-footer-resource-toolbar">
+          <ul class="nav">
+            <li><a target="_blank" href="http://www.cloudbees.com/documentation">Documentation</a></li>
+            <li><a target="_blank" href="http://support.cloudbees.com">Support</a></li>
+            <li class="pull-right"><a target="_blank" href="http://www.cloudbees.com">www.cloudbees.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="footer">
+        <span class="page_generated">
+          ${%Page generated}:
+          <i:formatDate value="${h.getCurrentTime()}" type="both" dateStyle="medium" timeStyle="medium"/>
+        </span>
+        <span class="rest_api">
+          <a href="api/">REST API</a>
+        </span>
+        <span class="jenkins_ver">
+          <a href="${h.getFooterURL()}">Jenkins ver. ${h.version}</a>
+        </span>
+        <j:if test="${extensionsAvailable}">
+        <j:forEach var="pd" items="${h.pageDecorators}">
+          <st:include it="${pd}" page="footer.jelly" optional="true" />
+        </j:forEach>
+        </j:if>
+      </div>
+    </div>
+    </div>
+    </div>
   </body>
 </html>
 </j:jelly>

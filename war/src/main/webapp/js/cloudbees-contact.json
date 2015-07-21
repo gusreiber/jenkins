@@ -1,0 +1,72 @@
+{
+    "name": "cloudbees",
+    "company": "CloudBees",
+    "roles": [
+        "admin",
+        "user"
+    ],
+    "subscriptions": [
+        {
+            "service": "DEV",
+            "plan": "enterprise-monthly-2014-01",
+            "config": {
+                "JENKINS_URL": "https://cloudbees.ci.cloudbees.com",
+                "users": 50,
+                "deployment_time": 1404430443664
+            }
+        },
+        {
+            "service": "FORGE",
+            "plan": "free",
+            "config": {
+                "name": "cloudbees",
+                "url": "https://forge-api.cloudbees.com/accounts/cloudbees",
+                "manage_url": "https://console.cloudbees.com/a/cloudbees/repos",
+                "state": "activated",
+                "created_at": "2010-08-07T00:19:34.322Z"
+            }
+        }
+    ],
+    "custom_roles": [],
+    "billing_contact": {
+        "id": 165066,
+        "account": "cloudbees",
+        "first_name": "Daya",
+        "last_name": "Sharma",
+        "name": "CloudBees",
+        "emails": [
+            "dsharma@cloudbees.com"
+        ],
+        "address1": "12419 Gershwin Oak St",
+        "address2": null,
+        "postal_code": "77089",
+        "city": "Houston",
+        "state": "Tennessee",
+        "country": "USA",
+        "confirmed": null
+    },
+    "company_contact": {
+        "id": 30193,
+        "account": "cloudbees",
+        "first_name": "Ben",
+        "last_name": "Walding",
+        "name": "CloudBees",
+        "emails": [
+            "bwalding@cloudbees.com"
+        ],
+        "address1": "20 Prout Street",
+        "address2": "A",
+        "postal_code": "4152",
+        "city": "Camp Hill",
+        "state": "Queensland",
+        "country": "AUS",
+        "confirmed": null
+    },
+    "suspended": false,
+    "cancelled": null,
+    "tags": {
+        "system.ui": "console"
+    },
+    "max_users": 30000,
+    "has_no_users_limit": false
+}
