@@ -290,32 +290,18 @@ function findAncestorClass(e, cssClass) {
 }
 
 function findFollowingTR(input, className) {
-    var jqFind = null;
-    (function($){
-        var $input = $(input);
-        var $tr = $input.closest('.tr');
-        var $section = $tr.closest('[data-type="section"]');
-        var $jqFind = $section.find('.'+className);
-        if($jqFind.length > 1) 
-          jqFind = $jqFind[0];
-        else{
-          $tr.nextAll('.'+className).first()[0];
-        }
-    })(jq2_1_3);
-    if(jqFind) return jqFind;
-      
-    // identify the parent TR
-    var tr = input;
-    while (tr.tagName !== "TR" && !tr.hasClassName('tr')){
-        tr = tr.parentNode;
-    }
-
+  var tr = input;
+  while (tr && tr.tagName !== "TR" && !tr.hasClassName('tr')){
+      tr = tr.parentNode;
+  }
+  if(tr && (tr.tagName === 'TR' ||  tr.hasClassName('tr'))){
     // then next TR that matches the CSS
     do {
         tr = $(tr).next();
     } while (tr != null && ((tr.tagName != "TR" && !tr.hasClassName('tr')) || !Element.hasClassName(tr,className)));
-
-    return tr;
+  }
+  return tr;
+      
 }
 
 function find(src,filter,traversalF) {
@@ -821,7 +807,7 @@ var jenkinsRules = {
             }).getWrapperElement();
             w.setAttribute("style","border:1px solid black; margin-top: 1em; margin-bottom: 1em")
         })();
-	},
+  },
 
 // deferred client-side clickable map.
 // this is useful where the generation of <map> element is time consuming
@@ -902,8 +888,10 @@ var jenkinsRules = {
 
     // structured form submission
     "FORM" : function(form) {
-        (function($){
+      //jquery code handles sizing of the new layout sidepanel....
+        if(jq2_1_3) (function($){
           var $wrapper = $('#wrapper').addClass('right-toggled');
+          if($wrapper.length === 0 ) return;
           var $main = $wrapper.find('#main-panel');
           var $side = $wrapper.find('#side-panel');
           $main.addClass('col-md-11').removeClass('col-md-10');
@@ -942,6 +930,8 @@ var jenkinsRules = {
         makeButton(e);
     },
     "#buildHistory":function(e){
+      // this code splices in new layout for build history. Not used in original code...
+      if(jq2_1_3)
       (function($){
         var $source = $(e);
         var $org = $source.find('.build-row');
@@ -970,14 +960,13 @@ var jenkinsRules = {
         
       })(jq2_1_3)
     },
-    "DIV.optional-block-start": function(e) { // see optionalBlock.jelly
+    ".optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
         var checkbox = e.down().down();
         e.setAttribute("ref", checkbox.id = "cb"+(iota++));
     },
-
     // see RowVisibilityGroupTest
-    "DIV.rowvg-start" : function(e) {
+    ".rowvg-start" : function(e) {
         // figure out the corresponding end marker
         function findEnd(e) {
           
@@ -1053,13 +1042,42 @@ var jenkinsRules = {
         };
     },
     "DIV.setting-main":function(e){
-      (function($){
-        var $this = $(e);
-        if($this.children('.repeated-container').length > 0)
-          $this.addClass('fill');
-      })(jq2_1_3);
+      var $this = $(e);
+      var $repeated = $this.down('.repeated-container');
+      if($repeated && $repeated.length > 0)
+        $this.addClassName('fill');
     },
     "DIV.section":function(e){
+      var  $section = $(e);
+      var $header = $section.down('.panel-heading') || [];
+      var $body  = $section.down('.panel-collapse') || [];
+      var orgHeight = 0;
+      if ($body.length > 0){
+        $body.addClassName('collapse in');
+        orgHeight = $body.getHeight();
+      }
+      $header.on('click',function(e,elem){
+        if(!$section.hasClassName('not-shown')){
+          $body.removeAttribute('style');
+          orgHeight = $body.getHeight();
+          $section.removeClassName('shown');
+          $section.addClassName('not-shown');
+          $body.setStyle({height:0});
+        }
+        else{
+          $section.addClassName('shown');
+          $section.removeClassName('not-shown');
+          $body.setStyle({height:orgHeight + 'px'});
+        }
+        
+      });
+      var $shownRadioGroup = $body.down('.shown') || [];
+      if($shownRadioGroup.length > 0) {
+        //debugger;
+      }
+      return;
+      
+      //debugger;
       (function($){
         var $section = $(e);
         var $header = $section.children('.panel-heading');
@@ -1081,7 +1099,7 @@ var jenkinsRules = {
             $body.height(orgHeight);
           }
         });
-        
+
         $body.find('.shown .chk-name > label').each(
             function(){
               var $this = $(this);
@@ -1091,7 +1109,7 @@ var jenkinsRules = {
         );
       })(jq2_1_3);
     },
-    "DIV.row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
+    ".row-set-end": function(e) { // see rowSet.jelly and optionalBlock.jelly
       // figure out the corresponding start block
       e = $(e);
       var end = e;
@@ -1276,7 +1294,8 @@ var jenkinsRules = {
         sticker.insertBefore(edge,sticker.firstChild);
 
         function adjustSticker() {
-          (function($){
+          //debugger;
+          if(jq2_1_3)(function($){
             var $sticker = $(sticker);
             $sticker.width($sticker.width());
           })(jq2_1_3);
@@ -1451,7 +1470,7 @@ function updateOptionalBlock(c,scroll) {
     var checked = xor(c.checked,Element.hasClassName(c,"negative"));
     var jqComplete = false;
     
-    (function($){
+    if(jq2_1_3)(function($){
       var $input = $(c);
       var $groupBox = $input.closest('.option-group-box');
       var $group = $groupBox.children('.option-group').first(); 
@@ -1484,7 +1503,7 @@ function updateOptionalBlock(c,scroll) {
         vg = vg.next();
 
     
-
+    
     vg.rowVisibilityGroup.makeInnerVisisble(checked);
 
     if(checked && scroll) {
@@ -2246,10 +2265,12 @@ Element.observe(document, 'dom:loaded', function(){
     }
 
     Event.observe(window, 'resize', doPanelLayouts);
-    if(sidePanel) elementResizeTracker.onResize(sidePanelContent, doPanelLayouts);
-    elementResizeTracker.onResize(mainPanelContent, doPanelLayouts);
+    if(sidePanel && sidePanelContent) 
+      elementResizeTracker.onResize(sidePanelContent, doPanelLayouts);
+    if(mainPanelContent) 
+      elementResizeTracker.onResize(mainPanelContent, doPanelLayouts);
 
-    doPanelLayouts();
+    if(mainPanelContent && sidePanelContent) doPanelLayouts();
     fireBuildHistoryChanged();
 });
 
@@ -2324,6 +2345,7 @@ function ensureVisible(e) {
     function handleStickers(name,f) {
         var e = $(name);
         if (e){ 
+          if(jq2_1_3)
           (function($){
             var $this = $(e);
             $this.width($this.width());
@@ -3050,4 +3072,3 @@ var notificationBar = {
             this.token = window.setTimeout(function(){self.hide();},this.DELAY);
     }
 };
-
