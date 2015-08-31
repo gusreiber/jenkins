@@ -49,112 +49,81 @@ THE SOFTWARE.
     <st:include page="sidepanel.jelly"/>
     <l:main-panel>
       <st:adjunct includes="hudson.PluginManager._table"/>
-      <h1>???table.jelly</h1>
-      <form method="post" action="install">
-        <div id="filter-container">
-          ${%Filter}:
-          <input type="text" id="filter-box"/>
+      <div class="sidebar-nav" id="left-pegged-nav">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="visible-xs navbar-brand">Jenkins Plugins</span>
         </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse"  id="grid-scrollspy">
+          <ul class="nav navbar-nav nav-list">
+            <li class="section-tab scm"><a href="#grid-group-header-scm">SCM Connectors</a></li>
+            <li class="section-tab build"><a href="#grid-group-header-build">Build and Analysis</a></li>
+            <li class="section-tab deploy"><a href="#grid-group-header-deploy">Deployment</a></li>
+            <li class="section-tab pipelines"><a href="#grid-group-header-pipelines">Pipelines</a></li>
+            <li class="section-tab containers"><a href="#grid-group-header-containers">Containers</a></li>
+            <li class="section-tab security"><a href="#grid-group-header-security">Users and Security</a></li>
+            <li class="section-tab general"><a href="#grid-group-header-general">General Purpose</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="header-toolbar"  id="top-pegged-header">
+      <div class="cover"></div>
+      <h1>Jenkins Plugins</h1>
+      <nav class="navbar navbar-inverse" id="top-pegged-nav">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
 
-        <j:set var="isUpdates" value="${attrs.page=='updates'}" />
-        
-        <local:tabBar page="${attrs.page}" xmlns:local="/hudson/PluginManager" />
-        <div class="pane-frame">
-          <table id="plugins" class="sortable pane bigtable stripped-odd">
-            <tr>
-              <th initialSortDir="${isUpdates?null:'down'}"
-                  tooltip="${%Check to install the plugin}${isUpdates?'':'&lt;br/&gt;'+'%Click this heading to sort by category'}"
-                  width="32" onclick="showhideCategories(this,1)">${%Install}</th>
-              <th initialSortDir="${isUpdates?'down':null}"
-                  onclick="showhideCategories(this,0)">${%Name}</th>
-              <th onclick="showhideCategories(this,0)">${%Version}</th>
-              <j:if test="${isUpdates}"><th>${%Installed}</th></j:if>
-            </tr>
-            <j:choose>
-              <j:when test="${!empty(list)}">
-                <j:set var="lastCat" value="" />
-                <j:forEach var="p" items="${list}">
-                  <j:if test="${!isUpdates}">
-                    <j:set var="thisCat" value="${p.category}" />
-                    <j:set var="p" value="${p.plugin}" />
-                    <j:if test="${thisCat != lastCat}">
-                      <tr class="plugin-category" name="${thisCat}">
-                        <td class="pane" colspan="4" onclick="showhideCategory(this)">${thisCat}</td>
-                      </tr>
-                    </j:if>
-                    <j:set var="lastCat" value="${thisCat}" />
-                  </j:if>
-                  <j:set var="installJob" value="${isUpdates ? app.updateCenter.getJob(p) : null}" />
-                  <j:set var="installedOk"
-                         value="${installJob.status.success and installJob.plugin.version==p.version}" />
-                  <tr class="${installJob!=null ? 'already-upgraded' : ''} plugin" name="${p.displayName}">
-                    <td class="pane" align="center" data="${thisCat}_">
-                      <input type="checkbox" name="plugin.${p.name}.${p.sourceId}"
-                             checked="${installedOk ? 'checked' : null}"
-                             disabled="${installedOk ? 'disabled' : null}" onClick="flip(this);"/>
-                    </td>
-                    <td class="pane" data="${h.xmlEscape(p.displayName)}">
-                      <div>
-                        <a href="${p.wiki}"><st:out value="${p.displayName}"/></a>
-                      </div>
-                      <j:if test="${p.excerpt!=null}">
-                        <div class="excerpt"><j:out value="${p.excerpt}" /></div>
-                      </j:if>
-                      <j:if test="${!p.isCompatibleWithInstalledVersion()}">
-                        <div class="compatWarning">${%compatWarning}</div>
-                      </j:if>
-                      <j:if test="${p.isForNewerHudson()}">
-                        <div class="compatWarning">${%coreWarning(p.requiredCore)}</div>
-                      </j:if>
-                      <j:if test="${!p.isNeededDependenciesCompatibleWithInstalledVersion()}">
-                        <div class="compatWarning">${%depCompatWarning}</div>
-                      </j:if>
-                      <j:if test="${p.isNeededDependenciesForNewerJenkins()}">
-                        <div class="compatWarning">${%depCoreWarning(p.getNeededDependenciesRequiredCore().toString())}</div>
-                      </j:if>
-                    </td>
-                    <td class="pane"><st:out value="${p.version}" /></td>
-                    <j:if test="${isUpdates}">
-                      <td class="pane">
-                        <j:choose><j:when test="${p.installed.active}">
-                          <st:out value="${p.installed.version}" />
-                        </j:when><j:otherwise>
-                          <span title="${%Inactive}">
-                            (<st:out value="${p.installed.version}" />)
-                          </span>
-                        </j:otherwise></j:choose>
-                      </td>
-                    </j:if>
-                  </tr>
-                </j:forEach>
-              </j:when>
-              <j:otherwise>
-                <tr>
-                  <td colspan="4" align="center">
-                    <div style="padding:1em">
-                      ${%No updates}
-                    </div>
-                  </td>
-                </tr>
-              </j:otherwise>
-            </j:choose>
-          </table>
-        </div>
-
-        <j:if test="${!empty(list)}">
-          <div id="bottom-sticker" >
-            <div class="bottom-sticker-inner">
-              <j:if test="${!isUpdates}">
-                <f:submit value="${%Install without restart}" name="dynamicLoad" />
-                <span style="margin-left:2em;"></span>
-              </j:if>
-              <f:submit value="${%Download now and install after restart}" />
-              <st:include page="check.jelly"/>
-            </div>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Featured <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Popular</a></li>
+        <li><a href="#">New</a></li>
+        <li><a href="#">All</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Platform <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Docker</a></li>
+            <li><a href="#">Java</a></li>
+            <li><a href="#">Microsoft and .Net</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">Amazon EC2</a></li>
+            <li><a href="#">Google AppEngine</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li id="toolbarTarget"></li>
+      </ul>
+      </div>
+      </nav>
+    </div>
+    <div id="main-pegged-container" class="main-pegged-container grid smart-grid" style="padding:45px 0 0 175px;">
+      <div id="grid-this-guy"></div>
+      <div id="do-actions">
+          <div class="button-bar clearfix">
+            <p class="message pull-left">To install the selected plugins click the following button...</p>
+            <button class="btn btn-primary pull-right">Install Plugins</button>
           </div>
-        </j:if>
+      </div>
+    </div>
+
         <d:invokeBody />
-      </form>
+
     </l:main-panel>
   </l:layout>
 </j:jelly>
