@@ -49,6 +49,80 @@
           }
           return value;
         },
+        
+        filterBy:function(filterString,Grid){
+          function searchObject(obj,match){
+            for (var prop in obj){
+              if (typeof prop === 'string') {
+                if(getInnerText(prop).indexOf(fs) > -1){
+                  delete row.filtered; 
+                  break;
+                }                                           
+                else
+                  row.filtered = true;
+              }
+              else if (typeof prop === 'object')
+                searchObject(prop,match);
+            }
+          }
+          
+          function getInnerText(string){
+            try{
+            var reg = new RegExp('<[a-z][\s\S]*>');
+            var newString = (/<[a-z][\s\S]*>/i.test(string))?
+                $(string).text().toLowerCase():
+                  string.toLowerCase();
+            return newString;
+            }catch(e){
+             // console.log(e);
+              return '';
+            }
+          };
+
+          var fs = filterString.toLowerCase();
+          var rows = Grid.rows;
+          if(rows.length === 0) rows = Grid.getDataMappedAsRows(Grid.data).rows;
+          
+          for (var i = 0, length = rows.length; i < length; i++) {
+            var row = rows[i];
+            var cells = row.cells;
+            for (var j = 0, clength = cells.length; j < clength; j++) {
+              var cell = cells[j];
+              var value = (cell)?cell.value:'zzz-na';
+              var sortValue = (cell)?cell.sortValue:'zzz-na';
+              if(typeof value === 'boolean' && value){
+                if(getInnerText(cell.id).indexOf(fs) > -1 || getInnerText(cell.name).indexOf(fs) > -1){
+                  delete row.filtered;               
+                  break;
+                }
+                else
+                  row.filtered = true;                  
+              }
+              if(typeof value === 'string'){
+                if(getInnerText(value).indexOf(fs) > -1){
+                  delete row.filtered;               
+                  break;
+                }
+                else
+                  row.filtered = true;
+              }
+              if(typeof sortValue === 'string'){
+                if(getInnerText(sortValue).indexOf(fs) > -1){
+                  delete row.filtered;
+                  break;
+                }
+                else
+                  row.filtered = true;
+                  
+              }
+              if(typeof value === 'object')
+                searchObject(value,fs);
+            }
+          }
+          Grid.drawRows(rows);
+          return false;          
+        },
+        
         //TODO: This sucks. wtf was I thinking.
         // this flexible signature bullshit is bullshit.
         // also, groupBy and sortBy need to be split.
@@ -111,13 +185,12 @@
           if(data.length === 0)
             data = this.getDataMappedAsRows(this.data).rows;
           
-
+          // newRows is the freshly sorted data set...
+          var newRows = ($.isArray(data))?data.sort(sortFunc):data;
+          
           function buildGroups(latestRows){
 
             var hasGroupingArray = false;
-            // newRows is the freshly sorted data set...
-            var newRows = ($.isArray(data))?data.sort(sortFunc):data;
-            
             var arryGroupRows = [];
             
             // If there is a grouping config object, then we will want to group the items according to its properties...
@@ -175,13 +248,10 @@
            else
               thisObj.drawRows(newGroups);
               
-          }          
-          
-          
-          
-          if(group){
+          } 
 
-            console.log('buildGroups!');
+            
+          if(group){
             var t0 = performance.now();
             buildGroups(data);
             var t1 = performance.now();
@@ -195,6 +265,8 @@
           }
           this.sortByVal = criteria;
           this.groupByVal = group;
+          if(this.$target.find('thead').length === 0 && this.display === 'table')
+            this.drawHeaders();          
           return this.rows;
         },
         
@@ -346,8 +418,10 @@
           
           if($.isPlainObject(rows) && $.isPlainObject(rows.data) && rows.group)
             drawGroupsAndRows();
-          else
-            $.each(rows,drawRow); 
+          else{
+            $.each(rows,drawRow);
+            this.groupByVal = null; 
+          }
           
           if(!this.forceGroup) this.finishAction();
         },
@@ -462,7 +536,7 @@
               '<form class="nav navbar-form navbar-left">',
                 '<fieldset class="form-group">',
                   '<div class="input-group input-group-sm">',
-                    '<input type="text" class="form-control input-sm" placeholder="Filter containers...">',
+                    '<input type="text" class="form-control input-sm" placeholder="Find plugins...">',
                     '<span class="input-group-btn"><button class="btn btn-default" type="button">Go!</button></span>',
                   '</div>',
                 '</fieldset>',
@@ -475,78 +549,14 @@
           
           $toolBox.find('form').submit(function(e){e.preventDefault()});
           
-          $toolBox.find('.input-group input.form-control').change(thisObj,function(e){
+          $toolBox.find('.input-group input.form-control').change(function(e){
+            // here I am....
             e.preventDefault();
-            var searchObject = function(obj,match){
-              for (var prop in obj){
-                if (typeof prop === 'string') {
-                  if(getInnerText(prop).indexOf(searchString) > -1){
-                    delete row.filtered; 
-                    break;
-                  }                                           
-                  else
-                    row.filtered = true;
-                }
-                else if (typeof prop === 'object')
-                  searchObject(prop,match);
-              }
-            };
-            var getInnerText = function(string){
-              try{
-              var reg = new RegExp('<[a-z][\s\S]*>');
-              var newString = (/<[a-z][\s\S]*>/i.test(string))?
-                  $(string).text().toLowerCase():
-                    string.toLowerCase();
-              return newString;
-              }catch(e){
-               // console.log(e);
-                return '';
-              }
-            };
-            var $input = $(this);
-            var searchString = $input.val().toLowerCase();
-            var Grid = e.data;
-            var rows = Grid.rows;
-            if(rows.length === 0) rows = Grid.getDataMappedAsRows(Grid.data).rows;
+
+            var searchString = $(this).val().toLowerCase();
             
-            for (var i = 0, length = rows.length; i < length; i++) {
-              var row = rows[i];
-              var cells = row.cells;
-              for (var j = 0, clength = cells.length; j < clength; j++) {
-                var cell = cells[j];
-                var value = (cell)?cell.value:'zzz-na';
-                var sortValue = (cell)?cell.sortValue:'zzz-na';
-                if(typeof value === 'boolean' && value){
-                  if(getInnerText(cell.id).indexOf(searchString) > -1 || getInnerText(cell.name).indexOf(searchString) > -1){
-                    delete row.filtered;               
-                    break;
-                  }
-                  else
-                    row.filtered = true;                  
-                }
-                if(typeof value === 'string'){
-                  if(getInnerText(value).indexOf(searchString) > -1){
-                    delete row.filtered;               
-                    break;
-                  }
-                  else
-                    row.filtered = true;
-                }
-                if(typeof sortValue === 'string'){
-                  if(getInnerText(sortValue).indexOf(searchString) > -1){
-                    delete row.filtered;
-                    break;
-                  }
-                  else
-                    row.filtered = true;
-                    
-                }
-                if(typeof value === 'object')
-                  searchObject(value,searchString);
-              }
-            }
-            thisObj.drawRows(rows);
-            return false;
+            return thisObj.filterBy(searchString,thisObj);
+            
           });
           
           $toolBox.find('li[data-action="group"] li > a').click('group',function(e){
@@ -565,6 +575,75 @@
           
           
           return $toolBox;
+        },
+        drawHeaders: function(data,tableModel,$tableBox){
+          var thisObj = this;
+          var cellDataPath = [];
+          var cellKeyList = this.cellKeyList;
+          var rebuildKeyList = cellKeyList.length === 0;
+          
+          if(tableModel) this.cellKeyList = [];
+          data = data || this.data;
+          tableModel = tableModel || this.config;
+          $tableBox = $tableBox || this.$target;  
+          
+          var $table = $tableBox.find('table');
+          if($table.length === 0)
+            this.renderTableAs($tableBox);
+          
+          var $colgroup = ($table.children('colgroup').length > 0 && display === 'table')?
+              $table.find('colgroup'):
+                $('<colgroup />').prependTo($table);
+          
+          var $thead = $table.find('thead').empty()
+          if($thead.length ===0) 
+            $thead = $('<thead/>').appendTo($table);
+          
+          $thead = $('<tr/>').appendTo($thead);
+          var cols = tableModel.cols || this.cols;          
+          
+          // draw the headers and setup cell drawing...      
+          $.each(cols,function(i,col){
+            var thisCellData = (col.path)? 
+                col.path.split('.') :
+                  [];
+            if(!col.hidden){
+              $th = $('<th/>').attr('data-col-id',col.id).addClass(col.className).append('<a/>').attr('href',('#sortby='+col.id)).text(col.name).appendTo($thead);
+              $col = $('<col/>').width(col.width).addClass(col.className).appendTo($colgroup); 
+              cellDataPath.push(thisCellData);
+              if(rebuildKeyList) cellKeyList.push(col.id);
+              $th.click(function(e){
+                e.preventDefault();
+                var $this = $(this);
+                var id = $this.attr('data-col-id');
+                var $parent = $this.parent();
+                var $cols = $colgroup.find('col');
+                $parent.find('.sorted').removeClass('sorted');
+                $cols.removeClass('sorted');
+                $($cols[$this.index()]).addClass('sorted');
+                $this.addClass('sorted').toggleClass('asc');
+
+                if($this.hasClass('asc'))
+                  thisObj.sortBy(id);
+                else
+                  thisObj.sortBy(id,true);
+              });
+            }
+          });
+    
+          // draw the top headers, if there are any...
+          if($.isArray(tableModel.topHeader) && tableModel.topHeader.length > 0){
+            var $topThead = $('<tr class="topHeadTr" />').prependTo($thead.parent());
+            var $cols = $colgroup.find('col');
+            var colCount = 0;
+            $.each(tableModel.topHeader,function(i,th){
+              colCount += th.span;
+              $topThead.append('<th/>').attr('colspan',th.span);
+              $($cols[colCount]).addClass('v-divider');
+            });
+          }
+          this.cellKeyList = cellKeyList;
+          return cellDataPath;
         },
         
         drawTable: function(data,tableModel,$tableBox){  
@@ -600,53 +679,12 @@
           var getCellData = this.getCellData;
           var sortBy = this.sortBy;
           
-          function drawHeaders(){
-            // draw the headers and setup cell drawing...      
-            $.each(cols,function(i,col){
-              var thisCellData = (col.path)? 
-                  col.path.split('.') :
-                    [];
-              if(!col.hidden){
-                $th = $('<th/>').attr('data-col-id',col.id).addClass(col.className).append('<a/>').attr('href',('#sortby='+col.id)).text(col.name).appendTo($thead);
-                $col = $('<col/>').width(col.width).addClass(col.className).appendTo($colgroup); 
-                cellDataPath.push(thisCellData);
-                if(rebuildKeyList) cellKeyList.push(col.id);
-                $th.click(function(e){
-                  e.preventDefault();
-                  var $this = $(this);
-                  var id = $this.attr('data-col-id');
-                  var $parent = $this.parent();
-                  var $cols = $colgroup.find('col');
-                  $parent.find('.sorted').removeClass('sorted');
-                  $cols.removeClass('sorted');
-                  $($cols[$this.index()]).addClass('sorted');
-                  $this.addClass('sorted').toggleClass('asc');
-
-                  if($this.hasClass('asc'))
-                    thisObj.sortBy(id);
-                  else
-                    thisObj.sortBy(id,true);
-                });
-              }
-            });
-      
-            // draw the top headers, if there are any...
-            if($.isArray(tableModel.topHeader) && tableModel.topHeader.length > 0){
-              var $topThead = $('<tr class="topHeadTr" />').prependTo($thead.parent());
-              var $cols = $colgroup.find('col');
-              var colCount = 0;
-              $.each(tableModel.topHeader,function(i,th){
-                colCount += th.span;
-                $topThead.append('<th/>').attr('colspan',th.span);
-                $($cols[colCount]).addClass('v-divider');
-              });
-            }
-          }
+          
 
           function drawBody(){
-            console.log("draw!");
             // draw rows...
-            drawHeaders();
+            cellDataPath = this.drawHeaders(data,tableModel,$tableBox);
+            
             var $tbody = thisObj.renderBodyAs($table);
             
             var t0 = performance.now();           

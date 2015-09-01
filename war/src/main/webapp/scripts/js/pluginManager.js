@@ -145,41 +145,59 @@
     ];
     
     function sizeWindow(){
+      var $pageBody = $('#page-body');
+      var $globalMenu = $('#top-sticker-box')
       var $leftMenu = $('#left-pegged-nav');
       var $topMenu = $('#top-pegged-nav');
       var $container = $('#main-pegged-container');
       var $footer = $('#do-actions');
       var $header = $('#top-pegged-header');
+      var $updateNotice = $('#plugin-update-notice');
       var bodyWidth = $container.width();
       var leftMarginWidth = $leftMenu.outerWidth();
       if(leftMarginWidth > 175 ) leftMarginWidth = 0;
+      
       
       $container.css({'padding':'0 0 0 '+leftMarginWidth+'px'}).css({'top':$topMenu.outerHeight()+'px'});
       $header.width(bodyWidth).css({'padding-left':leftMarginWidth});
       $footer.width(bodyWidth);
 
+      setTimeout(function(){
+        $globalMenu.prev().height($globalMenu.outerHeight());
+        menuOffset = $pageBody.offset().top + 10;
+        $leftMenu.css({'top':menuOffset,'position':'fixed'});
+        $header.css({'top':menuOffset,'position':'fixed'});
+      },1);
+      
     }
     
     function finishAction(){
+      var thisObj = this;
+      $('#outer-plugin-box').css({'opacity':1});
       var $globalMenu = $('#top-sticker-box')
-      var $leftMenu = $('#left-pegged-nav');
+      var $leftMenu = $('#left-pegged-nav').css({'opacity':1});
       var $topMenu = $('#top-pegged-nav');      
       var $header = $('#top-pegged-header');
-      var $container = $('#main-pegged-container');      
+      var $container = $('#main-pegged-container'); 
+      var $pageBody = $('#page-body').addClass('hide-overflow')
       var $h1 = $header.children('h1').removeAttr('style');
       var topHeight = $topMenu.outerHeight();
       var globalHeight = $globalMenu.outerHeight() + 10;
-      var menuOffset = $leftMenu.offset().top;
+      var menuOffset = $pageBody.offset().top;
       
+      // make window scroll pegging work...
       $(window).scroll(function(){
+        $globalMenu.prev().height($globalMenu.outerHeight());
         var scroll = $('body').scrollTop();
         if(scroll > 0 ){ 
+          globalHeight = $globalMenu.outerHeight() + 10;
           $h1.css({'padding':0,'margin':0,'height':0});
-          $leftMenu.css({'top':globalHeight});
-          $header.css({'top':globalHeight});
+          $leftMenu.css({'top':globalHeight,'position':'fixed'});
+          $header.css({'top':globalHeight,'position':'fixed'});
         }
         
         else{
+          menuOffset = $pageBody.offset().top + 10;
           $h1.removeAttr('style');
           $leftMenu.css({'top':menuOffset});
           $header.css({'top':menuOffset});
@@ -188,8 +206,8 @@
       });
       
       
-      
-      $('body').scrollspy({ target: '#grid-scrollspy',offset:globalHeight + topHeight + 50});
+      //make scrollspy reflect state....
+      $('body').scrollspy({ target: '#grid-scrollspy',offset:menuOffset + 170});
       
       $('#grid-scrollspy').on("activate.bs.scrollspy", function (e) {
         var $currentNav = $(".nav li.active > a")
@@ -199,27 +217,54 @@
 
       });
       
+      //activeate scrollspy and set offsets....
       $('#grid-scrollspy li a').click(function(event) {
+        
+        function doMove(){
+          $h1.css({'padding':0,'margin':0,'height':0});
+          $section.next().show().removeClass('closed');
+          menuOffset = $pageBody.offset().top + 10;
+          var offset = -($header.offset().top + $header.outerHeight());
+          $section[0].scrollIntoView();        
+          scrollBy(0,  - (menuOffset));          
+        }
+        
         event.preventDefault();
         var $this = $(this);
         var $section = $($this.attr('href')).removeClass('closed');
+        $this.closest('.navbar').find('#filter-options li.active').removeClass('active');
+        
+        if(thisObj && thisObj.groupByVal === null){
+          thisObj.sortBy('title',thisObj.getCol('categories'),false);
+        }else
+          setTimeout(doMove,10);
+      });
 
-        $h1.css({'padding':0,'margin':0,'height':0});
-        $section.next().show().removeClass('closed');
+      //attach update message...
+      var updates = thisObj.$target.find('.grid-item.hasUpdate').length;
+      if(updates > 0){
+        var $notice = $([
+              '<div id="plugin-update-notice" class="alert alert-info alert-dismissible" role="alert">',
+              '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>',
+              '<div class="btn-group btn-group-sm">',
+                '<button type="button" id="view-all-updates" class="btn btn-primary">View and select</button>',
+                '<button type="button" class="btn btn-default">Install all</button>',
+              '</div> ',
+              ' You have <strong>',updates,'</strong> plugins that can be updated.',
         
-        var offset = -($header.offset().top + $header.outerHeight());
-        $section[0].scrollIntoView();        
-        scrollBy(0,  - (globalHeight + topHeight));
-        
-        
-    });
+              '</div>'
+        ].join('')).appendTo($globalMenu);
+        $notice.find('button.close').click(sizeWindow);
+        $notice.find('#view-all-updates').click(function(){
+          $leftMenu.find('.haveUpdates a').trigger('click')})
+        sizeWindow();
+      }
     }
-
     
     function selectAction(e,row){
       e.preventDefault();
       var $item = $(e.target).closest('.grid-item');
-      if($item.hasClass('installed')) return false;        
+      if($item.hasClass('installed') && !$item.hasClass('hasUpdate')) return false;        
       
       $item.toggleClass('slct');
       var $grid = $item.closest('.grid');
@@ -264,7 +309,7 @@
           plugin.icon = ['<img src="',item.icon,'" />'].join('');
           return plugin;
         }
-        var count = 0;
+
         // fetch in the context of Daniel's groupping of plugins to show....
         $.each(danielGroups,function(){
           var thisSection = this.header;
@@ -286,7 +331,6 @@
             // check to see if any are installed...
             $.each(installed,function(i,inPlugin){
               if(thisId !== inPlugin.shortName) return;
-              console.log(count++);
               var installedUrl = inPlugin.url;
               var notAvailable = false;
               $.each(plugins,function(i,plugin){
@@ -321,12 +365,7 @@
           });
         });
         
-
-         
-        
-        
         dfd.resolve(plugins);
-        
         
       });
       
@@ -578,7 +617,27 @@
     var $table = $('#grid-this-guy');
     
     getPlugins().then(function(plugins){
+
+      function filterMenuActions(){
+        var $filterMenuItem = $('#filter-options a');
+        
+        $filterMenuItem.each(function(i,link){
+          $link = $(link);
+          $link.click(function(e){
+            e.preventDefault();
+            var $this= $(this);
+            
+            $this.closest('.navbar').find('li.active').removeClass('active');
+            $this.parent().addClass('active');
+            
+            myTable.filterBy($this.attr('href').replace('#',''),myTable);
+            
+          });
+        });
+      }
+      
       var myTable = new SortableTable(tableModel,plugins,$table);
+      filterMenuActions();
 
     });
     

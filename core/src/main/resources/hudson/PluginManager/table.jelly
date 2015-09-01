@@ -48,6 +48,10 @@ THE SOFTWARE.
     </l:header>
     <st:include page="sidepanel.jelly"/>
     <l:main-panel>
+      <div class="behavior-loading" id="behavior-loading"><div class="progress-box"><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only"></span></div></div>
+        LOADING
+      </div></div>    
+    <div id="outer-plugin-box" class="clearfix">
       <st:adjunct includes="hudson.PluginManager._table"/>
       <div class="sidebar-nav" id="left-pegged-nav">
       <div class="navbar navbar-default" role="navigation">
@@ -71,7 +75,15 @@ THE SOFTWARE.
             <li class="section-tab security"><a href="#grid-group-header-security">Users and Security</a></li>
             <li class="section-tab general"><a href="#grid-group-header-general">General Purpose</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse"  id="filter-options">
+          <ul class="nav navbar-nav nav-list">
+            <li class="installed"><a href="#installed">My plugins</a></li>
+            <li class="haveUpdates"><a href="#hasUpdate">My updatable plugins</a></li>
+            <li class="configure"><a href="">Configure plugin manager</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
       </div>
     </div>
     <div class="header-toolbar"  id="top-pegged-header">
@@ -116,13 +128,15 @@ THE SOFTWARE.
       <div id="grid-this-guy"></div>
       <div id="do-actions">
           <div class="button-bar clearfix">
-            <p class="message pull-left">To install the selected plugins click the following button...</p>
-            <button class="btn btn-primary pull-right">Install Plugins</button>
+            <p class="message pull-left">To install or update the selected plugins click the following button...</p>
+            <button class="btn btn-primary pull-right">Update Plugins</button>
           </div>
       </div>
     </div>
-
+</div>
+<div style="display:none">
         <d:invokeBody />
+</div>
 
     </l:main-panel>
   </l:layout>
