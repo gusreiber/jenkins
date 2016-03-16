@@ -100,6 +100,12 @@ ${h.initPageVariables(context)}
     <link rel="shortcut icon" href="${resURL}/favicon.ico" type="image/vnd.microsoft.icon" />
     <link rel="mask-icon" href="${rootURL}/images/mask-icon.svg" color="black" />
 
+    
+    <!-- should the sidebar be hidden on load? -->
+    <style>
+      body.j-hide-left #side-panel{width:0; padding:0; overflow:hidden;}
+    </style>
+    
     <!-- are we running as an unit test? -->
     <script>var isRunAsTest=${h.isUnitTest}; var rootURL="${rootURL}"; var resURL="${resURL}";</script>
 
