@@ -240,13 +240,13 @@ body#jenkins.add-item .jenkins-config {
   border-bottom:none;
   background:@light-backgrond;
   min-height:2.5em;
-  border-top-left-radius: @radius;
-  border-top-right-radius: @radius;
+  .border-radius-top(@radius);
   z-index:2;
-  
-  nav:before,
-  nav:after {display:none;}
-  
+
+  nav:before, nav:after {
+    display: none;
+  }
+
   :hover .noTabs{
     color:#bbb;
   }
@@ -296,8 +296,8 @@ body#jenkins.add-item .jenkins-config {
     border-bottom: solid 1px @solid-border;
 
     .config-section-activators {
-      margin:0  ;
-      padding:0;
+      margin: 0;
+      padding: 0;
     }
 
     .tabBar {
@@ -308,8 +308,8 @@ body#jenkins.add-item .jenkins-config {
         padding: 7px 10px;
         .border-radius-top(5px);
         cursor: pointer;
-        margin:1px 0 0 10px;
-        text-decoration:none;
+        margin: 1px 0 0 10px;
+        text-decoration: none;
       }
       .tab:hover {
         background:#bbb; color:@brightest;
@@ -339,11 +339,10 @@ body#jenkins.add-item .jenkins-config {
 #jenkins{
   .jenkins-config {
     border:1px solid @solid-border;
-    border-bottom-left-radius:@radius;
-    border-bottom-right-radius:@radius;
     padding:10px;
     border-top:none;
-    
+    .border-radius-bottom(@radius);
+
     .showTabs{
       display:block;
       text-align:right;
@@ -371,16 +370,17 @@ body#jenkins.add-item .jenkins-config {
         padding: 20px 10px 25px 20px;
         border-top-right-radius: 10px;
         border: 1px solid @line-green;
-        background: @pale-green-trans;    
+        background: @pale-green-trans;
       }
-         
-      .bottom-sticker, 
+
+      .bottom-sticker,
       #bottom-sticker{ 
         width: auto;
         overflow: hidden;
         padding-bottom: 10px;
-        margin: 30px 30px -26px -16px;
+        margin: 30px 30px -25px -15px;
         z-index:9;
+
         .yui-button.primary{
           button{
             background:@middle-blue;
@@ -395,7 +395,6 @@ body#jenkins.add-item .jenkins-config {
             background:@pale-blue;
             border-color:@line-blue;
           }
-          
         }
         .yui-button-disabled{
           button{
@@ -538,8 +537,7 @@ body#jenkins.add-item .jenkins-config {
         right:35px;
         height:18px;
         width:32px;
-        border-bottom-left-radius:3px;
-        border-bottom-right-radius:3px;
+        .border-radius-bottom(3px);
         overflow:hidden;
         
         button{
@@ -568,9 +566,10 @@ body#jenkins.add-item .jenkins-config {
           font-size: 12px;
           line-height: 18px;
         }  
-  
+
       }
     }
+
     span.highlight {
       background-color: #ffff00;
     }
@@ -581,9 +580,13 @@ body#jenkins.add-item .jenkins-config {
   border:1px solid @line-blue !important;
   opacity:.5;
 }
-.yui-skin-sam .yuimenu {z-index:9999 !important}
+.yui-skin-sam .yuimenu {
+  z-index:9999 !important
+}
 
-.yui-skin-sam .yui-button-disabled {opacity:.75}
+.yui-skin-sam .yui-button-disabled {
+  opacity:.75
+}
 
 #main-panel > .toggle{
   transition: all .5s ease;  
