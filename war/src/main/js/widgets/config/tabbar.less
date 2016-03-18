@@ -137,6 +137,128 @@ body#jenkins.add-item .jenkins-config table td {
   border-left:1px solid @solid-border;
   border-right:1px solid @solid-border;
 }
+.icn .img{
+  display:block; top:-1px; left:-1px; height:48px; width:48px; position:absolute;
+}
+body#jenkins.add-item .jenkins-config table #bottom-sticker {margin:30px 30px -16px -6px}
+body#jenkins.add-item .jenkins-config table td {
+  border-left:1px solid @solid-border;
+  border-right:1px solid @solid-border;
+}
+body#jenkins.add-item .jenkins-config {
+  padding:0px; 
+  border-radius:0;
+  background:@bright;
+  border:none;
+  border-bottom:1px solid @solid-border;
+  
+  .categories {
+    border-left:1px solid @solid-border;
+    border-right:1px solid @solid-border;
+  }
+  
+  h2 {
+    margin:0;
+    padding:15px 0 5px;
+  }
+  
+  .category-header > p {
+    margin-top:5px;
+  }
+  
+}
+.icn.df{box-shadow:inset #039 0 0 1px, inset #fff 0 0 0 1px, 0 5px 3px -2px rgba(0, 0, 0, 0.25), inset -5px -5px 10px 2px #369, inset -5px -10px 15px 14px #69c}
+.icn.df:before {background:none !important; content:' '}
+.icn > .dfIcn{
+  position: relative;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 175%;
+  color: @brightest;
+  text-shadow: @shadow 0 -1px 1px;
+  vertical-align: top;
+}
+
+
+.jenkins-config > .category-header {padding:0 20px}
+.j-item-options > li.active {background:#fff;}
+.j-item-options li,
+.j-item-options {display:block; margin:0; list-style:none; position:relative; padding:0 10px 10px}
+.j-item-options li{
+  .no-select;
+  cursor:pointer;
+  border:1px solid transparent;
+  border-radius:@radius;
+  padding:10px 10px 10px 68px;
+  min-height:68px;
+  
+  .icn:before {
+    content:' ';
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:24px;
+    border-top-left-radius:24px;
+    border-top-right-radius:24px;
+    background:#C0D8E2;
+  }
+  
+  .icn {
+    position:absolute; left:10px; top:10px; height:48px; 
+    width:48px; background:@brightest; border:1px solid @line-blue;  
+    border-radius:50%; text-align:center; line-height:48px;
+  
+    img {width:100%; position:relative; z-index:2}
+  }
+  
+  label{
+    display:block;
+    font-size:1.1em;
+    font-weight:bold;
+    color:#000;
+    padding-bottom:5px;
+    cursor:pointer;
+    
+    input{
+      position: absolute;
+      top: 24px;
+      left: 25px;
+    }
+  }
+}
+.j-item-options li.focus,
+.j-item-options li:focus,
+.j-item-options li:hover{
+  border-color:@solid-border;
+  background:@medium-translucent;
+}
+.j-item-options li.active{
+  cursor:text;
+  background-color:@brightest;
+  border-color:@line-blue;
+  box-shadow:inset 999rem 0 @brightest;
+  .text-select;
+  
+  label{
+    cursor:text;
+  }
+}
+body.add-item  #side-panel{transition: all 0.5s ease;}
+body.add-item  #main-panel{transition: all 0.2s ease;}
+body.add-item .jenkins-config table tr {display:none;}
+body.add-item .jenkins-config table tr:last-of-type {display:table-row}
+body.add-item .jenkins-config-widgets .form-config.tabBarFrame .tabBar .tab.active {background:@bright; border-bottom-color:@bright}
+body.add-item .category.jenkins-config.hide-cat {display:none;}
+.icn .img{
+  display:block; top:-1px; left:-1px; height:48px; width:48px; position:absolute;
+}
+body#jenkins.add-item .jenkins-config table #bottom-sticker {margin:30px 30px -16px -6px}
+body#jenkins.add-item .jenkins-config table td {
+  border-left:1px solid @solid-border;
+  border-right:1px solid @solid-border;
+}
 body#jenkins.add-item .jenkins-config {
   padding:0px; 
   border-radius:0;
@@ -448,7 +570,7 @@ body#jenkins.add-item .jenkins-config {
           height:@input-line-height;
           line-height:@input-line-height;
           padding:0 5px;
-          .border-radius(@radius);
+          border-radius:@radius;
         }
         .yui-button button{
           padding:0 10px;
@@ -590,3 +712,24 @@ body#jenkins.add-item .jenkins-config {
 .yui-skin-sam .yui-button-disabled {
   opacity: .75
 }
+.yui-skin-sam .yui-button-disabled {opacity:.75}
+
+#main-panel > .toggle{
+  transition: all .5s ease;  
+  width:0px;
+  position: absolute;
+    transition: all .5s ease; 
+    display: block;
+    height: 38px;
+    width: 30px;
+    background: url(/jenkins/images/24x24/gear.png) no-repeat 5px center #f9f9f9;    
+    left: -5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    top: 40px;
+    position:absolute;
+    cursor:pointer;  
+}
+#main-panel > .toggle.slide-in {left:10px;transition: all .33s ease; background-color:#f9f9f9  }
+body.j-hide-left #main-panel > .toggle{background-color: #000; opacity:.33}
+#main-panel > .toggle:hover {background-color:#666 !important; opacity:.8 !important;}
