@@ -1954,50 +1954,15 @@ table#legend-table td {
     color: #8a6d3b;
     background-color: #fcf8e3;
     border-color: #faebcc;
-<<<<<<< HEAD
 }
 
-/* ========================= welcome page styles ================= */
-#jenkins .welcome-message .yui-button{
-    margin:0;
-    border-radius: 3px;
-    overflow: hidden;
+
+body.main-panel-only #side-panel {
+    width: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
 }
-#jenkins .welcome-message a.plus {
-    white-space:nowrap;
-}
-#jenkins .welcome-message a.plus:before{
-    content:' ';
-    background:url('../images/24x24/new-package.png') no-repeat center;
-    display:inline-block;
-    margin-right:.25em;
-    width:24px;
-    min-height:24px;
-    height:1.5em;
-    vertical-align:bottom;
-}
-#main-panel .read p{
-    font-size: 110%;
-    line-height: 1.5em;
-}
-.welcome-message {
-    background:#fff;
-    padding:3em 20% 3em 3em;
-    position:relative;
-    min-height:40em;
-    border:1px solid #ddd;
-    border-radius:3px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
-}
-.max-read-width {
-    max-width: 60em;
-}
-.watermark {
-    font-size: 320px;
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
-    color: rgba(100,150,200,.2);
-=======
->>>>>>> parent of c2e1cd5... first page clean-up
+body.main-panel-only #main-panel {
+    margin: 0 auto !important;
+    max-width: 75em !important;
 }

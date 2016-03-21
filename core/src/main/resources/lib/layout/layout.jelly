@@ -172,6 +172,18 @@ ${h.initPageVariables(context)}
 
     <script src="${resURL}/jsbundles/page-init.js" type="text/javascript"/>
 
+    <!-- needed here to avoid page blink -->
+    <style>
+      body.main-panel-only #side-panel {
+          width: 0 !important;
+          padding: 0 !important;
+          overflow: hidden !important;
+      }
+      body.main-panel-only #main-panel {
+          margin: 0 auto !important;
+          max-width: 75em !important;
+      }
+    </style>
   </head>
   <body id="jenkins" class="yui-skin-sam jenkins-${h.version} ${attrs.cssClass}" data-version="jenkins-${h.version}" data-model-type="${it.class.name}">
     <!-- for accessibility, skip the entire navigation bar and etc and go straight to the head of the content -->

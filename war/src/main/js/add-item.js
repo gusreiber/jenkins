@@ -34,8 +34,7 @@ $.when(getItems(jRoot)).done(function(data){
     ////////////////////////////////
     // mark page for layout
     if($('#j-welcome-box').length === 0){
-      $('body').addClass('add-item');
-      setTimeout(drawShowHide,200);
+      var $body = $('body').addClass('hide-side j-hide-left add-item');
     }
     else{
       $('body').addClass('welcome');
@@ -318,19 +317,6 @@ $.when(getItems(jRoot)).done(function(data){
       return $icn;
     }
     
-    function drawShowHide(){
-      var $body = $('body').addClass('hide-side j-hide-left');
-      var $toggle = $('<div class="toggle slide-in" />')
-        .prependTo('#main-panel')
-          .click(function(){
-            $body.toggleClass('j-hide-left');
-            fireBottomStickerAdjustEvent();
-          });
-      setTimeout(function(){
-        $toggle.removeClass('slide-in'); 
-      },10);
-      
-    }
 
     // initialize
     var sortedDCategories = sortItemsByOrder(data.categories);
