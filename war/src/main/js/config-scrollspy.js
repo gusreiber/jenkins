@@ -20,6 +20,8 @@ function notify(event) {
 }
 
 $(function() {
+    //make sure the window starts at the top to activate the tab pegging
+    $(window).scrollTop(0);
     var tabBarWidget = require('./widgets/config/tabbar.js');
 
     tabBarWidget.addPageTabs('.config-table.scrollspy', function(tabBar) {
