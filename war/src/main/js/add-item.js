@@ -50,8 +50,6 @@ $.when(getItems()).done(function(data){
 
       $subBtn = $('#bottom-sticker .yui-submit-button');
       
-      checkFormReady();
-      
       $subBtn.on('click',function() {
         $(this).addClass('yui-button-disabled yui-submit-button-disabled')
           .find('button')
@@ -125,22 +123,93 @@ $.when(getItems()).done(function(data){
     //////////////////////////
     // helper functions...
 
+    function setSelectState(e){
+      if(e.preventDefault){
+        e.preventDefault();
+      }
+      else{
+        e = {currentTarget:e};
+      }
+      var href = $(e.target).attr('href');
+      if(href) {
+        window.open(href);
+      }
+      
+      var $this = $(e.currentTarget).closest('li');
+      var $cat = $this.closest('.categories');
+      var $radios = $cat.find('input[type="radio"][name="mode"]').removeProp('checked');
+      var $checked = $radios.find(':checked');
+      
+      $cat.find('.active').removeClass('active');
+      
+      // Something in Jenkins land wants to reverse the radio button change on keydown. Waiting a pulse avoids the issue.
+      setTimeout(function(){
+        $this.addClass('active');
+        $this.find('input[type="radio"]').prop('checked', true);
+        checkFormReady();
+      },1);       
+    }    
+    
     function checkFormReady(){
+      
       //make sure everyone has changed and gotten attached...
       setTimeout(function(){
         var $name = $form.removeClass('no-select').find('input[name="name"]').removeClass('no-val');
+        var $nameBox = $name.closest('.j-add-item-name');
+        var val = $.trim($name.val());
+        var named = false;
         
-        function checkItems(){
-          var selected = $form.find('input[type="radio"]:checked').length > 0;
-          var named = $.trim($name.val()).length > 0;
-          return {selected:selected,named:named};
+        $nameBox.parent().find('.error').remove();
+        
+        function checkJobName(){
+          if(val.length === 0 ){
+            checkName('<div class="error">You must name this item.</div>');
+            return confirmBoth(false);
+          }
+          $.get('../../checkJobName?value='+val).always(checkName);
         }
-        if(checkItems().selected && checkItems().named){
-          $subBtn.removeClass('yui-button-disabled').find('button').removeAttr('disabled');
+        
+        function checkName(data,result){
+          var $message = $(data);
+          var error = $message.hasClass('error');
+          if(error){
+            $nameBox.after($message);
+            $name.addClass('no-val').focus();
+          }
+          confirmBoth(!error);
+          return !error;
         }
-        else{
-          $subBtn.addClass('yui-button-disabled').find('button').attr('disabled','disabled');
+        
+        function checkRadios(){
+          var $radios = $form.find('input[type="radio"][name="mode"]');
+          var selected = $radios.is(':checked');
+          if(!selected){
+            var $focused = ($form.find(':focus').length === 1)? 
+                $form.find(':focus'):
+                  $($radios[0]);
+            var $box = $focused.closest('.item-box');
+            if($box.is('li')){
+              setSelectState($focused);
+            }
+
+          }
+          return selected;
         }
+        
+        function confirmBoth(named){
+          var selected = checkRadios();
+          if(!selected || !named){ 
+            $subBtn.addClass('yui-button-disabled').find('button').attr('disabled','disabled');
+          }
+          else{
+            $subBtn.removeClass('yui-button-disabled').find('button').removeAttr('disabled');
+          }
+          return named && selected;
+        }
+        
+        named = checkJobName();
+        
+        
       },10);
     }
     
@@ -222,13 +291,10 @@ $.when(getItems()).done(function(data){
 
     function drawName() {
       var $name = $('<div class="j-add-item-name" />');
-
+      var $labal = $('<label class="new-tiem-label" />').text('Create item').appendTo($name);
       $nameInput = $('<input type="text" name="name" class="name" id="name" placeholder="New item name..." />')
-        .keyup(function(){
-          $form.find('input[name="name"]').val($(this).val());
-          checkFormReady();
-        })
-        .appendTo($name);
+        .blur(checkFormReady)
+        .appendTo($labal);
 
       $widgetBox.prepend($name);
       setTimeout(function(){
@@ -324,32 +390,14 @@ $.when(getItems()).done(function(data){
     function drawItem(elem){
       var desc = (checkForLink(elem.description))? checkForLink(elem.description):elem.description;
       var $item = $([
-          '<li class="',cleanClassName(elem.class),'"><label><input name="mode" value="',elem.class,'" type="radio" /> <span class="label">', elem.displayName, '</span></label></li>'
+          '<li class="item-box ',cleanClassName(elem.class),'"><label><input name="mode" tabindex="0" value="',elem.class,'" type="radio" /> <span class="label">', elem.displayName, '</span></label></li>'
       ].join('')).append([
           '<div class="desc">', desc, '</div>'
       ].join('')).append(drawIcon(elem));
-
-      function setSelectState(e){
-        e.preventDefault();
-        var href = $(e.target).attr('href');
-        if(href) {
-          window.open(href);
-        }
-        
-        var $this = $(this).closest('li');
-        $this.closest('.categories').find('input[type="radio"][name="mode"]').removeAttr('checked');
-        //if this is a hyperlink, don't move the selection.
-        if($this.find('a:focus').length === 1) {return false;}
-        $this.closest('.categories').find('.active').removeClass('active');
-        $this.addClass('active');
-        $this.find('input[type="radio"]').prop('checked', true);
-        checkFormReady();
-        if ($nameInput.val() === '') {
-          $nameInput.focus();
-        }
-      }
-
-      $item.click(setSelectState);
+      
+      $item
+        .click(setSelectState);
+      
 
       return $item;
     }
